@@ -4,6 +4,8 @@ import {
   Box
 } from '@chakra-ui/react'
 
+import CreateRoom from 'components/CreateRoom'
+
 export default function Home () {
   useEffect(() => {
     // clean the url
@@ -12,7 +14,7 @@ export default function Home () {
 
   return (
     <Box>
-      HOME
+      <CreateRoom />
     </Box>
   )
 }
