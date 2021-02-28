@@ -1,4 +1,5 @@
 import useServiceWorker from 'hooks/useServiceWorker'
+import useFingerprint from 'hooks/useFingerprint'
 
 import {
   Box
@@ -6,6 +7,7 @@ import {
 
 function App () {
   useServiceWorker()
+  useFingerprint()
 
   return (
     <Box>
