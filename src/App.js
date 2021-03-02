@@ -3,16 +3,15 @@ import useFingerprint from 'hooks/useFingerprint'
 
 import { useRoutes } from 'hookrouter'
 
-import {
-  Box
-} from '@chakra-ui/react'
-
-import Home from 'pages/Home'
-import FindRooms from 'pages/FindRooms'
+// import Home from 'pages/Home'
 import GameRoom from 'pages/GameRoom'
+import FindRooms from 'pages/FindRooms'
+import CreateRoom from 'pages/CreateRoom'
+import Background from 'components/Background'
 
 const routes = {
   '/rooms': FindRooms,
+  '/create-room': CreateRoom,
   '/rooms/:name': ({ name }) => <GameRoom name={name} />
 }
 
@@ -23,9 +22,10 @@ function App () {
   useFingerprint()
 
   return (
-    <Box>
-      {routeResult || <Home />}
-    </Box>
+    <Background>
+      {/* {routeResult || <Home />} */}
+      {routeResult || <CreateRoom />}
+    </Background>
   )
 }
 
