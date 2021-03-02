@@ -20,7 +20,7 @@ export default function Home () {
       {[{
         name: 'New Game',
         color: 'linear-gradient(180deg, #FE9696 0%, #E76C6C 100%)',
-        path: '/create-room'
+        path: '/createRoom'
       }, {
         name: 'Join Game',
         color: 'linear-gradient(180deg, #6BE8FF 0%, #349CB6 100%)',
@@ -30,12 +30,14 @@ export default function Home () {
         <Button
           key={idx}
           w='50vw'
-          maxWidth='340px'
           h='51px'
+          maxWidth='340px'
           bg={button.color}
+          _active={{ bg: button.color }}
+          _hover={{ bg: button.color }}
           boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
           borderRadius='25px'
-          onClick={() => window.history.pushState(null, null, button.path)}
+          onClick={() => { window.location.href = button.path }}
         >
           {button.name}
         </Button>
