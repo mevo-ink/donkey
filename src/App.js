@@ -24,7 +24,7 @@ function App () {
   return (
     <Background>
       {/* {routeResult || <Home />} */}
-      {routeResult || <FindRooms />}
+      {routeResult || <GameRoom />}
     </Background>
   )
 }
