@@ -112,34 +112,66 @@ export default function CreateRoom () {
           h='208px'
           mt='-126px'
         >
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(player => (
-            <Box
-              key={player}
-              width='100%'
-              height='100%'
+          {[{
+            y: '11px',
+            x: '127px'
+          }, {
+            y: '42px',
+            x: '158px'
+          }, {
+            y: '84px',
+            x: '168px'
+          }, {
+            y: '127px',
+            x: '158px'
+          }, {
+            y: '158px',
+            x: '127px'
+          }, {
+            x: '84px',
+            y: '169px'
+          }, {
+            y: '158px',
+            x: '41px'
+          }, {
+            y: '127px',
+            x: '11px'
+          }, {
+            y: '84px',
+            x: '0px'
+          }, {
+            y: '42px',
+            x: '10px'
+          }, {
+            y: '11px',
+            x: '41px'
+          }, {
+            y: '0px',
+            x: '84px'
+          }
+          ].map((player, idx) => (
+            <MotionButton
+              key={idx}
+              width='40px'
+              height='39px'
               position='absolute'
-              textAlign='center'
-              transform={`rotate(${player * 30}deg)`}
+              mt={player.y}
+              ml={player.x}
+              color='black'
+              defaultValue={idx + 1}
+              bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
+              boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
+              borderRadius='25px'
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1, transition: { duration: 0.1, delay: idx * 0.05 } }}
+              onClick={() => {
+                setPlayerNumber(idx + 1)
+                setShow(false)
+              }}
             >
-              <MotionButton
-                width='40px'
-                height='39px'
-                color='black'
-                zIndex='40'
-                defaultValue={player}
-                bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
-                boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
-                borderRadius='25px'
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1, transition: { duration: 0.1, delay: player * 0.05 } }}
-                onClick={() => {
-                  setPlayerNumber(player)
-                  setShow(false)
-                }}
-              >
-                {player}
-              </MotionButton>
-            </Box>))}
+              {idx + 1}
+            </MotionButton>
+          ))}
         </Flex>
       )}
     </Grid>
