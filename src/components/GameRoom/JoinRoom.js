@@ -20,6 +20,10 @@ export default function JoinRoom ({ room }) {
     useEffect - check for active firebase auth session
     if user session is active on firebase:
       - automatically join the room with that user's name as nickname
+
+    https://firebase.google.com/docs/auth/web/start#set_an_authentication_state_observer_and_get_user_data
+
+    https://firebase.google.com/docs/auth/web/auth-state-persistence#supported_types_of_auth_state_persistence
   */
 
   const [isLoading, setIsLoading] = useState(false)
