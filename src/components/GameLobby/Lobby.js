@@ -91,7 +91,7 @@ export default function Lobby ({ room }) {
             Room Name:
           </Text>
           <Text>
-            FoamingMouth
+            {room.name}
           </Text>
         </Box>
         <Box
@@ -102,7 +102,7 @@ export default function Lobby ({ room }) {
             Players:
           </Text>
           <Text>
-            12/12
+            {`${Object.keys(room.users).length} / ${room.maxPlayers}`}
           </Text>
         </Box>
       </Flex>
