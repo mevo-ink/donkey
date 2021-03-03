@@ -4,7 +4,7 @@ import {
   Image
 } from '@chakra-ui/react'
 
-import bgImage from 'images/favicon.png'
+import bgImage from 'images/bg.png'
 
 export default function Background ({ hideText = false, children }) {
   return (

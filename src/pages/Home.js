@@ -22,11 +22,11 @@ export default function Home () {
       justifyContent='space-between'
     >
       {[{
-        name: 'New Game',
+        name: 'Create Room',
         color: 'linear-gradient(180deg, #FE9696 0%, #E76C6C 100%)',
         path: '/createRoom'
       }, {
-        name: 'Join Game',
+        name: 'Find Rooms',
         color: 'linear-gradient(180deg, #6BE8FF 0%, #349CB6 100%)',
         path: '/rooms'
       }
