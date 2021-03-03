@@ -36,7 +36,7 @@ export default function CreateRoom () {
       maxPlayers,
       users: {
         [visitorID]: {
-          visitorID, nickname, avatar: 'https://i.pravatar.cc/300'
+          visitorID, nickname, avatar: 'https://i.pravatar.cc/50'
         }
       }
     })

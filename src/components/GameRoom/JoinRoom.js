@@ -34,7 +34,7 @@ export default function JoinRoom ({ room }) {
     e.preventDefault()
     setIsLoading(true)
     const visitorID = window.localStorage.getItem('visitorID')
-    database().ref(`${room.name}/users/${visitorID}`).update({ visitorID, nickname })
+    database().ref(`${room.name}/users/${visitorID}`).update({ visitorID, nickname, avatar: 'https://i.pravatar.cc/50' })
   }
 
   return (

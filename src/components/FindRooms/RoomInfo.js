@@ -37,7 +37,7 @@ export default function RoomInfo ({ room }) {
       _hover={{ textDecoration: 'none' }}
     >
       <Image
-        src={room.users[room.owner].avatar}
+        src={room.users[room.owner]?.avatar}
         width='53px'
         h='53px'
         ml='9px'
@@ -52,7 +52,7 @@ export default function RoomInfo ({ room }) {
         fontWeight='bold'
         maxWidth='124px'
       >
-        <RowInfo label='Host' value={room.users[room.owner].nickname} />
+        <RowInfo label='Host' value={room.users[room.owner]?.nickname} />
         <RowInfo label='Name' value={room.name} />
         <RowInfo label='Players' value={`${Object.keys(room.users).length} / ${room.maxPlayers}`} />
       </Box>

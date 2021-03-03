@@ -22,8 +22,8 @@ export default function RoomIsFull ({ name }) {
           <VStack spacing={8}>
             <Image maxW='200px' height='150px' ignoreFallback src={roomIsFullSVG} alt='Room Is Full' />
             <Text fontWeight='bold'>{name}</Text>
-            <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
-              Go Home
+            <Button colorScheme='purple' onClick={() => { window.location.href = '/rooms' }}>
+              Go Back
             </Button>
           </VStack>
         </ModalBody>
