@@ -6,13 +6,12 @@ import {
 
 import bgImage from 'images/favicon.png'
 
-export default function Background ({ children }) {
+export default function Background ({ hideText = false, children }) {
   return (
     <Grid
       bg='linear-gradient(180deg, rgba(54, 60, 105, 0.85) 0%, #222646 100%)'
       w='100vw'
       h='100vh'
-      borderRadius='25px'
       placeItems='center'
       position='relative'
       fontFamily='Amatic SC, cursive'
@@ -30,20 +29,24 @@ export default function Background ({ children }) {
           maxWidth='920px'
           objectFit='cover'
         />
-        <Text
-          fontSize='48px'
-          lineHeight='48px'
-          mt='23px'
-        >
-          Kazhudai
-        </Text>
-        <Text
-          fontSize='14px'
-          lineHeight='14px'
-          mt='10px'
-        >
-          A Card Game for Donkeys
-        </Text>
+        {!hideText && (
+          <>
+            <Text
+              fontSize='48px'
+              lineHeight='48px'
+              mt='23px'
+            >
+              Kazhudai
+            </Text>
+            <Text
+              fontSize='14px'
+              lineHeight='14px'
+              mt='10px'
+            >
+              A Card Game for Donkeys
+            </Text>
+          </>
+        )}
       </Grid>
       {children}
     </Grid>

@@ -8,7 +8,7 @@
     "@emotion/styled": "11.1.5",
     "@fingerprintjs/fingerprintjs": "3.0.6",
     "firebase": "8.2.9",
-    "framer-motion": "3.7.0",
+    "framer-motion": "3.9.1",
     "hookrouter": "1.2.5",
     "random-word-slugs": "0.0.2",
     "react": "17.0.1",

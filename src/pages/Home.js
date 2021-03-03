@@ -1,11 +1,15 @@
 import { useEffect } from 'react'
 
+import { useTitle } from 'hookrouter'
+
 import {
   Flex,
   Button
 } from '@chakra-ui/react'
 
 export default function Home () {
+  useTitle('Kazhudai')
+
   useEffect(() => {
     // clean the url
     window.history.replaceState(null, null, '/')

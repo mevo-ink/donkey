@@ -3,15 +3,15 @@ import useFingerprint from 'hooks/useFingerprint'
 
 import { useRoutes } from 'hookrouter'
 
-// import Home from 'pages/Home'
+import Home from 'pages/Home'
 import GameRoom from 'pages/GameRoom'
 import FindRooms from 'pages/FindRooms'
 import CreateRoom from 'pages/CreateRoom'
 import Background from 'components/Background'
 
 const routes = {
-  '/rooms': FindRooms,
-  '/create-room': CreateRoom,
+  '/rooms': () => <FindRooms />,
+  '/createRoom': () => <CreateRoom />,
   '/rooms/:name': ({ name }) => <GameRoom name={name} />
 }
 
@@ -22,9 +22,8 @@ function App () {
   useFingerprint()
 
   return (
-    <Background>
-      {/* {routeResult || <Home />} */}
-      {routeResult || <GameRoom />}
+    <Background hideText={window.location.pathname.startsWith('/rooms/')}>
+      {routeResult || <Home />}
     </Background>
   )
 }

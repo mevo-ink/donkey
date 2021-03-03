@@ -5,7 +5,7 @@ import 'firebase/database'
 const firebaseConfig = {
   apiKey: 'AIzaSyCH1OOGPH1daqH03CrW9xZYyGqGwqYQXeg',
   authDomain: 'donkeycardgame.firebaseapp.com',
-  databaseURL: 'https://donkeycardgame-default-rtdb.firebaseio.com',
+  databaseURL: 'https://donkey-dev.firebaseio.com/',
   projectId: 'donkeycardgame',
   storageBucket: 'donkeycardgame.appspot.com',
   messagingSenderId: '200596235949',

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import database from 'utils/firebase'
 
@@ -10,11 +10,13 @@ import {
 } from '@chakra-ui/react'
 
 export default function GameRoom ({ name }) {
+  const [room, setRoom] = useState()
+
   useEffect(() => {
     // find the room and check if the current user is joined
     database().ref(name).on('value', (snapshot) => {
       const room = snapshot.val()
-      console.log(room)
+      setRoom(room)
     }, console.log)
     // eslint-disable-next-line
   }, [])
