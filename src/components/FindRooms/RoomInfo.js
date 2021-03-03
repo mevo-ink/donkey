@@ -34,6 +34,7 @@ export default function RoomInfo ({ room }) {
       background='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
       boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
       borderRadius='25px'
+      _hover={{ textDecoration: 'none' }}
     >
       <Image
         src={room.users[room.owner].avatar}

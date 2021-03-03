@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
-import LoadingRoom from 'components/GameRoom/LoadingRoom'
+import Loading from 'components/Loading'
+
 import RoomNotFound from 'components/GameRoom/RoomNotFound'
 import RoomIsFull from 'components/GameRoom/RoomIsFull'
 import JoinRoom from 'components/GameRoom/JoinRoom'
@@ -24,11 +25,12 @@ export default function GameRoom ({ name }) {
     // find the room
     database().ref(name).on('value', (snapshot) => {
       setRoom(snapshot.val())
-      setIsLoading(false)
+      setTimeout(() => setIsLoading(false), 600)
     }, setError)
+    // eslint-disable-next-line
   }, [])
 
-  if (isLoading) return <LoadingRoom />
+  if (isLoading) return <Loading />
 
   if (error) return <Error error={error} />
 

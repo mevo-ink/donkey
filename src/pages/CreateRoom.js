@@ -5,11 +5,11 @@ import { useTitle } from 'hookrouter'
 import Nickname from 'components/CreateRoom/Nickname'
 import RoomPin from 'components/CreateRoom/RoomPin'
 import MaxPlayers from 'components/CreateRoom/MaxPlayers'
+import CancelDone from 'components/CreateRoom/CancelDone'
 
 import {
   Grid,
-  Image,
-  Button
+  Image
 } from '@chakra-ui/react'
 
 import { generateSlug } from 'random-word-slugs'
@@ -62,16 +62,7 @@ export default function CreateRoom () {
       <Nickname nickname={nickname} onSubmit={setNickname} />
       <RoomPin pin={pin} onSubmit={setPin} />
       <MaxPlayers maxPlayers={maxPlayers} onSubmit={setMaxPlayers} />
-      <Button
-        mt={8}
-        bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
-        color='black'
-        onClick={onCreateRoom}
-        isDisabled={!nickname}
-        isLoading={isLoading}
-      >
-        CREATE ROOM
-      </Button>
+      <CancelDone onLoading={isLoading} onCreateRoom={onCreateRoom} nickname={nickname} />
     </Grid>
   )
 }

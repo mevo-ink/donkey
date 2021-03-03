@@ -5,13 +5,15 @@ import { useTitle } from 'hookrouter'
 import {
   Box,
   Text,
-  VStack,
-  CircularProgress
+  Icon,
+  VStack
 } from '@chakra-ui/react'
 
 import Error from 'components/Error'
 
 import RoomInfo from 'components/FindRooms/RoomInfo'
+
+import Loading from 'components/Loading'
 
 import database from 'utils/firebase'
 
@@ -36,7 +38,7 @@ export default function FindRooms () {
           }
         }
       }
-      setIsLoading(false)
+      setTimeout(() => setIsLoading(false), 1000)
     }, setError)
   }, [])
 
@@ -45,7 +47,7 @@ export default function FindRooms () {
   }
 
   if (isLoading) {
-    return <CircularProgress isIndeterminate color='purple.300' thickness='16px' />
+    return <Loading marginTop='-100px' />
   }
 
   return (
@@ -62,9 +64,25 @@ export default function FindRooms () {
       >
         Rooms
       </Text>
-      <VStack spacing={4}>
+      <VStack
+        spacing={4}
+        height='395px'
+        overflowY='scroll'
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '0px'
+          }
+        }}
+      >
         {rooms.map(room => <RoomInfo key={room.name} room={room} />)}
       </VStack>
+      {rooms && (
+        <Box width='100%' textAlign='center'>
+          <Icon width='15px' height='9px' viewBox='0 0 15 9' fill='none'>
+            <path d='M0 1.698L1.76812 0L7.5025 5.6034L13.2319 0L15 1.698L7.5025 9L0 1.698Z' fill='white' fillOpacity='0.7' />
+          </Icon>
+        </Box>
+      )}
     </Box>
   )
 }

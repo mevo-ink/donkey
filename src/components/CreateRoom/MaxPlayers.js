@@ -83,6 +83,8 @@ export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
         boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
         borderRadius='25px'
         zIndex='1'
+        _active={{ bg: 'unherit' }}
+        _hover={{ bg: 'unherit' }}
         onClick={() => setShowDial(!showDial)}
       >
         {maxPlayers}
@@ -106,6 +108,8 @@ export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
               bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
               boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
               borderRadius='25px'
+              _active={{ bg: 'unherit' }}
+              _hover={{ bg: 'unherit' }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1, transition: { duration: 0.1, delay: idx * 0.05 } }}
               onClick={() => onClick(idx + 1)}
