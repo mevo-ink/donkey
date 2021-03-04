@@ -33,6 +33,6 @@ export default function useUserDisconnect (room) {
           ownerLastOnlineRef.onDisconnect().set(database.ServerValue.TIMESTAMP)
         }
       }
-    })
+    }) // eslint-disable-next-line
   }, [])
 }

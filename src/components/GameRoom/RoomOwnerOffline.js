@@ -29,7 +29,7 @@ export default function RoomOwnerOffline ({ room }) {
     }, 5000)
     return () => {
       clearTimeout(timeout)
-    }
+    } // eslint-disable-next-line
   }, [])
 
   return (
