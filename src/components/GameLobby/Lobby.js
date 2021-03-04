@@ -7,6 +7,8 @@ import {
   Flex
 } from '@chakra-ui/react'
 
+import RoomOwnerOffline from 'components/GameRoom/RoomOwnerOffline'
+
 import Table from 'components/GameLobby/Table'
 
 import { motion } from 'framer-motion'
@@ -30,6 +32,8 @@ export default function Lobby ({ room }) {
       ... etc
   */
 
+  const isRoomOwnerOnline = !room.lastOnline
+
   return (
     <Grid
       zIndex='0'
@@ -37,10 +41,10 @@ export default function Lobby ({ room }) {
       width='100%'
       mt='-82px'
     >
+      {!isRoomOwnerOnline && <RoomOwnerOffline room={room} />}
       <Flex
         width='100%'
         justifyContent='space-between'
-        fontSize='14px'
         lineHeight='14px'
         fontWeight='bold'
         mb='54px'
@@ -51,10 +55,10 @@ export default function Lobby ({ room }) {
           initial={{ x: -300 }}
           animate={{ x: 0, transition: { delay: 1, duration: 0.5 } }}
         >
-          <Text fontSize='9px'>
+          <Text fontSize='xs'>
             Room Name:
           </Text>
-          <Text>
+          <Text fontSize='lg'>
             {room.name}
           </Text>
         </MotionBox>
@@ -64,10 +68,10 @@ export default function Lobby ({ room }) {
           initial={{ x: 300 }}
           animate={{ x: 0, transition: { delay: 1, duration: 0.5 } }}
         >
-          <Text fontSize='9px'>
+          <Text fontSize='xs'>
             Players:
           </Text>
-          <Text>
+          <Text fontSize='lg'>
             {`${Object.keys(room.users).length} / ${room.maxPlayers}`}
           </Text>
         </MotionBox>
