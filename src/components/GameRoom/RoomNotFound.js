@@ -23,7 +23,7 @@ export default function RoomNotFound ({ name }) {
             <Image maxW='200px' height='150px' ignoreFallback src={roomNotFoundSVG} alt='Room Not Found' />
             <Text fontWeight='bold'>{name}</Text>
             <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
-              Go Home
+              Go Back
             </Button>
           </VStack>
         </ModalBody>

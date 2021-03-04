@@ -12,6 +12,8 @@ import {
   Image
 } from '@chakra-ui/react'
 
+import { AvatarGenerator } from 'random-avatar-generator'
+
 import { generateSlug } from 'random-word-slugs'
 
 import database from 'utils/firebase'
@@ -29,15 +31,15 @@ export default function CreateRoom () {
     setIsLoading(true)
     const roomName = generateSlug()
     const visitorID = window.localStorage.getItem('visitorID')
+    const generator = new AvatarGenerator()
+    const avatar = generator.generateRandomAvatar(visitorID) + '&avatarStyle=Transparent'
     database().ref(roomName).set({
       name: roomName,
       owner: visitorID,
       state: 'LOBBY',
       maxPlayers,
       users: {
-        [visitorID]: {
-          visitorID, nickname, avatar: 'https://i.pravatar.cc/50'
-        }
+        [visitorID]: { visitorID, nickname, avatar }
       }
     })
       .then(() => { window.location.href = `/rooms/${roomName}` })

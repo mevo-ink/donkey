@@ -12,6 +12,8 @@ import {
 
 import database from 'utils/firebase'
 
+import { AvatarGenerator } from 'random-avatar-generator'
+
 export default function JoinRoom ({ room }) {
   useTitle(room.name)
 
@@ -34,7 +36,13 @@ export default function JoinRoom ({ room }) {
     e.preventDefault()
     setIsLoading(true)
     const visitorID = window.localStorage.getItem('visitorID')
-    database().ref(`${room.name}/users/${visitorID}`).update({ visitorID, nickname, avatar: 'https://i.pravatar.cc/50' })
+    const generator = new AvatarGenerator()
+    const avatar = generator.generateRandomAvatar(visitorID) + '&avatarStyle=Transparent'
+    database().ref(`${room.name}/users/${visitorID}`).update({
+      visitorID,
+      nickname,
+      avatar
+    })
   }
 
   return (
