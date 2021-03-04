@@ -1,3 +1,5 @@
+import useUserDisconnect from 'hooks/useUserDisconnect'
+
 import {
   Box,
   Grid,
@@ -12,6 +14,8 @@ import { motion } from 'framer-motion'
 const MotionBox = motion(Box)
 
 export default function Lobby ({ room }) {
+  useUserDisconnect(room)
+
   /*
   THIS WILL BE WHERE ALL THE GAME SPECIFIC LOGIC AND LAYOUT WILL HAPPEN
   rough components layout
