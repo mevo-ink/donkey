@@ -6,7 +6,8 @@ import {
   Box,
   Text,
   Icon,
-  VStack
+  VStack,
+  Button
 } from '@chakra-ui/react'
 
 import Error from 'components/Error'
@@ -27,7 +28,7 @@ export default function FindRooms () {
 
   useEffect(() => {
     database().ref().on('value', async (snapshot) => {
-      const rooms = Object.values(snapshot.val())
+      const rooms = Object.values(snapshot.val() || {})
       setRooms(rooms)
       // delete rooms if inactive for more than 15 mins
       if (rooms) {
@@ -75,8 +76,16 @@ export default function FindRooms () {
         }}
       >
         {rooms.map(room => <RoomInfo key={room.name} room={room} />)}
+        {rooms.length === 0 && (
+          <>
+            <Text>No active rooms</Text>
+            <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
+              Go Back
+            </Button>
+          </>
+        )}
       </VStack>
-      {rooms && (
+      {rooms.length > 0 && (
         <Box width='100%' textAlign='center'>
           <Icon width='15px' height='9px' viewBox='0 0 15 9' fill='none'>
             <path d='M0 1.698L1.76812 0L7.5025 5.6034L13.2319 0L15 1.698L7.5025 9L0 1.698Z' fill='white' fillOpacity='0.7' />
