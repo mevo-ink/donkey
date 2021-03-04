@@ -71,7 +71,6 @@ export default function Table ({ lobby, tableContent }) {
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
     >
-      {tableContent}
       <Grid
         width='215px'
         height='440px'
@@ -81,6 +80,9 @@ export default function Table ({ lobby, tableContent }) {
         borderRadius='200px'
         gridTemplateColumns='1fr 1fr'
       >
+        <Grid>
+          {tableContent}
+        </Grid>
         {players.map((player, idx) => <Player key={player.playerID} player={player} position={positions[idx]} />)}
       </Grid>
     </MotionGrid>

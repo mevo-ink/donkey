@@ -10,13 +10,14 @@ import LobbyNotFound from 'components/LobbyManager/LobbyNotFound'
 import LobbyIsFull from 'components/LobbyManager/LobbyIsFull'
 import JoinLobby from 'components/LobbyManager/JoinLobby'
 
+import Lobby from 'components/Lobby'
 import PreLobby from 'components/PreLobby'
 
 import Error from 'components/Error'
 
 import database from 'utils/firebase'
 
-export default function Lobby ({ name }) {
+export default function LobbyManager ({ name }) {
   const playerID = window.localStorage.getItem('playerID')
 
   const [isLoading, setIsLoading] = useState(true)
@@ -31,7 +32,7 @@ export default function Lobby ({ name }) {
     // find the lobby
     database().ref(name).on('value', (snapshot) => {
       setLobby(snapshot.val())
-      setTimeout(() => setIsLoading(false), 600)
+      setIsLoading(false)
     }, setError)
     // eslint-disable-next-line
   }, [])
@@ -60,7 +61,6 @@ export default function Lobby ({ name }) {
   if (!isLobbyHostOnline) {
     return <LobbyHostOffline lobby={lobby} />
   }
-  // { !isLobbyHostOnline && <LobbyHostOffline lobby={lobby} /> }
 
   if (lobby.state === 'LOBBY') {
     return <Lobby lobby={lobby} />
