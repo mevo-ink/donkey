@@ -4,7 +4,7 @@ import {
 
 import { motion } from 'framer-motion'
 
-import User from 'components/GameLobby/Player'
+import User from 'components/Lobby/Player'
 
 const MotionGrid = motion(Grid)
 

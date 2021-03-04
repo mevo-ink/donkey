@@ -1,5 +1,7 @@
 import useUserDisconnect from 'hooks/usePlayerDisconnect'
 
+import preloadCardImages from 'utils/cards'
+
 import {
   Box,
   Grid,
@@ -9,14 +11,19 @@ import {
 
 import LobbyHostOffline from 'components/LobbyAlerts/LobbyHostOffline'
 
-import Table from 'components/GameLobby/Table'
+import Table from 'components/Lobby/Table'
 
 import { motion } from 'framer-motion'
+import { useEffect } from 'react'
 
 const MotionBox = motion(Box)
 
 export default function PreLobby ({ lobby }) {
   useUserDisconnect(lobby)
+
+  useEffect(() => {
+    preloadCardImages()
+  }, [])
 
   /*
   THIS WILL BE WHERE ALL THE GAME SPECIFIC LOGIC AND LAYOUT WILL HAPPEN

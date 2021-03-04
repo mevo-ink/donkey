@@ -6,7 +6,7 @@ import LobbyNotFound from 'components/LobbyAlerts/LobbyNotFound'
 import LobbyIsFull from 'components/LobbyAlerts/LobbyIsFull'
 import JoinLobby from 'components/LobbyAlerts/JoinLobby'
 
-import PreLobby from 'components/GameLobby/PreLobby'
+import PreLobby from 'components/Lobby/PreLobby'
 
 import Error from 'components/Error'
 
