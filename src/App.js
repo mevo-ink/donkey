@@ -4,7 +4,7 @@ import useFingerprint from 'hooks/useFingerprint'
 import { useRoutes } from 'hookrouter'
 
 import Home from 'pages/Home'
-import Lobby from 'pages/Lobby'
+import LobbyManager from 'pages/LobbyManager'
 import FindLobbies from 'pages/FindLobbies'
 import CreateLobby from 'pages/CreateLobby'
 import Background from 'components/Background'
@@ -12,7 +12,7 @@ import Background from 'components/Background'
 const routes = {
   '/lobbies': () => <FindLobbies />,
   '/createLobby': () => <CreateLobby />,
-  '/lobbies/:name': ({ name }) => <Lobby name={name} />
+  '/lobbies/:name': ({ name }) => <LobbyManager name={name} />
 }
 
 function App () {

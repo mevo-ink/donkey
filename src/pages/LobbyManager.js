@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react'
 
+import LobbyHostOffline from 'components/LobbyManager/LobbyHostOffline'
+
+import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
+
 import Loading from 'components/Loading'
 
-import LobbyNotFound from 'components/LobbyAlerts/LobbyNotFound'
-import LobbyIsFull from 'components/LobbyAlerts/LobbyIsFull'
-import JoinLobby from 'components/LobbyAlerts/JoinLobby'
+import LobbyNotFound from 'components/LobbyManager/LobbyNotFound'
+import LobbyIsFull from 'components/LobbyManager/LobbyIsFull'
+import JoinLobby from 'components/LobbyManager/JoinLobby'
 
-import PreLobby from 'components/Lobby/PreLobby'
+import PreLobby from 'components/PreLobby'
 
 import Error from 'components/Error'
 
 import database from 'utils/firebase'
 
-export default function GameLobby ({ name }) {
+export default function Lobby ({ name }) {
   const playerID = window.localStorage.getItem('playerID')
 
   const [isLoading, setIsLoading] = useState(true)
@@ -20,6 +24,8 @@ export default function GameLobby ({ name }) {
   const [error, setError] = useState(false)
 
   const [lobby, setLobby] = useState({})
+
+  usePlayerDisconnect(lobby)
 
   useEffect(() => {
     // find the lobby
@@ -49,5 +55,16 @@ export default function GameLobby ({ name }) {
     }
   }
 
-  return <PreLobby lobby={lobby} />
+  const isLobbyHostOnline = !lobby.lastOnline
+
+  if (!isLobbyHostOnline) {
+    return <LobbyHostOffline lobby={lobby} />
+  }
+  // { !isLobbyHostOnline && <LobbyHostOffline lobby={lobby} /> }
+
+  if (lobby.state === 'LOBBY') {
+    return <Lobby lobby={lobby} />
+  } else {
+    return <PreLobby lobby={lobby} />
+  }
 }

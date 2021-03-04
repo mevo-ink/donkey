@@ -4,7 +4,7 @@ import {
 
 import { motion } from 'framer-motion'
 
-import User from 'components/Lobby/Player'
+import Player from 'components/Lobby/Player'
 
 const MotionGrid = motion(Grid)
 
@@ -48,7 +48,7 @@ const getPositions = (count) => {
   // ]
 }
 
-export default function Table ({ lobby }) {
+export default function Table ({ lobby, tableContent }) {
   const playerID = window.localStorage.getItem('playerID')
 
   const players = Object.values(lobby.players)
@@ -71,6 +71,7 @@ export default function Table ({ lobby }) {
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
     >
+      {tableContent}
       <Grid
         width='215px'
         height='440px'
@@ -80,7 +81,7 @@ export default function Table ({ lobby }) {
         borderRadius='200px'
         gridTemplateColumns='1fr 1fr'
       >
-        {players.map((player, idx) => <User key={player.playerID} player={player} position={positions[idx]} />)}
+        {players.map((player, idx) => <Player key={player.playerID} player={player} position={positions[idx]} />)}
       </Grid>
     </MotionGrid>
   )
