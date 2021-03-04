@@ -4,7 +4,9 @@ import {
   Image
 } from '@chakra-ui/react'
 
-export default function User ({ user, position }) {
+// const IMAGE_BASE_URL = 'https://firebasestorage.googleapis.com/v0/b/donkeycardgame.appspot.com/o/cards%2Fclubs_1.png?alt=media'
+
+export default function User ({ player, position }) {
   return (
     <Grid
       placeItems='center'
@@ -12,7 +14,7 @@ export default function User ({ user, position }) {
       {...position}
     >
       <Image
-        src={user.avatar}
+        src={player.avatar}
         w='31px'
         h='31px'
         borderRadius='50%'
@@ -23,7 +25,7 @@ export default function User ({ user, position }) {
         textAlign='center'
         width='31px'
       >
-        {user.nickname}
+        {player.nickname}
       </Text>
     </Grid>
   )

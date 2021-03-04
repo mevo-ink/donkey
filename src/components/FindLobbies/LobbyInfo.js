@@ -23,11 +23,11 @@ const RowInfo = ({ label, value }) => (
   </Flex>
 )
 
-export default function RoomInfo ({ room }) {
+export default function LobbyInfo ({ lobby }) {
   return (
     <Flex
       as={Link}
-      href={`/rooms/${room.name}`}
+      href={`/lobbies/${lobby.name}`}
       width='100%'
       py={1}
       alignItems='center'
@@ -37,7 +37,7 @@ export default function RoomInfo ({ room }) {
       _hover={{ textDecoration: 'none' }}
     >
       <Image
-        src={room.users[room.owner]?.avatar}
+        src={lobby.players[lobby.host]?.avatar}
         width='53px'
         h='53px'
         ml='9px'
@@ -51,9 +51,9 @@ export default function RoomInfo ({ room }) {
         lineHeight='14px'
         fontWeight='bold'
       >
-        <RowInfo label='Host' value={room.users[room.owner]?.nickname} />
-        <RowInfo label='Name' value={room.name} />
-        <RowInfo label='Players' value={`${Object.keys(room.users).length} / ${room.maxPlayers}`} />
+        <RowInfo label='Host' value={lobby.players[lobby.host].nickname} />
+        <RowInfo label='Name' value={lobby.name} />
+        <RowInfo label='Players' value={`${Object.keys(lobby.players).length} / ${lobby.maxPlayers}`} />
       </Box>
     </Flex>
   )

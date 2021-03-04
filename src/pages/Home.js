@@ -22,13 +22,13 @@ export default function Home () {
       justifyContent='space-between'
     >
       {[{
-        name: 'Create Room',
+        name: 'Create Lobby',
         color: 'linear-gradient(180deg, #FE9696 0%, #E76C6C 100%)',
-        path: '/createRoom'
+        path: '/createLobby'
       }, {
-        name: 'Find Rooms',
+        name: 'Find Lobbies',
         color: 'linear-gradient(180deg, #6BE8FF 0%, #349CB6 100%)',
-        path: '/rooms'
+        path: '/lobbies'
       }
       ].map((button, idx) => (
         <Button

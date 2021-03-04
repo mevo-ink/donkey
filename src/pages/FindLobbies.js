@@ -12,30 +12,30 @@ import {
 
 import Error from 'components/Error'
 
-import RoomInfo from 'components/FindRooms/RoomInfo'
+import LobbyInfo from 'components/FindLobbies/LobbyInfo'
 
 import Loading from 'components/Loading'
 
 import database from 'utils/firebase'
 
-export default function FindRooms () {
-  useTitle('Find Rooms')
+export default function FindLobbies () {
+  useTitle('Find Lobbies')
 
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const [rooms, setRooms] = useState([])
+  const [lobbies, setLobbies] = useState([])
 
   useEffect(() => {
     database().ref().on('value', async (snapshot) => {
-      const rooms = Object.values(snapshot.val() || {})
-      setRooms(rooms)
-      // delete rooms if inactive for more than 15 mins
-      if (rooms) {
-        for (const room of Object.values(rooms)) {
+      const lobbies = Object.values(snapshot.val() || {})
+      setLobbies(lobbies)
+      // delete lobbies if inactive for more than 15 mins
+      if (lobbies) {
+        for (const lobby of Object.values(lobbies)) {
           const currentTime = new Date().getTime()
-          if (parseInt((currentTime - room.lastOnline) / 1000) > 900) {
-            database().ref(room.name).set(null)
+          if (parseInt((currentTime - lobby.lastOnline) / 1000) > 900) {
+            database().ref(lobby.name).set(null)
           }
         }
       }
@@ -63,7 +63,7 @@ export default function FindRooms () {
         fontWeight='bold'
         mb='15px'
       >
-        Rooms
+        Lobbies
       </Text>
       <VStack
         spacing={4}
@@ -75,17 +75,17 @@ export default function FindRooms () {
           }
         }}
       >
-        {rooms.map(room => <RoomInfo key={room.name} room={room} />)}
-        {rooms.length === 0 && (
+        {lobbies.map(lobby => <LobbyInfo key={lobby.name} lobby={lobby} />)}
+        {lobbies.length === 0 && (
           <>
-            <Text>No active rooms</Text>
+            <Text>No active lobbies</Text>
             <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
               Go Back
             </Button>
           </>
         )}
       </VStack>
-      {rooms.length > 0 && (
+      {lobbies.length > 0 && (
         <Box width='100%' textAlign='center'>
           <Icon width='15px' height='9px' viewBox='0 0 15 9' fill='none'>
             <path d='M0 1.698L1.76812 0L7.5025 5.6034L13.2319 0L15 1.698L7.5025 9L0 1.698Z' fill='white' fillOpacity='0.7' />

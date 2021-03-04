@@ -10,19 +10,19 @@ import {
   ModalOverlay
 } from '@chakra-ui/react'
 
-import roomIsFullSVG from 'images/roomIsFull.svg'
+import lobbyIsFullSVG from 'images/lobbyIsFull.svg'
 
-export default function RoomIsFull ({ name }) {
+export default function LobbyIsFull ({ name }) {
   return (
     <Modal isOpen isCentered size='xs'>
       <ModalOverlay />
       <ModalContent pb={4}>
-        <ModalHeader fontSize='2xl' textAlign='center'>Room Is Full</ModalHeader>
+        <ModalHeader fontSize='2xl' textAlign='center'>Lobby Is Full</ModalHeader>
         <ModalBody>
           <VStack spacing={8}>
-            <Image maxW='200px' height='150px' ignoreFallback src={roomIsFullSVG} alt='Room Is Full' />
+            <Image maxW='200px' height='150px' ignoreFallback src={lobbyIsFullSVG} alt='Lobby Is Full' />
             <Text fontWeight='bold'>{name}</Text>
-            <Button colorScheme='purple' onClick={() => { window.location.href = '/rooms' }}>
+            <Button colorScheme='purple' onClick={() => { window.location.href = '/lobbys' }}>
               Go Back
             </Button>
           </VStack>

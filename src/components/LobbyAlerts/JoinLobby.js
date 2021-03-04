@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 import { useTitle } from 'hookrouter'
 
-import Nickname from 'components/CreateRoom/Nickname'
-import CancelDone from 'components/CreateRoom/CancelDone'
+import Nickname from 'components/CreateLobby/Nickname'
+import CancelDone from 'components/CreateLobby/CancelDone'
 
 import {
   Text,
@@ -14,16 +14,16 @@ import database from 'utils/firebase'
 
 import { AvatarGenerator } from 'random-avatar-generator'
 
-export default function JoinRoom ({ room }) {
-  useTitle(room.name)
+export default function JoinRoom ({ lobby }) {
+  useTitle(lobby.name)
 
   /*
     TODO:
     useEffect - check for active firebase auth session
-    if user session is active on firebase:
-      - automatically join the room with that user's name as nickname
+    if player session is active on firebase:
+      - automatically join the lobby with that player's name as nickname
 
-    https://firebase.google.com/docs/auth/web/start#set_an_authentication_state_observer_and_get_user_data
+    https://firebase.google.com/docs/auth/web/start#set_an_authentication_state_observer_and_get_player_data
 
     https://firebase.google.com/docs/auth/web/auth-state-persistence#supported_types_of_auth_state_persistence
   */
@@ -35,11 +35,11 @@ export default function JoinRoom ({ room }) {
   const onJoinRoom = (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const visitorID = window.localStorage.getItem('visitorID')
+    const playerID = window.localStorage.getItem('playerID')
     const generator = new AvatarGenerator()
-    const avatar = generator.generateRandomAvatar(visitorID) + '&avatarStyle=Transparent'
-    database().ref(`${room.name}/users/${visitorID}`).update({
-      visitorID,
+    const avatar = generator.generateRandomAvatar(playerID) + '&avatarStyle=Transparent'
+    database().ref(`${lobby.name}/players/${playerID}`).update({
+      playerID,
       nickname,
       avatar
     })
@@ -65,7 +65,7 @@ export default function JoinRoom ({ room }) {
         lineHeight='35px'
         mb='15px'
       >
-        {room.name}
+        {lobby.name}
       </Text>
       <Nickname nickname={nickname} onSubmit={setNickname} />
       <CancelDone isLoading={isLoading} onSubmit={onJoinRoom} nickname={nickname} />

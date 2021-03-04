@@ -4,15 +4,15 @@ import useFingerprint from 'hooks/useFingerprint'
 import { useRoutes } from 'hookrouter'
 
 import Home from 'pages/Home'
-import GameRoom from 'pages/GameRoom'
-import FindRooms from 'pages/FindRooms'
-import CreateRoom from 'pages/CreateRoom'
+import Lobby from 'pages/Lobby'
+import FindLobbies from 'pages/FindLobbies'
+import CreateLobby from 'pages/CreateLobby'
 import Background from 'components/Background'
 
 const routes = {
-  '/rooms': () => <FindRooms />,
-  '/createRoom': () => <CreateRoom />,
-  '/rooms/:name': ({ name }) => <GameRoom name={name} />
+  '/lobbies': () => <FindLobbies />,
+  '/createLobby': () => <CreateLobby />,
+  '/lobbies/:name': ({ name }) => <Lobby name={name} />
 }
 
 function App () {
@@ -22,7 +22,7 @@ function App () {
   useFingerprint()
 
   return (
-    <Background hideText={window.location.pathname.startsWith('/rooms/')}>
+    <Background hideText={window.location.pathname.startsWith('/lobbies/')}>
       {routeResult || <Home />}
     </Background>
   )
@@ -32,8 +32,8 @@ export default App
 
 /* HOME - /: CREATE ROOM or FIND ROOM
    CREATE ROOM - INPUT username input, room name, limit, pin, ...etc and redirect to GAME ROOM
-   FIND ROOMS - /rooms:  list all active rooms and let user to join one and redirect to GAME ROOM
-   GAME ROOM - /rooms/<name>
+   FIND ROOMS - /lobbies:  list all active lobbies and let user to join one and redirect to GAME ROOM
+   GAME ROOM - /lobbies/<name>
       - case 1: if user is not in this room - JOIN ROOM asking username
       - case 2: user already in room
       - MICHAM ...

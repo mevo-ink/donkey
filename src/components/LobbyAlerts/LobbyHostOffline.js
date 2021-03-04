@@ -13,16 +13,16 @@ import {
 
 import database from 'utils/firebase'
 
-export default function RoomOwnerOffline ({ room }) {
+export default function LobbyHostOffline ({ lobby }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      // choose a random online user - except the current room owner
-      const newOwner = Object.values(room.users).find(user => {
-        return user.visitorID !== room.owner && !user.lastOnline
+      // choose a random online player - except the current lobby host
+      const newHost = Object.values(lobby.players).find(player => {
+        return player.playerID !== lobby.host && !player.lastOnline
       })
-      if (newOwner) {
-        database().ref(`${room.name}`).update({
-          owner: newOwner.visitorID,
+      if (newHost) {
+        database().ref(`${lobby.name}`).update({
+          host: newHost.playerID,
           lastOnline: null
         })
       }
@@ -36,11 +36,11 @@ export default function RoomOwnerOffline ({ room }) {
     <Modal isOpen isCentered size='xs'>
       <ModalOverlay />
       <ModalContent pb={4}>
-        <ModalHeader fontSize='2xl' textAlign='center'>Room owner disconnected</ModalHeader>
+        <ModalHeader fontSize='2xl' textAlign='center'>Lobby host disconnected</ModalHeader>
         <ModalBody>
           <VStack>
             <Text textAlign='center'>
-              Choosing a new owner from remaining players
+              Choosing a new host from remaining players
             </Text>
             <CircularProgress isIndeterminate color='purple.300' thickness='16px' />
           </VStack>

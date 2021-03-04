@@ -7,7 +7,7 @@ import {
   PinInputField
 } from '@chakra-ui/react'
 
-export default function RoomPin ({ pin, onSubmit }) {
+export default function LobbyPin ({ pin, onSubmit }) {
   return (
     <>
       <Text mt={4}>

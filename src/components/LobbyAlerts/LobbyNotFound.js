@@ -10,9 +10,9 @@ import {
   ModalOverlay
 } from '@chakra-ui/react'
 
-import roomNotFound from 'images/roomNotFound.gif'
+import lobbyNotFound from 'images/lobbyNotFound.gif'
 
-export default function RoomNotFound ({ name }) {
+export default function LobbyNotFound ({ name }) {
   return (
     <Modal isOpen isCentered size='xs'>
       <ModalOverlay />
@@ -42,7 +42,7 @@ export default function RoomNotFound ({ name }) {
                 lineHeight='12px'
                 fontWeight='normal'
               >
-                Room Name
+                Lobby Name
               </Text>
               <Text
                 fontSize='23px'
@@ -56,16 +56,16 @@ export default function RoomNotFound ({ name }) {
               maxWidth='350px'
               objectFit='cover'
               ignoreFallback
-              src={roomNotFound}
-              alt='Room Not Found'
+              src={lobbyNotFound}
+              alt='Lobby Not Found'
             />
             <Text
               fontSize='18px'
               lineHeight='18px'
               textAlign='center'
             >
-              Ops! Room Not Found<br />
-              Please Check the Room Name
+              Oops! Lobby Not Found<br />
+              Please Check the Lobby Name
             </Text>
             <Button
               zIndex='1'

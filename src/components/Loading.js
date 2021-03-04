@@ -2,7 +2,7 @@ import {
   Image
 } from '@chakra-ui/react'
 
-import loadinGif from 'images/loading.gif'
+import loadingGif from 'images/loading.gif'
 
 import { motion, AnimatePresence } from 'framer-motion'
 const MotionImage = motion(Image)
@@ -15,7 +15,7 @@ export default function LoadingRoom ({ marginTop }) {
         maxWidth='920px'
         objectFit='cover'
         mt={marginTop}
-        src={loadinGif}
+        src={loadingGif}
         alt='Spinning Logo'
         zIndex='0'
         initial={{ opacity: 0 }}

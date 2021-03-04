@@ -1,4 +1,4 @@
-import useUserDisconnect from 'hooks/useUserDisconnect'
+import useUserDisconnect from 'hooks/usePlayerDisconnect'
 
 import {
   Box,
@@ -7,7 +7,7 @@ import {
   Flex
 } from '@chakra-ui/react'
 
-import RoomOwnerOffline from 'components/GameRoom/RoomOwnerOffline'
+import LobbyHostOffline from 'components/LobbyAlerts/LobbyHostOffline'
 
 import Table from 'components/GameLobby/Table'
 
@@ -15,8 +15,8 @@ import { motion } from 'framer-motion'
 
 const MotionBox = motion(Box)
 
-export default function Lobby ({ room }) {
-  useUserDisconnect(room)
+export default function PreLobby ({ lobby }) {
+  useUserDisconnect(lobby)
 
   /*
   THIS WILL BE WHERE ALL THE GAME SPECIFIC LOGIC AND LAYOUT WILL HAPPEN
@@ -32,7 +32,7 @@ export default function Lobby ({ room }) {
       ... etc
   */
 
-  const isRoomOwnerOnline = !room.lastOnline
+  const isLobbyHostOnline = !lobby.lastOnline
 
   return (
     <Grid
@@ -40,7 +40,7 @@ export default function Lobby ({ room }) {
       placeItems='center'
       width='100%'
     >
-      {!isRoomOwnerOnline && <RoomOwnerOffline room={room} />}
+      {!isLobbyHostOnline && <LobbyHostOffline lobby={lobby} />}
       <Flex
         width='100%'
         justifyContent='space-between'
@@ -57,10 +57,10 @@ export default function Lobby ({ room }) {
           animate={{ x: 0, transition: { delay: 1, duration: 0.5 } }}
         >
           <Text fontSize='xs'>
-            Room Name:
+            Lobby Name:
           </Text>
           <Text fontSize='lg'>
-            {room.name}
+            {lobby.name}
           </Text>
         </MotionBox>
         <MotionBox
@@ -73,11 +73,11 @@ export default function Lobby ({ room }) {
             Players:
           </Text>
           <Text fontSize='lg'>
-            {`${Object.keys(room.users).length} / ${room.maxPlayers}`}
+            {`${Object.keys(lobby.players).length} / ${lobby.maxPlayers}`}
           </Text>
         </MotionBox>
       </Flex>
-      <Table room={room} />
+      <Table lobby={lobby} />
     </Grid>
   )
 }
