@@ -1,29 +1,84 @@
 import {
+  Box,
   Text,
   Modal,
   Image,
   Button,
   VStack,
   ModalBody,
-  ModalHeader,
   ModalContent,
   ModalOverlay
 } from '@chakra-ui/react'
 
-import roomNotFoundSVG from 'images/roomNotFound.svg'
+import roomNotFound from 'images/roomNotFound.gif'
 
 export default function RoomNotFound ({ name }) {
   return (
     <Modal isOpen isCentered size='xs'>
       <ModalOverlay />
-      <ModalContent pb={4}>
-        <ModalHeader fontSize='2xl' textAlign='center'>Room Not Found</ModalHeader>
+      <ModalContent
+        pb={4}
+        bg='rgba(255, 255, 255, 0.1)'
+        boxShadow='none'
+        w='95vw'
+        h='95vw'
+        maxWidth='920px'
+        maxHeight='920px'
+        objectFit='cover'
+        borderRadius='50%'
+        as='div'
+        display='grid'
+        placeItems='center'
+        fontFamily='Amatic SC, cursive'
+        color='white'
+        fontWeight='bold'
+        p='0'
+      >
         <ModalBody>
           <VStack spacing={8}>
-            <Image maxW='200px' height='150px' ignoreFallback src={roomNotFoundSVG} alt='Room Not Found' />
-            <Text fontWeight='bold'>{name}</Text>
-            <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
-              Go Back
+            <Box>
+              <Text
+                fontSize='12px'
+                lineHeight='12px'
+                fontWeight='normal'
+              >
+                Room Name
+              </Text>
+              <Text
+                fontSize='23px'
+                lineHeight='23px'
+              >
+                {name}
+              </Text>
+            </Box>
+            <Image
+              w='30vw'
+              maxWidth='350px'
+              objectFit='cover'
+              ignoreFallback
+              src={roomNotFound}
+              alt='Room Not Found'
+            />
+            <Text
+              fontSize='18px'
+              lineHeight='18px'
+              textAlign='center'
+            >
+              Ops! Room Not Found<br />
+              Please Check the Room Name
+            </Text>
+            <Button
+              zIndex='1'
+              width='80px'
+              height='40px'
+              background='linear-gradient(180deg, #45DB54 0%, #197027 100%)'
+              boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
+              borderRadius='25px'
+              _active={{ bg: 'unherit' }}
+              _hover={{ bg: 'unherit' }}
+              onClick={() => { window.location.href = '/' }}
+            >
+              Go Home
             </Button>
           </VStack>
         </ModalBody>

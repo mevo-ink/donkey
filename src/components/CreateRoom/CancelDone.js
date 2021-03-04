@@ -4,7 +4,7 @@ import {
   Button
 } from '@chakra-ui/react'
 
-export default function CancelDone ({ isLoading, onCreateRoom, nickname }) {
+export default function CancelDone ({ isLoading, onSubmit, nickname }) {
   return (
     <Flex
       width='150px'
@@ -39,7 +39,7 @@ export default function CancelDone ({ isLoading, onCreateRoom, nickname }) {
         borderRadius='50%'
         _active={{ bg: 'unherit' }}
         _hover={{ bg: 'unherit' }}
-        onClick={onCreateRoom}
+        onClick={onSubmit}
         isDisabled={!nickname}
         isLoading={isLoading}
       >

@@ -50,7 +50,6 @@ export default function RoomInfo ({ room }) {
         fontSize='14px'
         lineHeight='14px'
         fontWeight='bold'
-        maxWidth='124px'
       >
         <RowInfo label='Host' value={room.users[room.owner]?.nickname} />
         <RowInfo label='Name' value={room.name} />

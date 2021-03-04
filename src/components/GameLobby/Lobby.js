@@ -39,7 +39,6 @@ export default function Lobby ({ room }) {
       zIndex='0'
       placeItems='center'
       width='100%'
-      mt='-82px'
     >
       {!isRoomOwnerOnline && <RoomOwnerOffline room={room} />}
       <Flex
@@ -49,6 +48,8 @@ export default function Lobby ({ room }) {
         fontWeight='bold'
         mb='54px'
         overflow='hidden'
+        position='absolute'
+        top='50px'
       >
         <MotionBox
           ml='16px'

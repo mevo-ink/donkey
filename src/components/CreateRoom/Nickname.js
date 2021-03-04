@@ -35,6 +35,9 @@ export default function Nickname ({ nickname, onSubmit }) {
         boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
         borderRadius='25px'
         color='black'
+        fontSize='23px'
+        lineHeight='23px'
+        fontWeight='bold'
         value={nickname}
         onChange={onChange}
       />

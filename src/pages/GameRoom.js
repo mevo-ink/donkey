@@ -34,7 +34,7 @@ export default function GameRoom ({ name }) {
 
   if (error) return <Error error={error} />
 
-  if (!room) return <RoomNotFound name={name} />
+  if (room) return <RoomNotFound name={name} />
 
   // check if the current user is in the room
   const currentUser = room && room.users && room.users[visitorID]

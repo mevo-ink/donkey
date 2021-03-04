@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { useTitle } from 'hookrouter'
 
 import Nickname from 'components/CreateRoom/Nickname'
+import CancelDone from 'components/CreateRoom/CancelDone'
 
 import {
   Text,
-  Grid,
-  Button
+  Grid
 } from '@chakra-ui/react'
 
 import database from 'utils/firebase'
@@ -47,33 +47,28 @@ export default function JoinRoom ({ room }) {
 
   return (
     <Grid
-      position='absolute'
       placeItems='center'
       fontSize='18px'
       lineHeight='18px'
       fontWeight='bold'
-      as='form'
-      onSubmit={onJoinRoom}
     >
       <Text
-        fontSize='48px'
-        lineHeight='48px'
-        fontWeight='bold'
+        width='100%'
+        fontSize='12px'
+        lineHeight='12px'
+        fontWeight='normal'
+      >
+        Room Name
+      </Text>
+      <Text
+        fontSize='35px'
+        lineHeight='35px'
         mb='15px'
       >
         {room.name}
       </Text>
       <Nickname nickname={nickname} onSubmit={setNickname} />
-      <Button
-        mt={8}
-        bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
-        color='black'
-        type='submit'
-        isDisabled={!nickname}
-        isLoading={isLoading}
-      >
-        JOIN ROOM
-      </Button>
+      <CancelDone isLoading={isLoading} onSubmit={onJoinRoom} nickname={nickname} />
     </Grid>
   )
 }

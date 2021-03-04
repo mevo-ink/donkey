@@ -64,7 +64,7 @@ export default function CreateRoom () {
       <Nickname nickname={nickname} onSubmit={setNickname} />
       <RoomPin pin={pin} onSubmit={setPin} />
       <MaxPlayers maxPlayers={maxPlayers} onSubmit={setMaxPlayers} />
-      <CancelDone onLoading={isLoading} onCreateRoom={onCreateRoom} nickname={nickname} />
+      <CancelDone onLoading={isLoading} onSubmit={onCreateRoom} nickname={nickname} />
     </Grid>
   )
 }

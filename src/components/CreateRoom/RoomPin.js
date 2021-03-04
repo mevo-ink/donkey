@@ -32,13 +32,29 @@ export default function RoomPin ({ pin, onSubmit }) {
             defaultValue={pin}
             onComplete={onSubmit}
           >
-            <PinInputField />
+            <PinInputField
+              fontSize='23px'
+              lineHeight='23px'
+              fontWeight='bold'
+            />
             <Box w='1px' h='38px' bg='#9C9C9C' />
-            <PinInputField />
+            <PinInputField
+              fontSize='23px'
+              lineHeight='23px'
+              fontWeight='bold'
+            />
             <Box w='1px' h='38px' bg='#9C9C9C' />
-            <PinInputField />
+            <PinInputField
+              fontSize='23px'
+              lineHeight='23px'
+              fontWeight='bold'
+            />
             <Box w='1px' h='38px' bg='#9C9C9C' />
-            <PinInputField />
+            <PinInputField
+              fontSize='23px'
+              lineHeight='23px'
+              fontWeight='bold'
+            />
           </PinInput>
         </Flex>
       </Grid>
