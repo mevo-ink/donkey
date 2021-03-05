@@ -23,7 +23,7 @@ export default function PreLobby ({ lobby }) {
 
   const onStartGame = () => {
     database().ref(`${lobby.name}`).update({
-      state: 'LOBBY'
+      state: 'DEALING'
     })
   }
 

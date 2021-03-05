@@ -23,7 +23,7 @@ export default function User ({ player, position }) {
         textAlign='center'
         width='31px'
       >
-        {player.nickname}
+        {player.nickname} - {player.cards ? Object.values(player.cards).length : ''}
       </Text>
     </Grid>
   )

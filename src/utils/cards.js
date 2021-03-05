@@ -1,3 +1,6 @@
+import shuffle from 'utils/shuffle'
+
+
 const IMAGE_BASE_URL = 'https://firebasestorage.googleapis.com/v0/b/donkeycardgame.appspot.com/o/cards%2F'
 
 const preloadCardImages = () => {
@@ -10,6 +13,24 @@ const preloadCardImages = () => {
       card.src = `${IMAGE_BASE_URL}${suite}_${number + 1}.png?alt=media`
     }
   }
+}
+
+export const getCards = () => {
+  const numbers = Array.from(Array(13).keys())
+  const suites = ['hearts', 'diamonds', 'clubs', 'spades']
+
+  const cards = []
+  for (const number of numbers) {
+    for (const suite of suites) {
+      cards.push({
+        suite,
+        number: number + 1
+      })
+    }
+  }
+
+  const shuffledCards = shuffle(cards)
+  return shuffledCards
 }
 
 export const getCard = (suite, number) => {

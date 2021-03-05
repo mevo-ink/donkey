@@ -62,7 +62,7 @@ export default function LobbyManager ({ name }) {
     return <LobbyHostOffline lobby={lobby} />
   }
 
-  if (lobby.state === 'LOBBY') {
+  if (['LOBBY', 'DEALING'].includes(lobby.state)) {
     return <Lobby lobby={lobby} />
   } else {
     return <PreLobby lobby={lobby} />
