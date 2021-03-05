@@ -6,7 +6,7 @@ export default function usePlayerDisconnect (lobby) {
   const playerID = window.localStorage.getItem('playerID')
 
   useEffect(() => {
-    if (lobby) {
+    if (lobby.name) {
       // offline presence check
 
       // stores the timestamp of my last disconnect (the last time I was seen online)
@@ -34,5 +34,5 @@ export default function usePlayerDisconnect (lobby) {
         }
       })
     } // eslint-disable-next-line
-  }, [lobby])
+  }, [])
 }

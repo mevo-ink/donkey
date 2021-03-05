@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 
 import LobbyHostOffline from 'components/LobbyManager/LobbyHostOffline'
 
-import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
-
 import Loading from 'components/Loading'
 
 import LobbyNotFound from 'components/LobbyManager/LobbyNotFound'
@@ -26,8 +24,6 @@ export default function LobbyManager ({ name }) {
 
   const [lobby, setLobby] = useState({})
 
-  usePlayerDisconnect(lobby)
-
   useEffect(() => {
     // find the lobby
     database().ref(name).on('value', (snapshot) => {
@@ -46,7 +42,7 @@ export default function LobbyManager ({ name }) {
   // check if the current player is in the lobby
   const currentPlayer = lobby && lobby.players && lobby.players[playerID]
 
-  if (!currentPlayer) {
+  if (!currentPlayer || !currentPlayer.nickname) {
     // check if lobby is full
     if (lobby.maxPlayers === Object.keys(lobby.players).length) {
       return <LobbyIsFull lobby={lobby} />
@@ -62,7 +58,7 @@ export default function LobbyManager ({ name }) {
     return <LobbyHostOffline lobby={lobby} />
   }
 
-  if (['LOBBY', 'DEALING'].includes(lobby.state)) {
+  if (['LOBBY', 'DEALING', 'END_GAME'].includes(lobby.state)) {
     return <Lobby lobby={lobby} />
   } else {
     return <PreLobby lobby={lobby} />

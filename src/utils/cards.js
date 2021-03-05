@@ -1,6 +1,5 @@
 import shuffle from 'utils/shuffle'
 
-
 const IMAGE_BASE_URL = 'https://firebasestorage.googleapis.com/v0/b/donkeycardgame.appspot.com/o/cards%2F'
 
 const preloadCardImages = () => {
@@ -33,8 +32,8 @@ export const getCards = () => {
   return shuffledCards
 }
 
-export const getCard = (suite, number) => {
-  return `${IMAGE_BASE_URL}${suite}_${number + 1}.png?alt=media`
+export const getCard = ({ suite, number }) => {
+  return `${IMAGE_BASE_URL}${suite}_${number}.png?alt=media`
 }
 
 export default preloadCardImages

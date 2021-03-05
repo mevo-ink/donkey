@@ -25,7 +25,7 @@ export default function CreateLobby () {
 
   const [nickname, setNickname] = useState('')
   const [pin, setPin] = useState()
-  const [maxPlayers, setMaxPlayers] = useState(1)
+  const [maxPlayers, setMaxPlayers] = useState(2)
 
   const onCreateLobby = () => {
     setIsLoading(true)

@@ -12,10 +12,14 @@ import Table from 'components/Lobby/Table'
 
 import { useEffect } from 'react'
 
+import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
+
 import database from 'utils/firebase'
 
 export default function PreLobby ({ lobby }) {
   const playerID = window.localStorage.getItem('playerID')
+
+  usePlayerDisconnect(lobby)
 
   useEffect(() => {
     preloadCardImages()

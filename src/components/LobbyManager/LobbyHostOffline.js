@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
+
 import {
   Text,
   Modal,
@@ -14,6 +16,8 @@ import {
 import database from 'utils/firebase'
 
 export default function LobbyHostOffline ({ lobby }) {
+  usePlayerDisconnect(lobby)
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       // choose a random online player - except the current lobby host

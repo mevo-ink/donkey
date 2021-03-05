@@ -80,7 +80,11 @@ export default function Table ({ lobby, tableContent }) {
         borderRadius='200px'
         gridTemplateColumns='1fr 1fr'
       >
-        <Grid>
+        <Grid
+          w='100%'
+          placeItems='center'
+          gridColumn='1/-1'
+        >
           {tableContent}
         </Grid>
         {players.map((player, idx) => <Player key={player.playerID} player={player} position={positions[idx]} />)}
