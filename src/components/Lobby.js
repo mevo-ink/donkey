@@ -53,7 +53,7 @@ export default function Lobby ({ lobby }) {
           })
         }
       }, 300)
-    }
+    } // eslint-disable-next-line
   }, [])
 
   let tableContent = (

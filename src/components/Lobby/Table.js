@@ -2,10 +2,9 @@ import {
   Grid
 } from '@chakra-ui/react'
 
-import { motion } from 'framer-motion'
-
 import Player from 'components/Lobby/Player'
 
+import { motion } from 'framer-motion'
 const MotionGrid = motion(Grid)
 
 const rotate = (array, times) => {
@@ -82,6 +81,7 @@ export default function Table ({ lobby, tableContent }) {
       >
         <Grid
           w='100%'
+          height='100%'
           placeItems='center'
           gridColumn='1/-1'
         >

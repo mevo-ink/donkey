@@ -10,6 +10,8 @@ import {
 
 import { getCard } from 'utils/cards'
 
+import HourGlass from 'components/Player/HourGlass'
+
 export default function PlayerHand ({ lobby, player }) {
   const playerID = window.localStorage.getItem('playerID')
 
@@ -122,6 +124,7 @@ export default function PlayerHand ({ lobby, player }) {
           />
         </Button>
       ))}
+      {playerID === lobby.table?.turn && <HourGlass lobby={lobby} />}
     </Flex>
   )
 }

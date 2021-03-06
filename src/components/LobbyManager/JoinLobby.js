@@ -51,6 +51,8 @@ export default function JoinRoom ({ lobby }) {
       fontSize='18px'
       lineHeight='18px'
       fontWeight='bold'
+      as='form'
+      onSubmit={onJoinRoom}
     >
       <Text
         width='100%'
@@ -68,7 +70,7 @@ export default function JoinRoom ({ lobby }) {
         {lobby.name}
       </Text>
       <Nickname nickname={nickname} onSubmit={setNickname} />
-      <CancelDone isLoading={isLoading} onSubmit={onJoinRoom} nickname={nickname} />
+      <CancelDone isLoading={isLoading} nickname={nickname} />
     </Grid>
   )
 }

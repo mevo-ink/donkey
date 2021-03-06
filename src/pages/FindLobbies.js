@@ -68,7 +68,6 @@ export default function FindLobbies () {
       <VStack
         spacing={4}
         height='395px'
-        overflowY='scroll'
         css={{
           '&::-webkit-scrollbar': {
             width: '0px'

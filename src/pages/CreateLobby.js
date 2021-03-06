@@ -27,7 +27,8 @@ export default function CreateLobby () {
   const [pin, setPin] = useState()
   const [maxPlayers, setMaxPlayers] = useState(2)
 
-  const onCreateLobby = () => {
+  const onCreateLobby = (e) => {
+    e.preventDefault()
     setIsLoading(true)
     const lobbyName = generateSlug()
     const playerID = window.localStorage.getItem('playerID')
@@ -53,6 +54,8 @@ export default function CreateLobby () {
       fontSize='18px'
       lineHeight='18px'
       fontWeight='bold'
+      as='form'
+      onSubmit={onCreateLobby}
     >
       <Image
         src='https://i.pinimg.com/originals/10/40/09/104009be202e45fd75e7466de2036f4f.jpg'
@@ -64,7 +67,7 @@ export default function CreateLobby () {
       <Nickname nickname={nickname} onSubmit={setNickname} />
       <LobbyPin pin={pin} onSubmit={setPin} />
       <MaxPlayers maxPlayers={maxPlayers} onSubmit={setMaxPlayers} />
-      <CancelDone onLoading={isLoading} onSubmit={onCreateLobby} nickname={nickname} />
+      <CancelDone onLoading={isLoading} nickname={nickname} />
     </Grid>
   )
 }
