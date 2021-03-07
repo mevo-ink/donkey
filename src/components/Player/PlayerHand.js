@@ -3,15 +3,13 @@ import { useContext } from 'react'
 import database from 'utils/firebase'
 import { LobbyContext } from 'utils/LobbyContext'
 
-import { maxBy } from 'lodash'
+import { maxBy, cloneDeep } from 'lodash'
 
 import {
   Flex,
   Image,
   Button
 } from '@chakra-ui/react'
-
-import { getCard } from 'utils/cards'
 
 import HourGlass from 'components/Player/HourGlass'
 
@@ -20,7 +18,8 @@ export default function PlayerHand ({ player }) {
 
   const playerID = window.localStorage.getItem('playerID')
 
-  const myCards = Object.entries(player.cards || {}).map(([key, card]) => ({ ...card, key, url: getCard(card), playerID }))
+  const myCards = Object.values(lobby.table?.cards || {})
+    .filter(card => card.playerID === playerID)
 
   const canPlaySuite = (suite) => {
     // check if its current user's turn
@@ -31,7 +30,7 @@ export default function PlayerHand ({ player }) {
     if (!lobby.table.pile) {
       return 'GOOD_PILE_EMPTY'
     } else {
-      const topPileCard = Object.values(lobby.table.pile)[Object.values(lobby.table.pile).length - 1]
+      const topPileCard = Object.values(lobby.table.pile)[0]
       // check if playing card's suite === topPileCard's suite
       if (suite === topPileCard.suite) {
         return 'GOOD' // legal move
@@ -46,69 +45,106 @@ export default function PlayerHand ({ player }) {
     }
   }
 
-  const onPlayCard = ({ key, suite, number, url }) => {
+  const onPlayCard = (playedCard) => {
     // check for endgame and return if true
-    const canPlay = canPlaySuite(suite)
+    const canPlay = canPlaySuite(playedCard.suite)
     if (canPlay) {
-      const maxCard = canPlay === 'CUT' ? maxBy(Object.values(lobby.table.pile), 'number') : null
-      // add card to table pile
-      database().ref(`${lobby.name}/table/pile`).push({ suite, number, playerID, url })
-        .then(() => {
-          // remove from hand
-          database().ref(`${lobby.name}/players/${playerID}/cards/${key}`).remove()
-          const players = Object.values(lobby.players).filter(player => {
-            if (player === playerID) {
-              return player.cards && Object.values(player.cards).length >= 1
-            } else {
-              return player.cards
-            }
-          })
-          if (canPlay === 'CUT') {
-            const maxCardPlayerID = maxCard.playerID
-            const maxPlayerCurrentCards = lobby.players[maxCardPlayerID].cards
-            const pileCardsObject = {}
-            for (const pileCard of Object.values(lobby.table.pile)) {
-              pileCardsObject[`${pileCard.number}-to-${pileCard.suite}`] = pileCard
-            }
-            // add to existing cards of maxCardPlayerID
-            database().ref(`${lobby.name}/players/${maxCardPlayerID}/cards`).set({
-              ...maxPlayerCurrentCards,
-              ...pileCardsObject,
-              [`${number}-to-${suite}`]: {
-                number,
-                suite
-              }
-            })
-            // discard pile
-            database().ref(`${lobby.name}/table/pile`).set(null)
-            // change turn
-            database().ref(`${lobby.name}/table/turn`).set(maxCardPlayerID)
-          } else {
-            // discard pile if full
-            if (Object.values(lobby.table.pile || {}).length + 1 === players.length) {
-              // find maxCard's player from pile and set as next turn
-              const maxCard = maxBy([...Object.values(lobby.table.pile), { suite, number, playerID }], 'number')
-              const maxCardPlayerID = maxCard.playerID
-              database().ref(`${lobby.name}/table/turn`).set(maxCardPlayerID)
-              database().ref(`${lobby.name}/table/discard`).set([{ suite, number, playerID }, ...Object.values(lobby.table.pile), ...Object.values(lobby.table.discard || {})])
-              database().ref(`${lobby.name}/table/pile`).set(null)
-            } else {
-              // change turn
-              const currentPlayerIndex = players.findIndex(player => player.playerID === playerID)
-              const nextPlayerIndex = (currentPlayerIndex + 1) % players.length
-              const nextPlayer = players[nextPlayerIndex]
-              database().ref(`${lobby.name}/table/turn`).set(nextPlayer.playerID)
-            }
+      // get local copy of table
+      let table = cloneDeep(lobby.table)
+
+      // convert firebase objects (cards, pile, discard) to actual js arrays
+      table = {
+        ...table,
+        cards: Object.values(table.cards),
+        pile: Object.values(table.pile || {}),
+        discard: Object.values(table.discard || {})
+      }
+
+      // get the highest number from current pile
+      const maxPileCard = maxBy(table.pile, 'number') || {}
+
+      // add card to table pile and remove from current player's hand
+      table = {
+        ...table,
+        pile: [playedCard, ...table.pile],
+        cards: table.cards.map(card => card.suite === playedCard.suite && card.number === playedCard.number ? { ...card, playerID: null } : card)
+      }
+
+      // get remaining players
+      let playersWithCards = Object.keys(lobby.players).reduce((accumulator, playerID) => {
+        accumulator[playerID] = true
+        return accumulator
+      }, {})
+      for (const card of table.cards) {
+        if (card.playerID) {
+          playersWithCards[card.playerID] = true
+        }
+      }
+      /*
+        {
+          playerID: true,
+          playerID: true,
+          ...
+        }
+      */
+      playersWithCards = Object.keys(playersWithCards)
+      // [playerID, playerID, ...etc]
+
+      if (canPlay === 'CUT') {
+        // variable named by @arun99-dev (like and sub <3)
+        const gotCuttedPlayerID = maxPileCard.playerID
+        const pileCardsObject = {}
+        for (const pileCard of table.pile) {
+          pileCardsObject[`${pileCard.number}-to-${pileCard.suite}`] = pileCard
+        }
+        // add to existing cards of the player who got cut and empty the pile and change turn
+        table = {
+          ...table,
+          cards: table.cards.map(card => table.pile.find(pileCard => pileCard.cardID === card.cardID) ? { ...card, playerID: gotCuttedPlayerID } : card),
+          pile: [],
+          turn: gotCuttedPlayerID
+        }
+      } else {
+        // discard pile if full
+        if (table.pile.length === playersWithCards.length) {
+          // find maxCard's player from pile and set as next turn
+          const maxCardPlayerID = maxPileCard.playerID
+          table = {
+            ...table,
+            pile: [],
+            discard: [...table.pile, ...table.discard],
+            turn: maxCardPlayerID
           }
-          // check for winning condition
-          if (players.length === 1) {
-            database().ref(`${lobby.name}`).update({
-              state: 'END_GAME',
-              donkey: players[0].playerID,
-              table: null
-            })
+        } else {
+          // change turn
+          const currentPlayerIndex = playersWithCards.findIndex(ID => ID === playerID)
+          const nextPlayerIndex = (currentPlayerIndex + 1) % playersWithCards.length
+          const nextPlayerID = playersWithCards[nextPlayerIndex]
+          table = {
+            ...table,
+            turn: nextPlayerID
           }
+        }
+      }
+      // check for winning condition
+      if (playersWithCards.length === 1) {
+        database().ref(`${lobby.name}`).update({
+          state: 'END_GAME',
+          donkey: playersWithCards[0],
+          table: null
         })
+      }
+
+      // convert cards array back to firebase object
+      table = {
+        ...table,
+        cards: table.cards.reduce((accumulator, card) => {
+          accumulator[card.cardID] = card
+          return accumulator
+        }, {})
+      }
+      // update table
+      database().ref(`${lobby.name}/table`).set(table)
     }
   }
 

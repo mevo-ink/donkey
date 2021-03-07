@@ -14,6 +14,10 @@ const preloadCardImages = () => {
   }
 }
 
+const getCard = ({ suite, number }) => {
+  return `${IMAGE_BASE_URL}${suite}_${number}.png?alt=media`
+}
+
 export const getCards = () => {
   const numbers = Array.from(Array(13).keys())
   const suites = ['hearts', 'diamonds', 'clubs', 'spades']
@@ -23,17 +27,14 @@ export const getCards = () => {
     for (const suite of suites) {
       cards.push({
         suite,
-        number: number + 1
+        number: number + 1,
+        url: getCard({ suite, number: number + 1 })
       })
     }
   }
 
-  const shuffledCards = shuffle(cards)
-  return shuffledCards
-}
-
-export const getCard = ({ suite, number }) => {
-  return `${IMAGE_BASE_URL}${suite}_${number}.png?alt=media`
+  shuffle(cards)
+  return cards
 }
 
 export default preloadCardImages

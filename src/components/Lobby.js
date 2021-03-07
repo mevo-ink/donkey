@@ -31,7 +31,12 @@ export default function Lobby () {
   const dealCard = (playerIndex) => {
     const card = cards.pop()
     const player = players[playerIndex]
-    database().ref(`${lobby.name}/players/${player.playerID}/cards/${card.number}-of-${card.suite}`).set(card)
+    const cardID = `${card.number}-of-${card.suite}`
+    database().ref(`${lobby.name}/table/cards/${cardID}`).set({
+      ...card,
+      cardID,
+      playerID: player.playerID
+    })
     if (card.number === 1 && card.suite === 'spades') {
       database().ref(`${lobby.name}/table/turn`).set(player.playerID)
     }
@@ -55,16 +60,16 @@ export default function Lobby () {
             state: 'LOBBY'
           })
         }
-      }, 300)
+      }, 100)
     } // eslint-disable-next-line
   }, [])
 
   let tableContent = (
     <Box>
       <Text>
-        {lobby.table && lobby.players[lobby.table.turn].nickname} 's TURN
+        {lobby.table && lobby.players[lobby.table.turn]?.nickname} 's TURN
       </Text>
-      <Image width='80px' objectFit='contain' src={lobby.table?.pile && Object.values(lobby.table.pile)[Object.values(lobby.table.pile).length - 1].url} />
+      <Image width='80px' objectFit='contain' src={lobby.table?.pile && (Object.values(lobby.table.pile)[0]).url} />
     </Box>
 
   )

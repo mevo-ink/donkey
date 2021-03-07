@@ -26,6 +26,7 @@ export default function Nickname ({ nickname, onSubmit }) {
         Enter Your Name, Donkey
       </Text>
       <Input
+        isRequired
         ref={inputRef}
         w='200px'
         h='39px'
