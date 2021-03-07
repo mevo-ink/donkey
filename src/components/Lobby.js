@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
@@ -15,8 +15,11 @@ import PlayerHand from 'components/Player/PlayerHand'
 
 import { getCards } from 'utils/cards'
 import database from 'utils/firebase'
+import { LobbyContext } from 'utils/LobbyContext'
 
-export default function Lobby ({ lobby }) {
+export default function Lobby () {
+  const [lobby] = useContext(LobbyContext)
+
   const playerID = window.localStorage.getItem('playerID')
 
   usePlayerDisconnect(lobby)
@@ -83,9 +86,9 @@ export default function Lobby ({ lobby }) {
       placeItems='center'
       width='100%'
     >
-      <LobbyInfo lobby={lobby} />
-      <Table lobby={lobby} tableContent={tableContent} />
-      <PlayerHand lobby={lobby} player={lobby.players[playerID]} />
+      <LobbyInfo />
+      <Table tableContent={tableContent} />
+      <PlayerHand player={lobby.players[playerID]} />
     </Grid>
   )
 }

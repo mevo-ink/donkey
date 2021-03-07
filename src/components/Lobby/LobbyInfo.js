@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+import { LobbyContext } from 'utils/LobbyContext'
+
 import {
   Box,
   Text,
@@ -5,10 +8,11 @@ import {
 } from '@chakra-ui/react'
 
 import { motion } from 'framer-motion'
-
 const MotionBox = motion(Box)
 
-export default function LobbyInfo ({ lobby }) {
+export default function LobbyInfo () {
+  const [lobby] = useContext(LobbyContext)
+
   return (
     <Flex
       width='100%'

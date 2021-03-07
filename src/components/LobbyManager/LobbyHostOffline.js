@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
@@ -14,8 +14,11 @@ import {
 } from '@chakra-ui/react'
 
 import database from 'utils/firebase'
+import { LobbyContext } from 'utils/LobbyContext'
 
-export default function LobbyHostOffline ({ lobby }) {
+export default function LobbyHostOffline () {
+  const [lobby] = useContext(LobbyContext)
+
   usePlayerDisconnect(lobby)
 
   useEffect(() => {

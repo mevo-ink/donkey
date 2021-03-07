@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 import { useTitle } from 'hookrouter'
 
@@ -11,10 +11,13 @@ import {
 } from '@chakra-ui/react'
 
 import database from 'utils/firebase'
+import { LobbyContext } from 'utils/LobbyContext'
 
 import { AvatarGenerator } from 'random-avatar-generator'
 
-export default function JoinRoom ({ lobby }) {
+export default function JoinRoom () {
+  const [lobby] = useContext(LobbyContext)
+
   useTitle(lobby.name)
 
   /*

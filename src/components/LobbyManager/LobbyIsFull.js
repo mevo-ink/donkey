@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+import { LobbyContext } from 'utils/LobbyContext'
+
 import {
   Text,
   Modal,
@@ -12,7 +15,8 @@ import {
 
 import lobbyIsFullSVG from 'images/lobbyIsFull.svg'
 
-export default function LobbyIsFull ({ name }) {
+export default function LobbyIsFull () {
+  const [lobby] = useContext(LobbyContext)
   return (
     <Modal isOpen isCentered size='xs'>
       <ModalOverlay />
@@ -21,7 +25,7 @@ export default function LobbyIsFull ({ name }) {
         <ModalBody>
           <VStack spacing={8}>
             <Image maxW='200px' height='150px' ignoreFallback src={lobbyIsFullSVG} alt='Lobby Is Full' />
-            <Text fontWeight='bold'>{name}</Text>
+            <Text fontWeight='bold'>{lobby.name}</Text>
             <Button colorScheme='purple' onClick={() => { window.location.href = '/lobbys' }}>
               Go Back
             </Button>

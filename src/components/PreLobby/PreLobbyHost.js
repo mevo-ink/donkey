@@ -1,6 +1,9 @@
+import { useContext } from 'react'
+
 import { Text, Flex, Button } from '@chakra-ui/react'
 
 import database from 'utils/firebase'
+import { LobbyContext } from 'utils/LobbyContext'
 
 import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
@@ -35,7 +38,9 @@ const transition = {
   ease: 'easeInOut'
 }
 
-export default function PreLobbyGuest ({ lobby }) {
+export default function PreLobbyGuest () {
+  const [lobby] = useContext(LobbyContext)
+
   const onStartGame = () => {
     database().ref(`${lobby.name}`).update({
       state: 'DEALING'

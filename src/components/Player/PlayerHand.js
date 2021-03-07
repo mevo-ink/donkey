@@ -1,4 +1,7 @@
+import { useContext } from 'react'
+
 import database from 'utils/firebase'
+import { LobbyContext } from 'utils/LobbyContext'
 
 import { maxBy } from 'lodash'
 
@@ -12,7 +15,9 @@ import { getCard } from 'utils/cards'
 
 import HourGlass from 'components/Player/HourGlass'
 
-export default function PlayerHand ({ lobby, player }) {
+export default function PlayerHand ({ player }) {
+  const [lobby] = useContext(LobbyContext)
+
   const playerID = window.localStorage.getItem('playerID')
 
   const myCards = Object.entries(player.cards || {}).map(([key, card]) => ({ ...card, key, url: getCard(card), playerID }))

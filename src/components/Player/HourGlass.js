@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { LobbyContext } from 'utils/LobbyContext'
 
 import { CircularProgress } from '@chakra-ui/react'
 
-export default function HourGlass ({ children, lobby }) {
+export default function HourGlass ({ children }) {
+  const [lobby] = useContext(LobbyContext)
+
   const [time, setTime] = useState(0)
 
   const increseTime = (i) => {
