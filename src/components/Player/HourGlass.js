@@ -13,7 +13,7 @@ export default function HourGlass ({ playerID, children }) {
   useEffect(() => {
     if (lobby.host === playerID) {
       timer.current = setInterval(async () => {
-        if (!lobby.lastOnline) {
+        if (!lobby.lastOnline && lobby.state === 'LOBBY') {
           if (lobby.table.time >= 20) {
             // end round
             clearInterval(timer.current)

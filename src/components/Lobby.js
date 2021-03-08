@@ -71,8 +71,13 @@ export default function Lobby () {
       </Text>
       <Image width='80px' objectFit='contain' src={lobby.table?.pile && (Object.values(lobby.table.pile)[0]).url} />
     </Box>
-
   )
+
+  if (lobby.state === 'DEALING') {
+    tableContent = (
+      <Text>HELLO GUYS</Text>
+    )
+  }
 
   if (lobby.donkey) {
     const donkeyPlayer = lobby.players[lobby.donkey]
