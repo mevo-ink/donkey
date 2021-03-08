@@ -6,13 +6,14 @@ import { LobbyContext } from 'utils/LobbyContext'
 import { maxBy, cloneDeep } from 'lodash'
 
 import {
+  Box,
   Flex,
   Image
 } from '@chakra-ui/react'
 
 export default function PlayerHand ({ player }) {
   const [lobby] = useContext(LobbyContext)
-  const [rorateCard, setRotateCard] = useState(6)
+  const [rotateCardDegree, setRotateCardDegree] = useState(120)
 
   const playerID = window.localStorage.getItem('playerID')
 
@@ -145,41 +146,42 @@ export default function PlayerHand ({ player }) {
       database().ref(`${lobby.name}/table`).set(table)
     }
   }
-  
+
   return (
     <Flex
-      w='100vw'
-      h='300px'
+      w='100%'
+      h='180px'
       wrap='wrap'
       position='absolute'
-      bottom='0'
-      left='280'
+      bottom={0}
+      overflow='hidden'
     >
-      <Flex
+      <Box
         width='100%'
-        justifyContent='center'
-        transform='rotate(-45deg)'
-        transformOrigin='center 220%'
+        height='100%'
+        position='absolute'
       >
         {myCards.map((card, idx) => (
           <Image
             src={card.url}
             key={card.suite + card.number}
             alt={`${card.number} of ${card.suite}`}
-            height='50vw'
+            left='50%'
+            top='50%'
+            height='100px'
             maxHeight='200px'
             objectFit='contain'
             position='absolute'
             filter='drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))'
-            transform={`rotate(${rorateCard * idx}deg)`}
-            transformOrigin='center 120%'
+            transform={`translate(-50%, -50%) rotate(${-rotateCardDegree / 2 + rotateCardDegree / (myCards.length + 1) * (idx + 1)}deg)`}
+            transformOrigin='center 200%'
             transition='transform 0.3s ease-out'
             onClick={() => onPlayCard(card)}
-            onMouseEnter={() => setRotateCard(13)}
-            onMouseLeave={() => setRotateCard(6)}
+            onMouseEnter={() => setRotateCardDegree(140)}
+            onMouseLeave={() => setRotateCardDegree(120)}
           />
         ))}
-      </Flex>
+      </Box>
     </Flex>
   )
 }
