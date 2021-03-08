@@ -81,6 +81,7 @@ export default function Table ({ tableContent }) {
         boxShadow='0px 4px 4px rgba(0, 0, 0, 0.25)'
         borderRadius='200px'
         gridTemplateColumns='1fr 1fr'
+        display='block'
       >
         <Grid
           w='100%'
@@ -90,7 +91,11 @@ export default function Table ({ tableContent }) {
         >
           {tableContent}
         </Grid>
-        {players.map((player, idx) => <Player key={player.playerID} player={player} position={positions[idx]} />)}
+        {players.map((player, idx) => (
+          <Grid key={player.playerID}>
+            <Player player={player} position={positions[idx]} />
+          </Grid>
+        ))}
       </Grid>
     </MotionGrid>
   )

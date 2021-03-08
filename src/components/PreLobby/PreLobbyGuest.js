@@ -45,6 +45,7 @@ export default function PreLobbyGuest () {
       flexDirection='column'
       justifyContent='center'
       fontWeight='bold'
+      position='absolute'
     >
       <Text
         fontSize='24px'

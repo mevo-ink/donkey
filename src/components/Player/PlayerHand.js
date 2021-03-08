@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 import database from 'utils/firebase'
 import { LobbyContext } from 'utils/LobbyContext'
@@ -7,14 +7,12 @@ import { maxBy, cloneDeep } from 'lodash'
 
 import {
   Flex,
-  Image,
-  Button
+  Image
 } from '@chakra-ui/react'
-
-import HourGlass from 'components/Player/HourGlass'
 
 export default function PlayerHand ({ player }) {
   const [lobby] = useContext(LobbyContext)
+  const [rorateCard, setRotateCard] = useState(6)
 
   const playerID = window.localStorage.getItem('playerID')
 
@@ -147,25 +145,41 @@ export default function PlayerHand ({ player }) {
       database().ref(`${lobby.name}/table`).set(table)
     }
   }
-
+  
   return (
-    <Flex w='100vw' wrap='wrap'>
-      {myCards.map(card => (
-        <Button
-          key={card.suite + card.number}
-          alt={`${card.number} of ${card.suite}`}
-          onClick={() => onPlayCard(card)}
-          p='0px'
-          m='0px'
-        >
+    <Flex
+      w='100vw'
+      h='300px'
+      wrap='wrap'
+      position='absolute'
+      bottom='0'
+      left='280'
+    >
+      <Flex
+        width='100%'
+        justifyContent='center'
+        transform='rotate(-45deg)'
+        transformOrigin='center 220%'
+      >
+        {myCards.map((card, idx) => (
           <Image
             src={card.url}
-            height='80px'
+            key={card.suite + card.number}
+            alt={`${card.number} of ${card.suite}`}
+            height='50vw'
+            maxHeight='200px'
             objectFit='contain'
+            position='absolute'
+            filter='drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))'
+            transform={`rotate(${rorateCard * idx}deg)`}
+            transformOrigin='center 120%'
+            transition='transform 0.3s ease-out'
+            onClick={() => onPlayCard(card)}
+            onMouseEnter={() => setRotateCard(13)}
+            onMouseLeave={() => setRotateCard(6)}
           />
-        </Button>
-      ))}
-      {playerID === lobby.table?.turn && <HourGlass lobby={lobby} />}
+        ))}
+      </Flex>
     </Flex>
   )
 }
