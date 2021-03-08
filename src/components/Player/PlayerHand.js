@@ -140,7 +140,8 @@ export default function PlayerHand ({ player }) {
         cards: table.cards.reduce((accumulator, card) => {
           accumulator[card.cardID] = card
           return accumulator
-        }, {})
+        }, {}),
+        time: 0
       }
       // update table
       database().ref(`${lobby.name}/table`).set(table)

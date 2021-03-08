@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useRef, useEffect, useContext } from 'react'
 import { LobbyContext } from 'utils/LobbyContext'
 
 import { CircularProgress } from '@chakra-ui/react'
@@ -6,28 +6,40 @@ import { CircularProgress } from '@chakra-ui/react'
 import database from 'utils/firebase'
 
 export default function HourGlass ({ playerID, children }) {
-  const [lobby] = useContext(LobbyContext)
+  const timer = useRef()
 
-  const [time, setTime] = useState(0)
+  const [lobby] = useContext(LobbyContext)
 
   useEffect(() => {
     if (lobby.host === playerID) {
-      for (let i = 0; i <= 20; i++) {
-        setTimeout(() => {
-          database().ref(`${lobby.name}/table/time`).set(i)
-        }, 1000 * i)
+      timer.current = setInterval(async () => {
+        if (!lobby.lastOnline) {
+          if (lobby.table.time >= 20) {
+            // end round
+            clearInterval(timer.current)
+            // force the current player to play a card - BOT
+            // select a random playable card from current player's stack
+            // call onPlayCard(card)
+          } else {
+            database().ref(`${lobby.name}/table/time`).set(lobby.table.time + 1)
+          }
+        }
+      }, 1000)
+      if (lobby.lastOnline) {
+        // waiting for new room owner
+        clearInterval(timer.current)
       }
-    } // eslint-disable-next-line
-  }, [lobby.table?.turn])
-
-  useEffect(() => {
-    lobby.table && setTime(lobby.table?.time)
-    // eslint-disable-next-line
-  }, [lobby.table?.time])
+    } else {
+      timer.current && clearInterval(timer.current)
+    }
+    return () => {
+      clearInterval(timer.current)
+    }
+  }, [lobby.table.time, lobby.lastOnline])
 
   return (
     <CircularProgress
-      value={lobby.table && playerID === lobby.table.turn && time / 20 * 100}
+      value={lobby.table && playerID === lobby.table.turn && lobby.table.time / 20 * 100}
       color='lime'
       position='absolute'
     >
