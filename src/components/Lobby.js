@@ -12,6 +12,7 @@ import {
 import LobbyInfo from 'components/Lobby/LobbyInfo'
 import Table from 'components/Lobby/Table'
 import PlayerHand from 'components/Player/PlayerHand'
+import Dealing from 'components/Lobby/Dealing'
 
 import { getCards } from 'utils/cards'
 import database from 'utils/firebase'
@@ -38,7 +39,10 @@ export default function Lobby () {
       playerID: player.playerID
     })
     if (card.number === 1 && card.suite === 'spades') {
-      database().ref(`${lobby.name}/table/turn`).set(player.playerID)
+      database().ref(`${lobby.name}/table`).set({
+        turn: player.playerID,
+        time: 0
+      })
     }
     playerIndex = (playerIndex + 1) % players.length
     return playerIndex
@@ -60,7 +64,7 @@ export default function Lobby () {
             state: 'LOBBY'
           })
         }
-      }, 100)
+      }, 1000)
     } // eslint-disable-next-line
   }, [])
 
@@ -75,7 +79,7 @@ export default function Lobby () {
 
   if (lobby.state === 'DEALING') {
     tableContent = (
-      <Text>HELLO GUYS</Text>
+      <Dealing />
     )
   }
 
