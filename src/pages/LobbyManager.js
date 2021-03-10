@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 
-import LobbyHostOffline from 'components/LobbyManager/LobbyHostOffline'
+// import LobbyHostOffline from 'components/LobbyManager/LobbyHostOffline'
 
 import Loading from 'components/Loading'
 
@@ -51,12 +51,6 @@ export default function LobbyManager ({ name }) {
       // prompt the player to join
       return <JoinLobby />
     }
-  }
-
-  const isLobbyHostOnline = !lobby.lastOnline
-
-  if (!isLobbyHostOnline) {
-    return <LobbyHostOffline />
   }
 
   if (['LOBBY', 'DEALING', 'END_GAME'].includes(lobby.state)) {

@@ -13,9 +13,12 @@ import LobbyInfo from 'components/Lobby/LobbyInfo'
 import Table from 'components/Lobby/Table'
 import PlayerHand from 'components/Player/PlayerHand'
 import Dealing from 'components/Lobby/Dealing'
+import LobbyHostOffline from './Lobby/LobbyHostOffline'
 
 import { getCards } from 'utils/cards'
+
 import database from 'utils/firebase'
+
 import { LobbyContext } from 'utils/LobbyContext'
 
 export default function Lobby () {
@@ -103,6 +106,13 @@ export default function Lobby () {
       <Text>
         {donkeyPlayer.nickname} IS THE DONKEY
       </Text>
+    )
+  }
+
+  const isLobbyHostOnline = !lobby.lastOnline
+  if (!isLobbyHostOnline) {
+    tableContent = (
+      <LobbyHostOffline />
     )
   }
 
