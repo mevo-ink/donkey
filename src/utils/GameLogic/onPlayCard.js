@@ -96,9 +96,7 @@ const onPlayCard = (playedCard, playerID, lobby, myCards) => {
     }
 
     if (canPlay === 'CUT' || table.pile.length === playersWithCards.length) {
-      console.log("IN HERERERERRERRERRERRER")
       setTimeout(() => {
-        console.log("AFTER $% CSESS")
         // remove cut animation
         database().ref(`${lobby.name}/gotCuttedPlayerID`).set(null)
         // check for winning condition
