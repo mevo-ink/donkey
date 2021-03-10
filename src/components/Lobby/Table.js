@@ -18,34 +18,19 @@ const rotate = (array, times) => {
 const getPositions = (count) => {
   // 12
   return [
-    { left: '105px', bottom: '-17px' },
-    { left: '22px', top: '415px' },
-    { left: '-9px', top: '318px' },
-    { left: '-9px', top: '220px' },
-    { left: '-9px', top: '126px' },
+    { bottom: '-10px' },
+    { left: '21px', bottom: '19px' },
+    { left: '-13px', bottom: '108px' },
+    { left: '-13px' },
+    { left: '-13px', top: '108px' },
     { left: '22px', top: '33px' },
-    { right: '105px', top: '-7px' },
-    { right: '22px', top: '33px' },
-    { right: '-9px', top: '126px' },
-    { right: '-9px', top: '220px' },
-    { right: '-9px', top: '318px' },
-    { right: '22px', top: '415px' }
+    { top: '-10px' },
+    { right: '21px', top: '19px' },
+    { right: '-13px', top: '108px' },
+    { right: '-13px' },
+    { right: '-13px', bottom: '108px' },
+    { right: '22px', bottom: '33px' }
   ]
-  // 4
-  // return [
-  //   { left: '105px', bottom: '-17px' },
-  //   // { left: '22px', top: '415px' },
-  //   // { left: '-9px', top: '318px' },
-  //   { left: '-9px', top: '220px' },
-  //   // { left: '-9px', top: '126px' },
-  //   // { left: '22px', top: '33px' },
-  //   { right: '105px', top: '-7px' },
-  //   // { right: '22px', top: '33px' },
-  //   // { right: '-9px', top: '126px' },
-  //   { right: '-9px', top: '220px' },
-  //   // { right: '-9px', top: '318px' },
-  //   // { right: '22px', top: '415px' }
-  // ]
 }
 
 export default function Table ({ tableContent }) {

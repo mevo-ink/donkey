@@ -10,32 +10,39 @@ import HourGlass from 'components/Player/HourGlass'
 
 import { LobbyContext } from 'utils/LobbyContext'
 
+import { motion } from 'framer-motion'
+const MotionGrid = motion(Grid)
+
 export default function Player ({ player, position }) {
   const [lobby] = useContext(LobbyContext)
 
   return (
-    <Grid
+    <MotionGrid
       placeItems='center'
       position='absolute'
       {...position}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1, transition: { delay: 0.3, duration: 0.3 } }}
     >
       {lobby.state === 'LOBBY' && !lobby.gotCuttedPlayerID && <HourGlass playerID={player.playerID} />}
       <Image
         src={player.avatar}
-        w='41px'
-        h='41px'
+        w='40px'
+        h='40px'
         borderRadius='50%'
+        background='white'
       />
       <Text
-        fontSize='12px'
-        lineHeight='12px'
+        fontSize='16px'
+        lineHeight='16px'
         textAlign='center'
-        width='31px'
+        fontWeight='bold'
+        width='30px'
         position='absolute'
-        top='50px'
+        top='45px'
       >
-        {player.nickname} - {lobby.table?.cards ? Object.values(lobby.table.cards).filter(card => card.playerID === player.playerID).length : ''}
+        {player.nickname} {lobby.table?.cards ? `- ${Object.values(lobby.table.cards).filter(card => card.playerID === player.playerID).length}` : ''}
       </Text>
-    </Grid>
+    </MotionGrid>
   )
 }
