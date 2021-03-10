@@ -9,7 +9,7 @@ const preloadCardImages = () => {
   for (const number of numbers) {
     for (const suite of suites) {
       const card = new window.Image()
-      card.src = `${IMAGE_BASE_URL}${suite}_${number + 1}.png?alt=media`
+      card.src = `${IMAGE_BASE_URL}${suite}_${number + 2}.png?alt=media`
     }
   }
 }
@@ -27,8 +27,8 @@ export const getCards = () => {
     for (const suite of suites) {
       cards.push({
         suite,
-        number: number + 1,
-        url: getCard({ suite, number: number + 1 })
+        number: number + 2,
+        url: getCard({ suite, number: number + 2 })
       })
     }
   }

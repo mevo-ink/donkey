@@ -40,7 +40,7 @@ export default function Lobby () {
       cardID,
       playerID: player.playerID
     })
-    if (card.number === 1 && card.suite === 'spades') {
+    if (card.number === 14 && card.suite === 'spades') {
       database().ref(`${lobby.name}/table`).update({
         turn: player.playerID,
         time: 0
