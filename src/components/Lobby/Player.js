@@ -10,7 +10,7 @@ import HourGlass from 'components/Player/HourGlass'
 
 import { LobbyContext } from 'utils/LobbyContext'
 
-export default function User ({ player, position }) {
+export default function Player ({ player, position }) {
   const [lobby] = useContext(LobbyContext)
 
   return (
@@ -19,7 +19,7 @@ export default function User ({ player, position }) {
       position='absolute'
       {...position}
     >
-      {lobby.state === 'LOBBY' && <HourGlass playerID={player.playerID} />}
+      {lobby.state === 'LOBBY' && !lobby.gotCuttedPlayerID && <HourGlass playerID={player.playerID} />}
       <Image
         src={player.avatar}
         w='41px'

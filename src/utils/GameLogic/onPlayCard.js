@@ -34,24 +34,6 @@ const onPlayCard = (playedCard, playerID, lobby, myCards) => {
     let playersWithCards = []
     table.cards.map(card => card.playerID && playersWithCards.push(card.playerID))
     playersWithCards = [...new Set(playersWithCards)]
-    // let playersWithCards = Object.keys(lobby.players).reduce((accumulator, playerID) => {
-    //   accumulator[playerID] = true
-    //   return accumulator
-    // }, {})
-    // for (const card of table.cards) {
-    //   if (card.playerID) {
-    //     playersWithCards[card.playerID] = true
-    //   }
-    // }
-    /*
-      {
-        playerID: true,
-        playerID: true,
-        ...
-      }
-    */
-    // playersWithCards = Object.keys(playersWithCards)
-    // [playerID, playerID, ...etc]
 
     if (canPlay === 'CUT') {
       // getting pile without the last card
@@ -61,6 +43,14 @@ const onPlayCard = (playedCard, playerID, lobby, myCards) => {
 
       // variable named by @arun99-dev (like and sub <3)
       const gotCuttedPlayerID = maxCardInCuttedPile.playerID
+      // update the db to show cut animation
+      if (canPlay === 'CUT') {
+        database().ref(`${lobby.name}/gotCuttedPlayerID`).set(gotCuttedPlayerID)
+      }
+      // if the current player got cut, add back the playerID back into playersWithCards
+      if (gotCuttedPlayerID === playerID && !playersWithCards.includes(gotCuttedPlayerID)) {
+        playersWithCards = [...playersWithCards, gotCuttedPlayerID]
+      }
       const pileCardsObject = {}
       for (const pileCard of table.pile) {
         pileCardsObject[`${pileCard.number}-to-${pileCard.suite}`] = pileCard
@@ -105,16 +95,36 @@ const onPlayCard = (playedCard, playerID, lobby, myCards) => {
       time: 0
     }
 
-    // check for winning condition
-    if (playersWithCards.length === 1) {
-      database().ref(`${lobby.name}`).update({
-        state: 'END_GAME',
-        donkey: playersWithCards[0],
-        table: null
-      })
+    if (canPlay === 'CUT' || table.pile.length === playersWithCards.length) {
+      console.log("IN HERERERERRERRERRERRER")
+      setTimeout(() => {
+        console.log("AFTER $% CSESS")
+        // remove cut animation
+        database().ref(`${lobby.name}/gotCuttedPlayerID`).set(null)
+        // check for winning condition
+        if (playersWithCards.length === 1) {
+          database().ref(`${lobby.name}`).update({
+            state: 'END_GAME',
+            donkey: playersWithCards[0],
+            table
+          })
+        } else {
+          // update table
+          database().ref(`${lobby.name}/table`).set(table)
+        }
+      }, 5000)
     } else {
-      // update table
-      database().ref(`${lobby.name}/table`).set(table)
+      // check for winning condition
+      if (playersWithCards.length === 1) {
+        database().ref(`${lobby.name}`).update({
+          state: 'END_GAME',
+          donkey: playersWithCards[0],
+          table
+        })
+      } else {
+        // update table
+        database().ref(`${lobby.name}/table`).set(table)
+      }
     }
   }
 }

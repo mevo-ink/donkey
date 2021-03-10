@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useRef, useEffect, useContext } from 'react'
 
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
@@ -19,6 +19,8 @@ import database from 'utils/firebase'
 import { LobbyContext } from 'utils/LobbyContext'
 
 export default function Lobby () {
+  const dealingTimer = useRef()
+
   const [lobby] = useContext(LobbyContext)
 
   const playerID = window.localStorage.getItem('playerID')
@@ -39,7 +41,7 @@ export default function Lobby () {
       playerID: player.playerID
     })
     if (card.number === 1 && card.suite === 'spades') {
-      database().ref(`${lobby.name}/table`).set({
+      database().ref(`${lobby.name}/table`).update({
         turn: player.playerID,
         time: 0
       })
@@ -56,15 +58,19 @@ export default function Lobby () {
 
       let playerIndex = 0
 
-      setInterval(() => {
+      dealingTimer.current = setInterval(() => {
         if (cards.length > 0) {
           playerIndex = dealCard(playerIndex)
         } else {
+          clearInterval(dealingTimer.current)
           database().ref(`${lobby.name}`).update({
             state: 'LOBBY'
           })
         }
-      }, 1000)
+      }, 500)
+      return () => {
+        clearInterval(dealingTimer.current)
+      }
     } // eslint-disable-next-line
   }, [])
 
@@ -80,6 +86,14 @@ export default function Lobby () {
   if (lobby.state === 'DEALING') {
     tableContent = (
       <Dealing />
+    )
+  }
+
+  if (lobby.state.gotCuttedPlayerID) {
+    tableContent = (
+      <Text>
+        {lobby.players[lobby.gotCuttedPlayerID].nickname} GOT CUTTED
+      </Text>
     )
   }
 
