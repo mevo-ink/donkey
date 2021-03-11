@@ -6,8 +6,7 @@ import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 import {
   Box,
   Text,
-  Grid,
-  Image
+  Grid
 } from '@chakra-ui/react'
 
 import LobbyInfo from 'components/Lobby/LobbyInfo'
@@ -79,7 +78,6 @@ export default function Lobby () {
       <Text>
         {lobby.table && lobby.players[lobby.table.turn]?.nickname} 's TURN
       </Text>
-      <Image width='80px' objectFit='contain' src={lobby.table?.pile && (Object.values(lobby.table.pile)[0]).url} />
     </Box>
   )
 

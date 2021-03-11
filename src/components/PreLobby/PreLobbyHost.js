@@ -39,7 +39,7 @@ export default function PreLobbyGuest () {
       <LoadingInline />
       <Button
         mt='50px'
-        color='white'
+        color='black'
         zIndex='1'
         width='80px'
         height='40px'

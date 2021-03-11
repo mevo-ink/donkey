@@ -2,6 +2,7 @@ import { usePlayers } from 'context/LobbyContext'
 
 import { Grid } from '@chakra-ui/react'
 
+import Pile from 'components/Pile'
 import Player from 'components/Player'
 
 import { motion } from 'framer-motion'
@@ -75,6 +76,7 @@ export default function Table ({ tableContent }) {
         {onlinePlayers.map((player, idx) => (
           <Grid key={player.playerID} placeItems='center'>
             <Player player={player} position={positions[idx]} />
+            <Pile player={player} position={positions[idx]} idx={idx} />
           </Grid>
         ))}
       </Grid>
