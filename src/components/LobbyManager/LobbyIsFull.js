@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { LobbyContext } from 'utils/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 
 import {
   Text,
@@ -16,7 +15,7 @@ import {
 import lobbyIsFullSVG from 'images/lobbyIsFull.svg'
 
 export default function LobbyIsFull () {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
   return (
     <Modal isOpen isCentered size='xs'>
       <ModalOverlay />

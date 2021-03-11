@@ -1,4 +1,7 @@
-import preloadCardImages from 'utils/cards'
+import { useEffect } from 'react'
+
+import { useLobby } from 'context/LobbyContext'
+import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
 import { Grid } from '@chakra-ui/react'
 
@@ -8,13 +11,10 @@ import Table from 'components/Lobby/Table'
 import PreLobbyGuest from 'components/PreLobby/PreLobbyGuest'
 import PreLobbyHost from 'components/PreLobby/PreLobbyHost'
 
-import { useEffect, useContext } from 'react'
-import { LobbyContext } from 'utils/LobbyContext'
-
-import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
+import preloadCardImages from 'utils/cards'
 
 export default function PreLobby () {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   const playerID = window.localStorage.getItem('playerID')
 

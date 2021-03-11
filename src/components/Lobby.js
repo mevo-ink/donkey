@@ -1,5 +1,6 @@
-import { useRef, useEffect, useContext } from 'react'
+import { useRef, useEffect } from 'react'
 
+import { useLobby } from 'context/LobbyContext'
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
 import {
@@ -16,15 +17,12 @@ import Dealing from 'components/Lobby/Dealing'
 import LobbyHostOffline from './Lobby/LobbyHostOffline'
 
 import { getCards } from 'utils/cards'
-
 import database from 'utils/firebase'
-
-import { LobbyContext } from 'utils/LobbyContext'
 
 export default function Lobby () {
   const dealingTimer = useRef()
 
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   const playerID = window.localStorage.getItem('playerID')
 

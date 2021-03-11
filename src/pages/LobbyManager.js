@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 
-// import LobbyHostOffline from 'components/LobbyManager/LobbyHostOffline'
+import { LobbyProvider } from 'context/LobbyContext'
 
 import Loading from 'components/Loading'
 
@@ -14,7 +14,6 @@ import PreLobby from 'components/PreLobby'
 import Error from 'components/Error'
 
 import database from 'utils/firebase'
-import { LobbyContext } from 'utils/LobbyContext'
 
 export default function LobbyManager ({ name }) {
   const playerID = window.localStorage.getItem('playerID')
@@ -23,7 +22,7 @@ export default function LobbyManager ({ name }) {
 
   const [error, setError] = useState(false)
 
-  const [lobby, setLobby] = useContext(LobbyContext)
+  const [lobby, setLobby] = useState()
 
   useEffect(() => {
     // find the lobby
@@ -43,19 +42,27 @@ export default function LobbyManager ({ name }) {
   // check if the current player is in the lobby
   const currentPlayer = lobby && lobby.players && lobby.players[playerID]
 
+  let render
+
   if (!currentPlayer || !currentPlayer.nickname) {
     // check if lobby is full
     if (lobby.maxPlayers === Object.keys(lobby.players).length) {
       return <LobbyIsFull />
     } else {
       // prompt the player to join
-      return <JoinLobby />
+      render = <JoinLobby />
     }
   }
 
   if (['LOBBY', 'DEALING', 'END_GAME'].includes(lobby.state)) {
-    return <Lobby />
+    render = <Lobby />
   } else {
-    return <PreLobby />
+    render = <PreLobby />
   }
+
+  return (
+    <LobbyProvider value={lobby}>
+      {render}
+    </LobbyProvider>
+  )
 }

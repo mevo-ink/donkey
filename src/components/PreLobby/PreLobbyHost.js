@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { LobbyContext } from 'utils/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 
 import { Text, Flex, Button } from '@chakra-ui/react'
 
@@ -8,7 +7,7 @@ import LoadingInline from 'components/LoadingInline'
 import database from 'utils/firebase'
 
 export default function PreLobbyGuest () {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   const onStartGame = () => {
     database().ref(`${lobby.name}`).update({

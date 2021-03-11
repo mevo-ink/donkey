@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { LobbyContext } from 'utils/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 
 import { Grid } from '@chakra-ui/react'
 
@@ -34,7 +33,7 @@ const getPositions = (count) => {
 }
 
 export default function Table ({ tableContent }) {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   const playerID = window.localStorage.getItem('playerID')
 

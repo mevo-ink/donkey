@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { LobbyContext } from 'utils/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 
 import {
   Box,
@@ -11,7 +10,7 @@ import { motion } from 'framer-motion'
 const MotionBox = motion(Box)
 
 export default function LobbyInfo () {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   return (
     <Flex

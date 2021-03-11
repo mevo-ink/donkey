@@ -1,5 +1,6 @@
-import { useRef, useEffect, useContext } from 'react'
-import { LobbyContext } from 'utils/LobbyContext'
+import { useRef, useEffect } from 'react'
+
+import { useLobby } from 'context/LobbyContext'
 
 import { CircularProgress } from '@chakra-ui/react'
 
@@ -9,7 +10,7 @@ import bot from 'utils/GameLogic/bot'
 export default function HourGlass ({ playerID, children }) {
   const timer = useRef()
 
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   useEffect(() => {
     if (lobby.host === playerID && lobby.state === 'LOBBY') {

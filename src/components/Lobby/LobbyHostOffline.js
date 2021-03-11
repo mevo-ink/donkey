@@ -1,17 +1,16 @@
-import { useEffect, useContext } from 'react'
+import { useEffect } from 'react'
+
+import { useLobby } from 'context/LobbyContext'
+import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
 import { Text, Flex } from '@chakra-ui/react'
 
 import LoadingInline from 'components/LoadingInline'
 
-import { LobbyContext } from 'utils/LobbyContext'
-
-import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
-
 import database from 'utils/firebase'
 
 export default function LobbyHostOffline () {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   usePlayerDisconnect(lobby)
 

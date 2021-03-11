@@ -29,12 +29,3 @@ function App () {
 }
 
 export default App
-
-/* HOME - /: CREATE ROOM or FIND ROOM
-   CREATE ROOM - INPUT username input, room name, limit, pin, ...etc and redirect to GAME ROOM
-   FIND ROOMS - /lobbies:  list all active lobbies and let user to join one and redirect to GAME ROOM
-   GAME ROOM - /lobbies/<name>
-      - case 1: if user is not in this room - JOIN ROOM asking username
-      - case 2: user already in room
-      - MICHAM ...
-*/

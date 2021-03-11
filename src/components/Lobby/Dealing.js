@@ -1,8 +1,6 @@
-import { useContext } from 'react'
+import { useLobby } from 'context/LobbyContext'
 
 import { Image } from '@chakra-ui/react'
-
-import { LobbyContext } from 'utils/LobbyContext'
 
 import spinningCard from 'images/rotatingCardGif.gif'
 
@@ -10,7 +8,7 @@ import { motion } from 'framer-motion'
 const MotionImage = motion(Image)
 
 export default function Dealing () {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   const numberOfPlayers = Object.values(lobby.players).length
 

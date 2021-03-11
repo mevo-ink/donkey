@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useLobby } from 'context/LobbyContext'
 
 import {
   Grid,
@@ -8,13 +8,11 @@ import {
 
 import HourGlass from 'components/Player/HourGlass'
 
-import { LobbyContext } from 'utils/LobbyContext'
-
 import { motion } from 'framer-motion'
 const MotionGrid = motion(Grid)
 
 export default function Player ({ player, position }) {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
 
   return (
     <MotionGrid

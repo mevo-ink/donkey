@@ -1,8 +1,6 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 
-import { LobbyContext } from 'utils/LobbyContext'
-
-import onPlayCard from 'utils/GameLogic/onPlayCard'
+import { useLobby } from 'context/LobbyContext'
 
 import {
   Box,
@@ -10,8 +8,10 @@ import {
   Image
 } from '@chakra-ui/react'
 
+import onPlayCard from 'utils/GameLogic/onPlayCard'
+
 export default function PlayerHand () {
-  const [lobby] = useContext(LobbyContext)
+  const lobby = useLobby()
   const [rotateCardDegree, setRotateCardDegree] = useState(120)
 
   const playerID = window.localStorage.getItem('playerID')
