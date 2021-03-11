@@ -81,3 +81,38 @@ export default function Table ({ tableContent }) {
     </MotionGrid>
   )
 }
+
+/*
+  TODO LIST:
+  - Player settings
+    - Host will have additional settings
+      - actions
+        - change nickname
+        - Change max players
+        - Change room pin
+        - Change bot time
+        - Kick player
+        - change room host ** v2
+        - Permanent ban player ** v2
+      - viewing
+        - show list of players
+          - group by online, bots,  (** v2)
+    - Normal player
+      - change nickname
+      - auto-bot mode
+      - leave room
+  - Spectator  ** v2
+  - Find Lobbies
+    - Disable if lobby is full
+  - Join lobby
+    - Ask for pin if set
+  - Google login ** v2
+  - Chat ** v2
+  - Quick emojies for players (optional if time)
+    - By clicking on player avatar, show some quick reactions - smileys
+  - Got cutted UI
+  - Table content UI
+  - End Game UI
+  - Check BOT bugs on end game
+  - etc ...
+*/
