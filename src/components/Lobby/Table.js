@@ -1,4 +1,4 @@
-import { useLobby } from 'context/LobbyContext'
+import { usePlayers } from 'context/LobbyContext'
 
 import { Grid } from '@chakra-ui/react'
 
@@ -33,17 +33,15 @@ const getPositions = (count) => {
 }
 
 export default function Table ({ tableContent }) {
-  const lobby = useLobby()
+  const { onlinePlayers } = usePlayers()
 
   const playerID = window.localStorage.getItem('playerID')
 
-  const players = Object.values(lobby.players)
+  const currentPlayerIndex = onlinePlayers.findIndex(player => player.playerID === playerID)
 
-  const currentPlayerIndex = players.findIndex(player => player.playerID === playerID)
+  if (currentPlayerIndex >= 0) rotate(onlinePlayers, currentPlayerIndex)
 
-  if (currentPlayerIndex >= 0) rotate(players, currentPlayerIndex)
-
-  const positions = getPositions(players.length)
+  const positions = getPositions(onlinePlayers.length)
 
   return (
     <MotionGrid
@@ -74,7 +72,7 @@ export default function Table ({ tableContent }) {
         >
           {tableContent}
         </Grid>
-        {players.map((player, idx) => (
+        {onlinePlayers.map((player, idx) => (
           <Grid key={player.playerID} placeItems='center'>
             <Player player={player} position={positions[idx]} />
           </Grid>

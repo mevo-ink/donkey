@@ -1,4 +1,4 @@
-import { useLobby } from 'context/LobbyContext'
+import { usePlayers } from 'context/LobbyContext'
 
 import { Image } from '@chakra-ui/react'
 
@@ -8,9 +8,9 @@ import { motion } from 'framer-motion'
 const MotionImage = motion(Image)
 
 export default function Dealing () {
-  const lobby = useLobby()
+  const { onlinePlayers } = usePlayers()
 
-  const numberOfPlayers = Object.values(lobby.players).length
+  const numberOfPlayers = onlinePlayers.length
 
   const position = [
     { x: 0, y: 222 },

@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 
-import { useLobby } from 'context/LobbyContext'
+import { useLobby, usePlayers } from 'context/LobbyContext'
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
 import {
@@ -23,18 +23,17 @@ export default function Lobby () {
   const dealingTimer = useRef()
 
   const lobby = useLobby()
+  const { onlinePlayers } = usePlayers()
 
   const playerID = window.localStorage.getItem('playerID')
 
   usePlayerDisconnect(lobby)
 
-  const players = Object.values(lobby.players).filter(({ lastOnline }) => !lastOnline)
-
   const cards = getCards()
 
   const dealCard = (playerIndex) => {
     const card = cards.pop()
-    const player = players[playerIndex]
+    const player = onlinePlayers[playerIndex]
     const cardID = `${card.number}-of-${card.suite}`
     database().ref(`${lobby.name}/table/cards/${cardID}`).set({
       ...card,
@@ -47,7 +46,7 @@ export default function Lobby () {
         time: 0
       })
     }
-    playerIndex = (playerIndex + 1) % players.length
+    playerIndex = (playerIndex + 1) % onlinePlayers.length
     return playerIndex
   }
 

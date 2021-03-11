@@ -40,11 +40,11 @@ export default function LobbyManager ({ name }) {
   if (!lobby) return <LobbyNotFound name={name} />
 
   // check if the current player is in the lobby
-  const currentPlayer = lobby && lobby.players && lobby.players[playerID]
+  const isCurrentPlayerInRoom = lobby && lobby.players && lobby.players[playerID] && lobby.players[playerID].nickname
 
   let render
 
-  if (!currentPlayer || !currentPlayer.nickname) {
+  if (!isCurrentPlayerInRoom) {
     // check if lobby is full
     if (lobby.maxPlayers === Object.keys(lobby.players).length) {
       return <LobbyIsFull />
@@ -52,9 +52,7 @@ export default function LobbyManager ({ name }) {
       // prompt the player to join
       render = <JoinLobby />
     }
-  }
-
-  if (['LOBBY', 'DEALING', 'END_GAME'].includes(lobby.state)) {
+  } else if (['LOBBY', 'DEALING', 'END_GAME'].includes(lobby.state)) {
     render = <Lobby />
   } else {
     render = <PreLobby />

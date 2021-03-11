@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { useLobby } from 'context/LobbyContext'
+import { useLobby, usePlayers } from 'context/LobbyContext'
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
 import { Text, Flex } from '@chakra-ui/react'
@@ -11,15 +11,14 @@ import database from 'utils/firebase'
 
 export default function LobbyHostOffline () {
   const lobby = useLobby()
+  const { onlinePlayers } = usePlayers()
 
   usePlayerDisconnect(lobby)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      // choose a random online player - except the current lobby host
-      const newHost = Object.values(lobby.players).find(player => {
-        return player.playerID !== lobby.host && !player.lastOnline
-      })
+      // choose a random online player - excluding the current lobby host
+      const newHost = onlinePlayers.find(({ playerID }) => playerID !== lobby.host)
       if (newHost) {
         database().ref(`${lobby.name}`).update({
           host: newHost.playerID,
