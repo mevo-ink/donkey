@@ -61,7 +61,6 @@ export default function Table ({ tableContent }) {
       <Grid
         width='215px'
         height='440px'
-        placeItems='center'
         background='linear-gradient(180deg, #464D86 0%, #2A2E54 100%)'
         boxShadow='0px 4px 4px rgba(0, 0, 0, 0.25)'
         borderRadius='200px'
@@ -77,7 +76,7 @@ export default function Table ({ tableContent }) {
           {tableContent}
         </Grid>
         {players.map((player, idx) => (
-          <Grid key={player.playerID}>
+          <Grid key={player.playerID} placeItems='center'>
             <Player player={player} position={positions[idx]} />
           </Grid>
         ))}
