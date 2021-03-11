@@ -37,7 +37,7 @@ export default function Player ({ player, position }) {
         lineHeight='16px'
         textAlign='center'
         fontWeight='bold'
-        width='30px'
+        width='100%'
         position='absolute'
         top='45px'
       >
