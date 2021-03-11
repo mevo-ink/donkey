@@ -29,7 +29,8 @@ const circleVariants = {
 
 const transition = {
   duration: 1,
-  yoyo: Infinity,
+  repeat: 'Infinity',
+  repeatType: 'reverse',
   ease: 'easeInOut'
 }
 
