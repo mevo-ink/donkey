@@ -44,6 +44,8 @@ export default function HourGlass ({ playerID }) {
       value={lobby.table && playerID === lobby.table.turn && lobby.table.time / TIME_LIMIT * 100}
       color={lobby.table.time > 15 ? 'red' : 'lime'}
       position='absolute'
+      size='35px'
+      thickness='8px'
     />
   )
 }

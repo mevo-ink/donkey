@@ -46,8 +46,8 @@ export default function PreLobbyGuest () {
         background='linear-gradient(180deg, #45DB54 0%, #197027 100%)'
         boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
         borderRadius='25px'
-        _active={{ bg: 'unherit' }}
-        _hover={{ bg: 'unherit' }}
+        _active={{ bg: '' }}
+        _hover={{ bg: '' }}
         onClick={onStartGame}
       >
         Start Game

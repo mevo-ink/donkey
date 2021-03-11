@@ -19,8 +19,8 @@ export default function CancelDone ({ isLoading, nickname }) {
         background='linear-gradient(180deg, #E35B5B 0%, #7E1717 100%)'
         boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
         borderRadius='50%'
-        _active={{ bg: 'unherit' }}
-        _hover={{ bg: 'unherit' }}
+        _active={{ bg: 'unset' }}
+        _hover={{ bg: 'unset' }}
         onClick={() => { window.location.href = '/' }}
         isLoading={isLoading}
       >
@@ -37,8 +37,8 @@ export default function CancelDone ({ isLoading, nickname }) {
         background='linear-gradient(180deg, #45DB54 0%, #197027 100%)'
         boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
         borderRadius='50%'
-        _active={{ bg: 'unherit' }}
-        _hover={{ bg: 'unherit' }}
+        _active={{ bg: 'unset' }}
+        _hover={{ bg: 'unset' }}
         type='submit'
         isDisabled={!nickname}
         isLoading={isLoading}

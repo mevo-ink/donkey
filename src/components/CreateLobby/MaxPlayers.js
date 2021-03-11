@@ -86,8 +86,8 @@ export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
         fontSize='23px'
         lineHeight='23px'
         fontWeight='bold'
-        _active={{ bg: 'unherit' }}
-        _hover={{ bg: 'unherit' }}
+        _active={{ bg: '' }}
+        _hover={{ bg: '' }}
         onClick={() => setShowDial(!showDial)}
       >
         {maxPlayers}
@@ -114,8 +114,8 @@ export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
               fontSize='23px'
               lineHeight='23px'
               fontWeight='bold'
-              _active={{ bg: 'unherit' }}
-              _hover={{ bg: 'unherit' }}
+              _active={{ bg: '' }}
+              _hover={{ bg: '' }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1, transition: { duration: 0.1, delay: idx * 0.05 } }}
               onClick={() => onClick(idx + 1)}
