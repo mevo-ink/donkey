@@ -7,7 +7,9 @@ import { CircularProgress } from '@chakra-ui/react'
 import database from 'utils/firebase'
 import bot from 'utils/GameLogic/bot'
 
-export default function HourGlass ({ playerID, children }) {
+const TIME_LIMIT = 20
+
+export default function HourGlass ({ playerID }) {
   const timer = useRef()
 
   const lobby = useLobby()
@@ -16,8 +18,8 @@ export default function HourGlass ({ playerID, children }) {
     if (lobby.host === playerID && lobby.state === 'LOBBY') {
       timer.current = setInterval(async () => {
         if (!lobby.lastOnline) {
-          if (lobby.table?.time >= 1) {
-            // end round
+          if (lobby.table?.time >= TIME_LIMIT) {
+            // player ran out of time; make bot play a card
             clearInterval(timer.current)
             bot(lobby)
           } else {
@@ -39,11 +41,9 @@ export default function HourGlass ({ playerID, children }) {
 
   return (
     <CircularProgress
-      value={lobby.table && playerID === lobby.table.turn && lobby.table.time / 20 * 100}
-      color='lime'
+      value={lobby.table && playerID === lobby.table.turn && lobby.table.time / TIME_LIMIT * 100}
+      color='red'
       position='absolute'
-    >
-      {children}
-    </CircularProgress>
+    />
   )
 }

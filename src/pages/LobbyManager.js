@@ -40,7 +40,7 @@ export default function LobbyManager ({ name }) {
   if (!lobby) return <LobbyNotFound name={name} />
 
   // check if the current player is in the lobby
-  const isCurrentPlayerInRoom = lobby && lobby.players && lobby.players[playerID] && lobby.players[playerID].nickname
+  const isCurrentPlayerInRoom = lobby?.players[playerID]?.nickname
 
   let render
 
