@@ -1,43 +1,11 @@
 import { useContext } from 'react'
+import { LobbyContext } from 'utils/LobbyContext'
 
 import { Text, Flex, Button } from '@chakra-ui/react'
 
+import LoadingInline from 'components/LoadingInline'
+
 import database from 'utils/firebase'
-import { LobbyContext } from 'utils/LobbyContext'
-
-import { motion } from 'framer-motion'
-const MotionFlex = motion(Flex)
-
-const containerVariants = {
-  start: {
-    transition: {
-      staggerChildren: 0.2
-    }
-  },
-  end: {
-    transition: {
-      staggerChildren: 0.2
-    }
-  }
-}
-
-const circleVariants = {
-  start: {
-    y: '50%',
-    opacity: 0.1
-  },
-  end: {
-    y: '150%',
-    opacity: 1
-  }
-}
-
-const transition = {
-  duration: 1,
-  repeat: 'Infinity',
-  repeatType: 'reverse',
-  ease: 'easeInOut'
-}
 
 export default function PreLobbyGuest () {
   const [lobby] = useContext(LobbyContext)
@@ -68,36 +36,7 @@ export default function PreLobbyGuest () {
       >
         Waiting <br /> For <br /> Players
       </Text>
-      <MotionFlex initial={{ y: -50 }}>
-        <MotionFlex
-          width='50px'
-          height='18px'
-          fontSize='60px'
-          justifyContent='space-around'
-          variants={containerVariants}
-          initial='start'
-          animate='end'
-        >
-          <MotionFlex
-            variants={circleVariants}
-            transition={transition}
-          >
-            .
-          </MotionFlex>
-          <MotionFlex
-            variants={circleVariants}
-            transition={transition}
-          >
-            .
-          </MotionFlex>
-          <MotionFlex
-            variants={circleVariants}
-            transition={transition}
-          >
-            .
-          </MotionFlex>
-        </MotionFlex>
-      </MotionFlex>
+      <LoadingInline />
       <Button
         mt='50px'
         color='black'
