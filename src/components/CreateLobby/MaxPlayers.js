@@ -71,7 +71,7 @@ export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
 
   return (
     <>
-      <Text mt={4}>
+      <Text mt={4} fontSize='lg'>
         Max Players
       </Text>
       <Button

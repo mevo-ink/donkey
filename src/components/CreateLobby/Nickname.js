@@ -22,7 +22,7 @@ export default function Nickname ({ nickname, onSubmit }) {
 
   return (
     <>
-      <Text mt={8}>
+      <Text mt={8} fontSize='lg'>
         Enter Your Name, Donkey
       </Text>
       <Input
