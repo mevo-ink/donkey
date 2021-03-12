@@ -17,18 +17,18 @@ const rotate = (array, times) => {
 const getPositions = (count) => {
   // 12
   return [
-    [{ bottom: '-10px' }, { bottom: '90px' }],
-    [{ left: '21px', bottom: '19px' }, { left: '28px', bottom: '28px' }],
-    [{ left: '-13px', bottom: '108px' }, { }],
-    [{ top: '50%', left: '-13px' }, { }],
-    [{ left: '-13px', top: '108px' }, { }],
-    [{ left: '22px', top: '33px' }, { }],
-    [{ top: '-10px' }, { }],
-    [{ right: '21px', top: '19px' }, { }],
-    [{ right: '-13px', top: '108px' }, { }],
-    [{ bottom: '50%', right: '-13px' }, { }],
-    [{ right: '-13px', bottom: '108px' }, { }],
-    [{ right: '22px', bottom: '33px' }, { }]
+    [{ bottom: '-10px' }, { bottom: '45px' }],
+    [{ left: '21px', bottom: '19px' }, { left: '34px', bottom: '33px' }],
+    [{ left: '-13px', bottom: '108px' }, { left: '42px', bottom: '20px' }],
+    [{ left: '-13px', top: '219.5px' }, { left: '42px' }],
+    [{ left: '-13px', top: '108px' }, { left: '42px', top: '25px' }],
+    [{ left: '22px', top: '33px' }, { left: '34px', top: '33px' }],
+    [{ top: '-10px' }, { top: '45px' }],
+    [{ right: '21px', top: '33px' }, { right: '34px', top: '33px' }],
+    [{ right: '-13px', top: '108px' }, { right: '42px', top: '20px' }],
+    [{ bottom: '219.5px', right: '-13px' }, { right: '42px' }],
+    [{ right: '-13px', bottom: '108px' }, { right: '42px', bottom: '20px' }],
+    [{ right: '21px', bottom: '33px' }, { right: '34px', bottom: '33px' }]
   ]
 }
 
