@@ -14,8 +14,25 @@ const rotate = (array, times) => {
   }
 }
 
+const getSeatingPositions = (count) => {
+  return {
+    1: [0],
+    2: [0, 6],
+    3: [0, 3, 9],
+    4: [0, 3, 6, 9],
+    5: [0, 3, 6, 8, 10],
+    6: [0, 2, 4, 6, 8, 10],
+    7: [0, 2, 4, 6, 8, 9, 10],
+    8: [0, 2, 3, 4, 6, 8, 9, 10],
+    9: [0, 1, 2, 3, 4, 6, 8, 9, 10],
+    10: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10],
+    11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    12: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  }[count]
+}
+
 const getPositions = (count) => {
-  // 12
+  const seatingPositions = getSeatingPositions(count)
   return [
     [{ bottom: '-10px' }, { bottom: '45px' }],
     [{ left: '21px', bottom: '33px' }, { left: '29px', bottom: '33px' }],
@@ -29,7 +46,7 @@ const getPositions = (count) => {
     [{ bottom: '219.5px', right: '-13px' }, { right: '42px' }],
     [{ right: '-13px', bottom: '108px' }, { right: '42px', bottom: '28px' }],
     [{ right: '21px', bottom: '33px' }, { right: '29px', bottom: '33px' }]
-  ]
+  ].filter((_, idx) => seatingPositions.includes(idx))
 }
 
 export default function Table ({ tableContent }) {
