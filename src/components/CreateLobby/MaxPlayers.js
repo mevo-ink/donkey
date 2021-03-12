@@ -10,56 +10,27 @@ import { motion } from 'framer-motion'
 
 const MotionButton = motion(Button)
 
-const dialButtons = [
-  {
-    y: '11px',
-    x: '127px'
-  },
-  {
-    y: '42px',
-    x: '158px'
-  },
-  {
-    y: '84px',
-    x: '168px'
-  },
-  {
-    y: '127px',
-    x: '158px'
-  },
-  {
-    y: '158px',
-    x: '127px'
-  },
-  {
-    x: '84px',
-    y: '169px'
-  },
-  {
-    y: '158px',
-    x: '41px'
-  },
-  {
-    y: '127px',
-    x: '11px'
-  },
-  {
-    y: '84px',
-    x: '0px'
-  },
-  {
-    y: '42px',
-    x: '10px'
-  },
-  {
-    y: '11px',
-    x: '41px'
-  },
-  {
-    y: '0px',
-    x: '84px'
-  }
-]
+const getDialButtonPositions = () => {
+  const outerDiameter = 208
+  const outerRadius = outerDiameter / 2
+  const dialWidth = 40
+  const spacing = 14
+  const innerRadius = outerRadius - dialWidth + spacing
+
+  let alpha = Math.PI / 2
+  const total = 11
+  const corner = 2 * Math.PI / total
+
+  const positions = []
+  Array.from(Array(total).keys()).forEach(() => {
+    positions.push({
+      left: parseInt((outerRadius - dialWidth / 2) + (innerRadius * Math.cos(alpha))) + 'px',
+      top: parseInt((outerRadius - dialWidth / 2) - (innerRadius * Math.sin(alpha))) + 'px'
+    })
+    alpha = alpha - corner
+  })
+  return positions
+}
 
 export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
   const [showDial, setShowDial] = useState(false)
@@ -99,14 +70,14 @@ export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
           h='208px'
           mt='-126px'
         >
-          {dialButtons.map((button, idx) => (
+          {getDialButtonPositions().map(({ left, top }, idx) => (
             <MotionButton
               key={idx}
               width='40px'
               height='39px'
               position='absolute'
-              mt={button.y}
-              ml={button.x}
+              left={left}
+              top={top}
               color='black'
               bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
               boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
@@ -118,9 +89,9 @@ export default function MaxPlayersCount ({ maxPlayers, onSubmit }) {
               _hover={{ bg: '' }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1, transition: { duration: 0.1, delay: idx * 0.05 } }}
-              onClick={() => onClick(idx + 1)}
+              onClick={() => onClick(idx + 2)}
             >
-              {idx + 1}
+              {idx + 2}
             </MotionButton>
           ))}
         </Flex>
