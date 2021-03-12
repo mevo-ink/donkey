@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 import { useTitle } from 'hookrouter'
 
@@ -20,6 +20,8 @@ import database from 'utils/firebase'
 
 export default function FindLobbies () {
   useTitle('Find Lobbies')
+
+  const containerRef = useRef()
 
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -66,9 +68,10 @@ export default function FindLobbies () {
         Lobbies
       </Text>
       <VStack
+        ref={containerRef}
         spacing={4}
         height='395px'
-        overflowY='arun99'
+        overflowY='scroll'
         css={{
           '&::-webkit-scrollbar': {
             width: '0px'
@@ -86,12 +89,17 @@ export default function FindLobbies () {
         )}
       </VStack>
       {lobbies.length > 0 && (
-        <Box width='100%' textAlign='center'>
+        <Box width='100%' textAlign='center' onClick={() => containerRef.current.scrollBy(0, 200)}>
           <Icon width='15px' height='9px' viewBox='0 0 15 9' fill='none'>
             <path d='M0 1.698L1.76812 0L7.5025 5.6034L13.2319 0L15 1.698L7.5025 9L0 1.698Z' fill='white' fillOpacity='0.7' />
           </Icon>
         </Box>
       )}
+      <Box width='100%' textAlign='center' mt={2}>
+        <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
+          Go Back
+        </Button>
+      </Box>
     </Box>
   )
 }
