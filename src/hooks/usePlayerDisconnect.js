@@ -3,14 +3,14 @@ import { useEffect } from 'react'
 import database from 'utils/firebase'
 
 export default function usePlayerDisconnect (lobby) {
-  const playerID = window.localStorage.getItem('playerID')
+  const myPlayerID = window.localStorage.getItem('playerID')
 
   useEffect(() => {
     if (lobby.name) {
       // offline presence check
 
       // stores the timestamp of my last disconnect (the last time I was seen online)
-      const playerLastOnlineRef = database().ref(`${lobby.name}/players/${playerID}/lastOnline`)
+      const playerLastOnlineRef = database().ref(`${lobby.name}/players/${myPlayerID}/lastOnline`)
 
       // stores the timestamp of host's last disconnect (the last time host was seen online)
       const hostLastOnlineRef = database().ref(`${lobby.name}/lastOnline`)
@@ -25,7 +25,7 @@ export default function usePlayerDisconnect (lobby) {
           playerLastOnlineRef.onDisconnect().set(database.ServerValue.TIMESTAMP)
 
           // if I am the lobby host
-          if (playerID === lobby.host) {
+          if (myPlayerID === lobby.host) {
             // on connect (or reconnect), remove host lastOnline
             hostLastOnlineRef.remove()
             // on disconnect, update the last time host was online

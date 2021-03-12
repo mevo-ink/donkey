@@ -24,7 +24,7 @@ export default function Lobby () {
   const lobby = useLobby()
   const { onlinePlayers } = usePlayers()
 
-  const playerID = window.localStorage.getItem('playerID')
+  const myPlayerID = window.localStorage.getItem('playerID')
 
   usePlayerDisconnect(lobby)
 
@@ -50,7 +50,7 @@ export default function Lobby () {
   }
 
   useEffect(() => {
-    if (playerID === lobby.host && lobby.state === 'DEALING') {
+    if (myPlayerID === lobby.host && lobby.state === 'DEALING') {
       database().ref(`${lobby.name}`).update({
         state: 'DEALING'
       })
@@ -111,7 +111,7 @@ export default function Lobby () {
     )
   }
 
-  // { lobby.table && playerID === lobby.table.turn && <Text position='absolute' color='black'>MY TURN</Text> }
+  // { lobby.table && myPlayerID === lobby.table.turn && <Text position='absolute' color='black'>MY TURN</Text> }
 
   return (
     <Grid
@@ -121,7 +121,7 @@ export default function Lobby () {
     >
       <LobbyInfo />
       <Table tableContent={tableContent} />
-      <PlayerHand player={lobby.players[playerID]} />
+      <PlayerHand player={lobby.players[myPlayerID]} />
     </Grid>
   )
 }

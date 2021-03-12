@@ -29,16 +29,16 @@ export default function CreateLobby () {
     e.preventDefault()
     setIsLoading(true)
     const lobbyName = generateSlug()
-    const playerID = window.localStorage.getItem('playerID')
+    const myPlayerID = window.localStorage.getItem('playerID')
     const generator = new AvatarGenerator()
-    const avatar = generator.generateRandomAvatar(playerID) + '&avatarStyle=Transparent'
+    const avatar = generator.generateRandomAvatar(myPlayerID) + '&avatarStyle=Transparent'
     database().ref(lobbyName).set({
       name: lobbyName,
-      host: playerID,
+      host: myPlayerID,
       state: 'PRE_LOBBY',
       maxPlayers,
       players: {
-        [playerID]: { playerID, nickname, avatar }
+        [myPlayerID]: { playerID: myPlayerID, nickname, avatar }
       }
     })
       .then(() => { window.location.href = `/lobbies/${lobbyName}` })

@@ -21,12 +21,23 @@ export const useLobby = () => {
   return lobby
 }
 
+export const useLobbyHost = () => {
+  const lobby = useLobby()
+  return lobby.players[lobby.host]
+}
+
 export const usePlayers = () => {
   const lobby = useLobby()
-
-  const onlinePlayers = Object.values(lobby.players).filter(({ lastOnline }) => !lastOnline)
-
-  const offlinePlayers = Object.values(lobby.players).filter(({ lastOnline }) => lastOnline)
-
+  const onlinePlayers = []
+  const offlinePlayers = []
+  for (const player of Object.values(lobby.players)) {
+    player.lastOnline ? offlinePlayers.push(player) : onlinePlayers.push(player)
+  }
   return { onlinePlayers, offlinePlayers }
+}
+
+export const usePlayerCards = (playerID) => {
+  const lobby = useLobby()
+  return Object.values(lobby.table?.cards || {})
+    .filter(card => card.playerID === playerID)
 }

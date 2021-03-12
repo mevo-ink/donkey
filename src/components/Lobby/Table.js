@@ -35,9 +35,9 @@ const getPositions = (count) => {
 export default function Table ({ tableContent }) {
   const { onlinePlayers } = usePlayers()
 
-  const playerID = window.localStorage.getItem('playerID')
+  const myPlayerID = window.localStorage.getItem('playerID')
 
-  const currentPlayerIndex = onlinePlayers.findIndex(player => player.playerID === playerID)
+  const currentPlayerIndex = onlinePlayers.findIndex(({ playerID }) => playerID === myPlayerID)
 
   if (currentPlayerIndex >= 0) rotate(onlinePlayers, currentPlayerIndex)
 
@@ -89,7 +89,7 @@ export default function Table ({ tableContent }) {
       - actions
         - change nickname
         - Change max players
-        - Change room pin
+        - Change room pin ** v2
         - Change bot time
         - Kick player
         - change room host ** v2
@@ -104,8 +104,8 @@ export default function Table ({ tableContent }) {
   - Spectator  ** v2
   - Find Lobbies
     - Disable if lobby is full
-  - Join lobby
-    - Ask for pin if set
+  - Join lobby  ** v2
+    - Ask for pin if set  ** v2
   - Google login ** v2
   - Chat ** v2
   - Quick emojies for players (optional if time)

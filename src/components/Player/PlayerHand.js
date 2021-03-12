@@ -12,12 +12,13 @@ import onPlayCard from 'utils/GameLogic/onPlayCard'
 
 export default function PlayerHand () {
   const lobby = useLobby()
+
   const [rotateCardDegree, setRotateCardDegree] = useState(120)
 
-  const playerID = window.localStorage.getItem('playerID')
+  const myPlayerID = window.localStorage.getItem('playerID')
 
   const myCards = Object.values(lobby.table?.cards || {})
-    .filter(card => card.playerID === playerID)
+    .filter(card => card.playerID === myPlayerID)
 
   return (
     <Flex
@@ -48,7 +49,7 @@ export default function PlayerHand () {
             transform={`translate(-50%, -50%) rotate(${-rotateCardDegree / 2 + rotateCardDegree / (myCards.length + 1) * (idx + 1)}deg)`}
             transformOrigin='center 200%'
             transition='transform 0.3s ease-out'
-            onClick={() => onPlayCard(card, playerID, lobby, myCards)}
+            onClick={() => onPlayCard(card, myPlayerID, lobby, myCards)}
             onMouseEnter={() => setRotateCardDegree(140)}
             onMouseLeave={() => setRotateCardDegree(120)}
           />

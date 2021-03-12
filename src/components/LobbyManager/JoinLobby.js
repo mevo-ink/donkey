@@ -38,11 +38,11 @@ export default function JoinRoom () {
   const onJoinRoom = (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const playerID = window.localStorage.getItem('playerID')
+    const myPlayerID = window.localStorage.getItem('playerID')
     const generator = new AvatarGenerator()
-    const avatar = generator.generateRandomAvatar(playerID) + '&avatarStyle=Transparent'
-    database().ref(`${lobby.name}/players/${playerID}`).update({
-      playerID,
+    const avatar = generator.generateRandomAvatar(myPlayerID) + '&avatarStyle=Transparent'
+    database().ref(`${lobby.name}/players/${myPlayerID}`).update({
+      playerID: myPlayerID,
       nickname,
       avatar
     })

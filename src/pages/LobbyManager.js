@@ -16,7 +16,7 @@ import Error from 'components/Error'
 import database from 'utils/firebase'
 
 export default function LobbyManager ({ name }) {
-  const playerID = window.localStorage.getItem('playerID')
+  const myPlayerID = window.localStorage.getItem('playerID')
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -40,7 +40,7 @@ export default function LobbyManager ({ name }) {
   if (!lobby) return <LobbyNotFound name={name} />
 
   // check if the current player is in the lobby
-  const isCurrentPlayerInRoom = lobby?.players[playerID]?.nickname
+  const isCurrentPlayerInRoom = lobby?.players[myPlayerID]?.nickname
 
   let render
 

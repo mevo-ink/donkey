@@ -16,7 +16,7 @@ import preloadCardImages from 'utils/cards'
 export default function PreLobby () {
   const lobby = useLobby()
 
-  const playerID = window.localStorage.getItem('playerID')
+  const myPlayerID = window.localStorage.getItem('playerID')
 
   usePlayerDisconnect(lobby)
 
@@ -25,7 +25,7 @@ export default function PreLobby () {
   }, [])
 
   const tableContent = (
-    playerID === lobby.host
+    myPlayerID === lobby.host
       ? <PreLobbyHost lobby={lobby} />
       : <PreLobbyGuest />
   )
