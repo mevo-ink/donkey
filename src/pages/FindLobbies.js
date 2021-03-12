@@ -79,14 +79,7 @@ export default function FindLobbies () {
         }}
       >
         {lobbies.map(lobby => <LobbyInfo key={lobby.name} lobby={lobby} />)}
-        {lobbies.length === 0 && (
-          <>
-            <Text>No active lobbies</Text>
-            <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
-              Go Back
-            </Button>
-          </>
-        )}
+        {lobbies.length === 0 && <Text fontSize='lg'>No active lobbies</Text>}
       </VStack>
       {lobbies.length > 0 && (
         <Box width='100%' textAlign='center' onClick={() => containerRef.current.scrollBy(0, 200)}>
