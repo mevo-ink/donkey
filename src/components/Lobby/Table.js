@@ -18,17 +18,17 @@ const getPositions = (count) => {
   // 12
   return [
     [{ bottom: '-10px' }, { bottom: '45px' }],
-    [{ left: '21px', bottom: '19px' }, { left: '34px', bottom: '33px' }],
-    [{ left: '-13px', bottom: '108px' }, { left: '42px', bottom: '20px' }],
+    [{ left: '21px', bottom: '33px' }, { left: '29px', bottom: '33px' }],
+    [{ left: '-13px', bottom: '108px' }, { left: '42px', bottom: '28px' }],
     [{ left: '-13px', top: '219.5px' }, { left: '42px' }],
-    [{ left: '-13px', top: '108px' }, { left: '42px', top: '25px' }],
-    [{ left: '22px', top: '33px' }, { left: '34px', top: '33px' }],
+    [{ left: '-13px', top: '108px' }, { left: '42px', top: '28px' }],
+    [{ left: '22px', top: '33px' }, { left: '29px', top: '33px' }],
     [{ top: '-10px' }, { top: '45px' }],
-    [{ right: '21px', top: '33px' }, { right: '34px', top: '33px' }],
-    [{ right: '-13px', top: '108px' }, { right: '42px', top: '20px' }],
+    [{ right: '21px', top: '33px' }, { right: '29px', top: '33px' }],
+    [{ right: '-13px', top: '108px' }, { right: '42px', top: '28px' }],
     [{ bottom: '219.5px', right: '-13px' }, { right: '42px' }],
-    [{ right: '-13px', bottom: '108px' }, { right: '42px', bottom: '20px' }],
-    [{ right: '21px', bottom: '33px' }, { right: '34px', bottom: '33px' }]
+    [{ right: '-13px', bottom: '108px' }, { right: '42px', bottom: '28px' }],
+    [{ right: '21px', bottom: '33px' }, { right: '29px', bottom: '33px' }]
   ]
 }
 

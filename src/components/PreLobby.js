@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import { useLobby } from 'context/LobbyContext'
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
+import LobbyHostOffline from 'components/Lobby/LobbyHostOffline'
+
 import { Grid } from '@chakra-ui/react'
 
 import LobbyInfo from 'components/Lobby/LobbyInfo'
@@ -24,11 +26,18 @@ export default function PreLobby () {
     preloadCardImages()
   }, [])
 
-  const tableContent = (
+  let tableContent = (
     myPlayerID === lobby.host
       ? <PreLobbyHost lobby={lobby} />
       : <PreLobbyGuest />
   )
+
+  const isLobbyHostOnline = !lobby.lastOnline
+  if (!isLobbyHostOnline) {
+    tableContent = (
+      <LobbyHostOffline />
+    )
+  }
 
   return (
     <Grid

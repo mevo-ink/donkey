@@ -15,9 +15,16 @@ export const LobbyProvider = ({ value, children }) => {
 
 export const useLobby = () => {
   const lobby = useContext(LobbyContext)
+
   if (lobby === undefined) {
     throw new Error('useLobby must be used within a LobbyProvider')
   }
+
+  // add some common getters for lobby
+  lobby.getPlayersWithCards = () => {
+    return Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards).some(card => card.playerID === playerID))
+  }
+
   return lobby
 }
 

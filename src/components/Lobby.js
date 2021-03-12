@@ -13,7 +13,7 @@ import LobbyInfo from 'components/Lobby/LobbyInfo'
 import Table from 'components/Lobby/Table'
 import PlayerHand from 'components/Player/PlayerHand'
 import Dealing from 'components/Lobby/Dealing'
-import LobbyHostOffline from './Lobby/LobbyHostOffline'
+import LobbyHostOffline from 'components/Lobby/LobbyHostOffline'
 
 import { getCards } from 'utils/cards'
 import database from 'utils/firebase'
