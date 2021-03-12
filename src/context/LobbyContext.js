@@ -41,3 +41,10 @@ export const usePlayerCards = (playerID) => {
   return Object.values(lobby.table?.cards || {})
     .filter(card => card.playerID === playerID)
 }
+
+export const useMyCards = () => {
+  const lobby = useLobby()
+  const myPlayerID = window.localStorage.getItem('playerID')
+  return Object.values(lobby.table?.cards || {})
+    .filter(({ playerID }) => playerID === myPlayerID)
+}

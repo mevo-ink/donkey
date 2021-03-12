@@ -84,6 +84,8 @@ export default function Table ({ tableContent }) {
 
 /*
   TODO LIST:
+  - BUG
+    - disable clicking on cards in END GAME
   - Player settings
     - Host will have additional settings
       - actions

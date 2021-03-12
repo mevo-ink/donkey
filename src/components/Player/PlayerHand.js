@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useLobby } from 'context/LobbyContext'
+import { useLobby, useMyCards } from 'context/LobbyContext'
 
 import {
   Box,
@@ -15,10 +15,7 @@ export default function PlayerHand () {
 
   const [rotateCardDegree, setRotateCardDegree] = useState(120)
 
-  const myPlayerID = window.localStorage.getItem('playerID')
-
-  const myCards = Object.values(lobby.table?.cards || {})
-    .filter(card => card.playerID === myPlayerID)
+  const myCards = useMyCards()
 
   return (
     <Flex
@@ -49,7 +46,7 @@ export default function PlayerHand () {
             transform={`translate(-50%, -50%) rotate(${-rotateCardDegree / 2 + rotateCardDegree / (myCards.length + 1) * (idx + 1)}deg)`}
             transformOrigin='center 200%'
             transition='transform 0.3s ease-out'
-            onClick={() => onPlayCard(card, myPlayerID, lobby, myCards)}
+            onClick={() => onPlayCard(card, lobby, myCards)}
             onMouseEnter={() => setRotateCardDegree(140)}
             onMouseLeave={() => setRotateCardDegree(120)}
           />

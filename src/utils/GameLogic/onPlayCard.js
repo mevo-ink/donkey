@@ -4,9 +4,9 @@ import { maxBy, cloneDeep } from 'lodash'
 
 import canPlaySuite from 'utils/GameLogic/canPlaySuite'
 
-const onPlayCard = (playedCard, playerID, lobby, myCards) => {
+const onPlayCard = (playedCard, lobby, myCards) => {
   // check for endgame and return if true
-  const canPlay = canPlaySuite(playedCard.suite, playerID, lobby, myCards)
+  const canPlay = canPlaySuite(playedCard.suite, playedCard.playerID, lobby, myCards)
 
   if (canPlay) {
     // get local copy of table
@@ -48,7 +48,7 @@ const onPlayCard = (playedCard, playerID, lobby, myCards) => {
         database().ref(`${lobby.name}/gotCuttedPlayerID`).set(gotCuttedPlayerID)
       }
       // if the current player got cut, add back the playerID back into playersWithCards
-      if (gotCuttedPlayerID === playerID && !playersWithCards.includes(gotCuttedPlayerID)) {
+      if (gotCuttedPlayerID === playedCard.playerID && !playersWithCards.includes(gotCuttedPlayerID)) {
         playersWithCards = [...playersWithCards, gotCuttedPlayerID]
       }
       const pileCardsObject = {}
@@ -75,7 +75,7 @@ const onPlayCard = (playedCard, playerID, lobby, myCards) => {
         }
       } else {
         // change turn
-        const currentPlayerIndex = playersWithCards.findIndex(ID => ID === playerID)
+        const currentPlayerIndex = playersWithCards.findIndex(ID => ID === playedCard.playerID)
         const nextPlayerIndex = (currentPlayerIndex + 1) % playersWithCards.length
         const nextPlayerID = playersWithCards[nextPlayerIndex]
         table = {
