@@ -47,7 +47,7 @@ export default function LobbyManager ({ name }) {
   if (!isCurrentPlayerInRoom) {
     // check if lobby is full
     if (lobby.maxPlayers === Object.keys(lobby.players).length) {
-      return <LobbyIsFull />
+      render = <LobbyIsFull />
     } else {
       // prompt the player to join
       render = <JoinLobby />
