@@ -22,7 +22,7 @@ export default function Lobby () {
   const dealingTimer = useRef()
 
   const lobby = useLobby()
-  const { onlinePlayers } = usePlayers()
+  const players = usePlayers()
 
   const myPlayerID = window.localStorage.getItem('playerID')
 
@@ -32,7 +32,7 @@ export default function Lobby () {
 
   const dealCard = (playerIndex) => {
     const card = cards.pop()
-    const player = onlinePlayers[playerIndex]
+    const player = players[playerIndex]
     const cardID = `${card.number}-of-${card.suite}`
     database().ref(`${lobby.name}/table/cards/${cardID}`).set({
       ...card,
@@ -45,7 +45,7 @@ export default function Lobby () {
         time: 0
       })
     }
-    playerIndex = (playerIndex + 1) % onlinePlayers.length
+    playerIndex = (playerIndex + 1) % players.length
     return playerIndex
   }
 

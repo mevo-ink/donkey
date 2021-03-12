@@ -8,9 +8,9 @@ import { motion } from 'framer-motion'
 const MotionImage = motion(Image)
 
 export default function Dealing () {
-  const { onlinePlayers } = usePlayers()
+  const players = usePlayers()
 
-  const numberOfPlayers = onlinePlayers.length
+  const numberOfPlayers = players.length
 
   const position = [
     { x: 0, y: 222 },

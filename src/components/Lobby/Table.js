@@ -33,15 +33,15 @@ const getPositions = (count) => {
 }
 
 export default function Table ({ tableContent }) {
-  const { onlinePlayers } = usePlayers()
+  const players = usePlayers()
 
   const myPlayerID = window.localStorage.getItem('playerID')
 
-  const currentPlayerIndex = onlinePlayers.findIndex(({ playerID }) => playerID === myPlayerID)
+  const currentPlayerIndex = players.findIndex(({ playerID }) => playerID === myPlayerID)
 
-  if (currentPlayerIndex >= 0) rotate(onlinePlayers, currentPlayerIndex)
+  if (currentPlayerIndex >= 0) rotate(players, currentPlayerIndex)
 
-  const positions = getPositions(onlinePlayers.length)
+  const positions = getPositions(players.length)
 
   return (
     <MotionGrid
@@ -72,7 +72,7 @@ export default function Table ({ tableContent }) {
         >
           {tableContent}
         </Grid>
-        {onlinePlayers.map((player, idx) => (
+        {players.map((player, idx) => (
           <Grid key={player.playerID} placeItems='center'>
             <Player player={player} positions={positions[idx]} />
           </Grid>

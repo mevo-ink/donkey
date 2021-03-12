@@ -28,12 +28,7 @@ export const useLobbyHost = () => {
 
 export const usePlayers = () => {
   const lobby = useLobby()
-  const onlinePlayers = []
-  const offlinePlayers = []
-  for (const player of Object.values(lobby.players)) {
-    player.lastOnline ? offlinePlayers.push(player) : onlinePlayers.push(player)
-  }
-  return { onlinePlayers, offlinePlayers }
+  return Object.values(lobby.players)
 }
 
 export const usePlayerCards = (playerID) => {
