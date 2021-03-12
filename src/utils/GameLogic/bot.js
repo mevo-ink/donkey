@@ -22,7 +22,7 @@ const Bot = (lobby) => {
     randomCard = randomCardPicker(myCards)
   }
   // call onPlayCard(card)
-  onPlayCard(randomCard, lobby.table.turn, lobby, myCards)
+  onPlayCard(randomCard, lobby, myCards)
 }
 
 export default Bot
