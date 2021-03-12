@@ -1,4 +1,4 @@
-import { useLobby } from 'context/LobbyContext'
+import { useLobby, usePlayers } from 'context/LobbyContext'
 
 import { Text, Flex, Button } from '@chakra-ui/react'
 
@@ -8,6 +8,8 @@ import database from 'utils/firebase'
 
 export default function PreLobbyGuest () {
   const lobby = useLobby()
+
+  const players = usePlayers()
 
   const onStartGame = () => {
     database().ref(`${lobby.name}`).update({
@@ -34,7 +36,7 @@ export default function PreLobbyGuest () {
         width='69px'
         textAlign='center'
       >
-        Waiting <br /> For <br /> Players
+        Waiting <br /> For <br /> Players <br /> {players.length} / {lobby.maxPlayers}
       </Text>
       <LoadingInline />
       <Button
