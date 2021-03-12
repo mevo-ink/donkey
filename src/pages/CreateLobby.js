@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useTitle } from 'hookrouter'
 
 import Nickname from 'components/CreateLobby/Nickname'
-import LobbyPin from 'components/CreateLobby/LobbyPin'
 import MaxPlayers from 'components/CreateLobby/MaxPlayers'
 import CancelDone from 'components/CreateLobby/CancelDone'
 
@@ -24,8 +23,7 @@ export default function CreateLobby () {
   const [isLoading, setIsLoading] = useState(false)
 
   const [nickname, setNickname] = useState('')
-  const [pin, setPin] = useState()
-  const [maxPlayers, setMaxPlayers] = useState(2)
+  const [maxPlayers, setMaxPlayers] = useState(4)
 
   const onCreateLobby = (e) => {
     e.preventDefault()
@@ -65,7 +63,6 @@ export default function CreateLobby () {
         boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
       />
       <Nickname nickname={nickname} onSubmit={setNickname} />
-      <LobbyPin pin={pin} onSubmit={setPin} />
       <MaxPlayers maxPlayers={maxPlayers} onSubmit={setMaxPlayers} />
       <CancelDone onLoading={isLoading} nickname={nickname} />
     </Grid>
