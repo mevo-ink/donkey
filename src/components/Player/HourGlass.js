@@ -6,8 +6,6 @@ import { CircularProgress } from '@chakra-ui/react'
 
 import database from 'utils/firebase'
 
-const TIME_LIMIT = 20
-
 export default function HourGlass ({ playerID }) {
   const timer = useRef()
 
@@ -17,7 +15,7 @@ export default function HourGlass ({ playerID }) {
     if (lobby.host === playerID && lobby.state === 'LOBBY') {
       timer.current = setInterval(async () => {
         if (!lobby.lastOnline) {
-          if (lobby.table?.time >= TIME_LIMIT) {
+          if (lobby.table?.time >= lobby.timeLimit) {
             // player ran out of time; make bot play a card
             clearInterval(timer.current)
             lobby.bot()
@@ -40,7 +38,7 @@ export default function HourGlass ({ playerID }) {
 
   return (
     <CircularProgress
-      value={lobby.table && playerID === lobby.table.turn && lobby.table.time / TIME_LIMIT * 100}
+      value={lobby.table && playerID === lobby.table.turn && lobby.table.time / lobby.timeLimit * 100}
       color={lobby.table.time > 15 ? 'red' : lobby.table.time > 10 ? 'orange' : 'lime'}
       trackColor='transparent'
       position='absolute'

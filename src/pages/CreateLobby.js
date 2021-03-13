@@ -37,6 +37,7 @@ export default function CreateLobby () {
       host: myPlayerID,
       state: 'PRE_LOBBY',
       maxPlayers,
+      timeLimit: 20,
       players: {
         [myPlayerID]: { playerID: myPlayerID, nickname, avatar }
       }

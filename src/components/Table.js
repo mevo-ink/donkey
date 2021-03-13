@@ -86,37 +86,21 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - BUG
-    - disable clicking on cards in END GAME
+  - BUG: Block joining if game already in progress
   - Player settings
     - Host will have additional settings
       - actions
         - change nickname
         - Change max players
-        - Change room pin ** v2
-        - Change bot time
-        - Kick player
+        - Kick player ** v2
         - change room host ** v2
         - Permanent ban player ** v2
-      - viewing
-        - show list of players
-          - group by online, bots,  (** v2)
     - Normal player
       - change nickname
       - auto-bot mode
       - leave room
   - Spectator  ** v2
-  - Find Lobbies
-    - Disable if lobby is full
-  - Join lobby  ** v2
-    - Ask for pin if set  ** v2
-  - Google login ** v2
-  - Chat ** v2
-  - Quick emojies for players (optional if time)
-    - By clicking on player avatar, show some quick reactions - smileys
   - Got cutted UI
   - Table content UI
   - End Game UI
-  - Check BOT bugs on end game
-  - etc ...
 */
