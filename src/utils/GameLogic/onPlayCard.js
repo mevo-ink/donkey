@@ -9,6 +9,9 @@ const onPlayCard = (playedCard, lobby) => {
   // disable if currently showing cut animation
   if (lobby.gotCut) return false
 
+  // disable if currently showing pile full animation
+  if (lobby.pileFull) return false
+
   // disable if it is not current user's turn
   if (playedCard.playerID !== lobby.table.turn) return false
 
@@ -30,10 +33,8 @@ const onPlayCard = (playedCard, lobby) => {
     database().ref(`${lobby.name}/gotCut`).set({ playerID: gotCuttedPlayerID, card: playedCard })
   } else {
     if (lobby.isPileFull()) {
-      // change turn
-      lobby.changeTurn(lobby.getHighestPlayerIDFromPile())
-      // discard the pile
-      lobby.discardPile()
+      // update the db to show discard pile
+      database().ref(`${lobby.name}/pileFull`).set(true)
     } else {
       // change turn
       const playerIDsWithCards = lobby.getPlayerIDsWithCards()

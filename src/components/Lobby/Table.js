@@ -106,6 +106,41 @@ const CutAnimation = () => {
   )
 }
 
+const PileFullAnimation = () => {
+  const lobby = useLobby()
+
+  useEffect(() => {
+    setTimeout(() => {
+      // change turn
+      lobby.changeTurn(lobby.getHighestPlayerIDFromPile())
+      // discard the pile
+      lobby.discardPile()
+      // update firebase
+      database().ref(`${lobby.name}/table`).set(lobby.table)
+      database().ref(`${lobby.name}/pileFull`).set(null)
+      // check for winning condition
+      if (lobby.isEndGame()) {
+        lobby.emptyDiscard()
+        database().ref(`${lobby.name}`).update({
+          state: 'END_GAME',
+          donkey: lobby.getPlayerIDsWithCards()[0]
+        })
+      }
+    }, 5000) // eslint-disable-next-line
+  }, [])
+
+  return (
+    <Text
+      fontSize='24px'
+      lineHeight='24px'
+      width='69px'
+      textAlign='center'
+    >
+      SHOW PILE DISCARDING ANIMATION !!
+    </Text>
+  )
+}
+
 export default function Table ({ tableContent }) {
   const lobby = useLobby()
 
@@ -148,6 +183,7 @@ export default function Table ({ tableContent }) {
         >
           {tableContent}
           {lobby.gotCut && <CutAnimation />}
+          {lobby.pileFull && <PileFullAnimation />}
         </Grid>
         {positions.map((positions, idx) => (
           <Grid key={idx} placeItems='center' width='100%' height='100%'>

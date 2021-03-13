@@ -88,10 +88,18 @@ export default function Lobby () {
     )
   }
 
-  if (lobby.state.gotCut) {
+  if (lobby.gotCut) {
     tableContent = (
       <Text>
         {lobby.players[lobby.gotCut.playerID].nickname} GOT CUTTED
+      </Text>
+    )
+  }
+
+  if (lobby.pileFull) {
+    tableContent = (
+      <Text>
+        PILE IS FULL
       </Text>
     )
   }
