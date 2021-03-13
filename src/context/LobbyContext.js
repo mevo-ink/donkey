@@ -25,10 +25,14 @@ export const useLobby = () => {
   }
 
   // add some common getters for lobby
-  lobby.getPlayersWithCards = () => {
+  lobby.isEndGame = () => {
     const playersWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards).some(card => card.playerID === playerID))
     const playersInPile = Object.keys(lobby.pile || {})
-    return [...new Set(...playersWithCards, ...playersInPile)]
+    return [...new Set([...playersWithCards, ...playersInPile])].length === 1
+  }
+
+  lobby.getPlayerIDsWithCards = () => {
+    return Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards).some(card => card.playerID === playerID))
   }
 
   lobby.getPileCards = () => {
@@ -36,7 +40,7 @@ export const useLobby = () => {
   }
 
   lobby.isPileFull = () => {
-    return Object.values(lobby.table.pile || {}).length === Object.keys(lobby.players).length
+    return Object.values(lobby.table.pile || {}).length === lobby.getPlayerIDsWithCards().length
   }
 
   lobby.emptyDiscard = () => {
@@ -60,17 +64,24 @@ export const useLobby = () => {
 
   lobby.addCardToTablePile = (card) => {
     if (!lobby.table.pile) lobby.table.pile = {}
-    lobby.table.pile[card.playerID] = card
+    lobby.table.pile[card.cardID] = { ...card }
   }
 
   lobby.movePileCardsToPlayer = (playerID) => {
     for (const card of Object.values(lobby.table.pile)) {
-      lobby.table.cards[card.cardID] = {
+      lobby.table.cards[card.cardID].playerID = {
         ...lobby.table.cards[card.cardID],
         playerID
       }
     }
     lobby.table.pile = null
+  }
+
+  lobby.addCardToPlayer = (card, playerID) => {
+    lobby.table.cards[card.cardID] = {
+      ...lobby.table.cards[card.cardID],
+      playerID
+    }
   }
 
   lobby.removeCardFromPlayer = (card) => {

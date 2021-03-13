@@ -88,10 +88,10 @@ export default function Lobby () {
     )
   }
 
-  if (lobby.state.gotCuttedPlayerID) {
+  if (lobby.state.gotCut) {
     tableContent = (
       <Text>
-        {lobby.players[lobby.gotCuttedPlayerID].nickname} GOT CUTTED
+        {lobby.players[lobby.gotCut.playerID].nickname} GOT CUTTED
       </Text>
     )
   }

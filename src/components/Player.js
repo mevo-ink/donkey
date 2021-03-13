@@ -22,7 +22,7 @@ export default function Player ({ player, positions: [playerPosition, cardPositi
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.3 } }}
     >
-      {lobby.state === 'LOBBY' && !lobby.gotCuttedPlayerID && <HourGlass playerID={player.playerID} />}
+      {lobby.state === 'LOBBY' && !lobby.gotCut && <HourGlass playerID={player.playerID} />}
       <Image
         width='40px'
         maxW='unset'

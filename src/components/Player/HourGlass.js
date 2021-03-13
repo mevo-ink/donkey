@@ -43,7 +43,7 @@ export default function HourGlass ({ playerID }) {
     <CircularProgress
       value={lobby.table && playerID === lobby.table.turn && lobby.table.time / TIME_LIMIT * 100}
       color={lobby.table.time > 15 ? 'red' : lobby.table.time > 10 ? 'orange' : 'lime'}
-      // trackColor='transparent'
+      trackColor='transparent'
       position='absolute'
       size='35px'
       thickness='10px'

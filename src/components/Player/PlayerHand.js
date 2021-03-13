@@ -8,8 +8,6 @@ import {
   Image
 } from '@chakra-ui/react'
 
-import onPlayCard from 'utils/GameLogic/onPlayCard'
-
 export default function PlayerHand () {
   const lobby = useLobby()
 
@@ -46,7 +44,7 @@ export default function PlayerHand () {
             transform={`translate(-50%, -50%) rotate(${-rotateCardDegree / 2 + rotateCardDegree / (myCards.length + 1) * (idx + 1)}deg)`}
             transformOrigin='center 200%'
             transition='transform 0.3s ease-out'
-            onClick={() => onPlayCard(card, lobby, myCards)}
+            onClick={() => lobby.playCard(card)}
             onMouseEnter={() => setRotateCardDegree(140)}
             onMouseLeave={() => setRotateCardDegree(120)}
           />
