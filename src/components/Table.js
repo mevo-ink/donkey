@@ -90,17 +90,12 @@ export default function Table () {
   - Player settings
     - Host will have additional settings
       - actions
-        - change nickname
-        - Change max players
-        - Kick player ** v2
-        - change room host ** v2
-        - Permanent ban player ** v2
+        - change nickname - popover
+        - Change max players (while in pre_lobby)  - popover
     - Normal player
       - change nickname
-      - auto-bot mode
-      - leave room
-  - Spectator  ** v2
-  - Got cutted UI
   - Table content UI
+  - show BOT icon for player if offline
   - End Game UI
+    - ask host to reset game (goes to pre_lobby)
 */
