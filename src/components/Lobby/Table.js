@@ -1,4 +1,4 @@
-import { usePlayers } from 'context/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 
 import { Grid } from '@chakra-ui/react'
 
@@ -32,25 +32,41 @@ const getSeatingPositions = (count) => {
 }
 
 const getPositions = (count) => {
+  // const AVATAR_OFFSET = 16.5
   const seatingPositions = getSeatingPositions(count)
+  // const EDGE = `${-AVATAR_OFFSET / 2}px`
   return [
     [{ bottom: '-10px' }, { bottom: '45px' }],
-    [{ left: '21px', bottom: '33px' }, { left: '29px', bottom: '33px' }],
-    [{ left: '-13px', bottom: '108px' }, { left: '42px', bottom: '28px' }],
-    [{ left: '-13px', top: '219.5px' }, { left: '42px' }],
-    [{ left: '-13px', top: '108px' }, { left: '42px', top: '28px' }],
-    [{ left: '22px', top: '33px' }, { left: '29px', top: '33px' }],
+    [{ left: '15px', bottom: '33px' }, { left: '40px', bottom: '33px' }],
+    [{ left: '-10px', bottom: '120px' }, { left: '50px', bottom: '15px' }],
+    [{ left: '-10px', top: '219.5px' }, { left: '42px' }],
+    [{ left: '-10px', top: '120px' }, { left: '50px', top: '15px' }],
+    [{ left: '15px', top: '33px' }, { left: '40px', top: '33px' }],
     [{ top: '-10px' }, { top: '45px' }],
-    [{ right: '21px', top: '33px' }, { right: '29px', top: '33px' }],
-    [{ right: '-13px', top: '108px' }, { right: '42px', top: '28px' }],
+    [{ right: '15px', top: '33px' }, { right: '40px', top: '33px' }],
+    [{ right: '-10px', top: '120px' }, { right: '50px', top: '15px' }],
     [{ bottom: '219.5px', right: '-13px' }, { right: '42px' }],
-    [{ right: '-13px', bottom: '108px' }, { right: '42px', bottom: '28px' }],
-    [{ right: '21px', bottom: '33px' }, { right: '29px', bottom: '33px' }]
+    [{ right: '-10px', bottom: '120px' }, { right: '50px', bottom: '15px' }],
+    [{ right: '15px', bottom: '33px' }, { right: '40px', bottom: '33px' }]
+    // [{ bottom: EDGE }, { bottom: '45px' }],
+    // [{ left: EDGE, bottom: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { left: '29px', bottom: '33px' }],
+    // [{ left: EDGE, bottom: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { left: '42px', bottom: '28px' }],
+    // [{ left: EDGE, top: `calc(50% - ${AVATAR_OFFSET}px)` }, { left: '42px' }],
+    // [{ left: EDGE, top: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { left: '42px', top: '28px' }],
+    // [{ left: EDGE, top: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { left: '29px', top: '33px' }],
+    // [{ top: EDGE }, { top: '45px' }],
+    // [{ right: EDGE, top: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { right: '29px', top: '33px' }],
+    // [{ right: EDGE, top: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { right: '42px', top: '28px' }],
+    // [{ bottom: `calc(50% - ${AVATAR_OFFSET}px)`, right: '-13px' }, { right: '42px' }],
+    // [{ right: EDGE, bottom: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { right: '42px', bottom: '28px' }],
+    // [{ right: EDGE, bottom: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { right: '29px', bottom: '33px' }]
   ].filter((_, idx) => seatingPositions.includes(idx))
 }
 
 export default function Table ({ tableContent }) {
-  const players = usePlayers()
+  const lobby = useLobby()
+
+  const players = lobby.getPlayers()
 
   const myPlayerID = window.localStorage.getItem('playerID')
 
@@ -89,9 +105,9 @@ export default function Table ({ tableContent }) {
         >
           {tableContent}
         </Grid>
-        {players.map((player, idx) => (
-          <Grid key={player.playerID} placeItems='center'>
-            <Player player={player} positions={positions[idx]} />
+        {positions.map((positions, idx) => (
+          <Grid key={idx} placeItems='center' width='100%' height='100%'>
+            <Player player={players[idx]} positions={positions} />
           </Grid>
         ))}
       </Grid>

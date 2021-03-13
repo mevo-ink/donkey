@@ -1,4 +1,4 @@
-import { useLobby, usePlayers } from 'context/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 
 import { Text, Flex, Button } from '@chakra-ui/react'
 
@@ -9,7 +9,7 @@ import database from 'utils/firebase'
 export default function PreLobbyGuest () {
   const lobby = useLobby()
 
-  const players = usePlayers()
+  const players = lobby.getPlayers()
 
   const onStartGame = () => {
     database().ref(`${lobby.name}`).update({

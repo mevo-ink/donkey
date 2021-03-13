@@ -37,15 +37,16 @@ export default function HourGlass ({ playerID }) {
     return () => {
       clearInterval(timer.current)
     } // eslint-disable-next-line
-  }, [lobby.table?.time, lobby.lastOnline])
+  }, [lobby.table?.time, lobby.lastOnline, lobby.table.turn])
 
   return (
     <CircularProgress
       value={lobby.table && playerID === lobby.table.turn && lobby.table.time / TIME_LIMIT * 100}
-      color={lobby.table.time > 15 ? 'red' : 'lime'}
+      color={lobby.table.time > 15 ? 'red' : lobby.table.time > 10 ? 'orange' : 'lime'}
+      // trackColor='transparent'
       position='absolute'
       size='35px'
-      thickness='8px'
+      thickness='10px'
     />
   )
 }

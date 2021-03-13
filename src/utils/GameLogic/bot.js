@@ -7,8 +7,9 @@ const randomCardPicker = function (array) {
 const Bot = (lobby) => {
   // force the current player to play a card - BOT
   // select a random playable card from current player's stack
-  const myCards = Object.values(lobby.table?.cards || {})
+  const myCards = lobby.getPlayerCards(lobby.turn)
     .filter(card => card.playerID === lobby.table.turn)
+
   let randomCard
   if (lobby.table.pile) {
     randomCard = myCards
@@ -22,7 +23,7 @@ const Bot = (lobby) => {
     randomCard = randomCardPicker(myCards)
   }
   // call onPlayCard(card)
-  onPlayCard(randomCard, lobby, myCards)
+  randomCard && onPlayCard(randomCard, lobby, myCards)
 }
 
 export default Bot

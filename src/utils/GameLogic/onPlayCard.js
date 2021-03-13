@@ -1,126 +1,64 @@
 import database from 'utils/firebase'
 
-import { maxBy, cloneDeep } from 'lodash'
-
 import canPlaySuite from 'utils/GameLogic/canPlaySuite'
 
-const onPlayCard = (playedCard, lobby, myCards) => {
+const onPlayCard = (playedCard, lobby) => {
+  // check if its current user's turn
+  if (playedCard.playerID !== lobby.table.turn) return false
+
   // check for endgame and return if true
-  const canPlay = true || canPlaySuite(playedCard.suite, playedCard.playerID, lobby, myCards)
+  const canPlay = canPlaySuite({ suite: playedCard.suite, lobby })
 
-  if (canPlay) {
-    // get local copy of table
-    let table = cloneDeep(lobby.table)
+  if (!canPlay) return false
 
-    // convert firebase objects (cards, pile, discard) to actual js arrays
-    table = {
-      ...table,
-      cards: Object.values(table.cards),
-      pile: Object.values(table.pile || {}),
-      discard: Object.values(table.discard || {})
-    }
+  // add card to table pile
+  lobby.addCardToTablePile(playedCard)
 
-    // add card to table pile and remove from current player's hand
-    table = {
-      ...table,
-      pile: [playedCard, ...table.pile],
-      cards: table.cards.map(card => card.suite === playedCard.suite && card.number === playedCard.number ? { ...card, playerID: null } : card)
-    }
+  // remove from current player's hand
+  lobby.removeCardFromPlayer(playedCard)
 
-    // get the highest number from current pile
-    const maxPileCard = maxBy(table.pile, 'number') || {}
+  if (canPlay === 'CUT') {
+    // getting max card from pile excluding cutted player (current player)
+    const gotCuttedPlayerID = lobby.getHighestPlayerIDFromPileExcludingPlayer(playedCard.playerID)
 
-    // get remaining players
-    const playersWithCards = lobby.getPlayersWithCards()
-
+    // update the db to show cut animation
     if (canPlay === 'CUT') {
-      // getting pile without the last card
-      const temp = cloneDeep(table.pile)
-      temp.shift()
-      const maxCardInCuttedPile = maxBy(temp, 'number') || {}
-
-      // variable named by @arun99-dev (like and sub <3)
-      const gotCuttedPlayerID = maxCardInCuttedPile.playerID
-      // update the db to show cut animation
-      if (canPlay === 'CUT') {
-        database().ref(`${lobby.name}/gotCuttedPlayerID`).set(gotCuttedPlayerID)
-      }
-      // if the current player got cut, add back the playerID back into playersWithCards
-      if (gotCuttedPlayerID === playedCard.playerID && !playersWithCards.includes(gotCuttedPlayerID)) {
-        playersWithCards.push(gotCuttedPlayerID)
-      }
-      const pileCardsObject = {}
-      for (const pileCard of table.pile) {
-        pileCardsObject[`${pileCard.number}-to-${pileCard.suite}`] = pileCard
-      }
-      // add to existing cards of the player who got cut and empty the pile and change turn
-      table = {
-        ...table,
-        cards: table.cards.map(card => table.pile.find(pileCard => pileCard.cardID === card.cardID) ? { ...card, playerID: gotCuttedPlayerID } : card),
-        pile: [],
-        turn: gotCuttedPlayerID
-      }
-    } else {
-      // discard pile if full
-      if (table.pile.length === playersWithCards.length) {
-        // find maxCard's player from pile and set as next turn
-        const maxCardPlayerID = maxPileCard.playerID
-        table = {
-          ...table,
-          pile: [],
-          discard: [...table.pile, ...table.discard],
-          turn: maxCardPlayerID
-        }
-      } else {
-        // change turn
-        const nextPlayerID = playersWithCards[1]
-        table = {
-          ...table,
-          turn: nextPlayerID
-        }
-      }
+      database().ref(`${lobby.name}/gotCuttedPlayerID`).set(gotCuttedPlayerID)
     }
 
-    // convert cards array back to firebase object
-    table = {
-      ...table,
-      cards: table.cards.reduce((accumulator, card) => {
-        accumulator[card.cardID] = card
-        return accumulator
-      }, {}),
-      time: 0
-    }
+    // move existing pile cards to the player who got cut
+    lobby.movePileCardsToPlayer(gotCuttedPlayerID)
 
-    if (canPlay === 'CUT' || table.pile.length === playersWithCards.length) {
-      setTimeout(() => {
-        // remove cut animation
-        database().ref(`${lobby.name}/gotCuttedPlayerID`).set(null)
-        // check for winning condition
-        if (playersWithCards.length === 1) {
-          database().ref(`${lobby.name}`).update({
-            state: 'END_GAME',
-            donkey: playersWithCards[0],
-            table
-          })
-        } else {
-          // update table
-          database().ref(`${lobby.name}/table`).set(table)
-        }
-      }, 10000)
+    // change turn
+    lobby.changeTurn(gotCuttedPlayerID)
+  } else {
+    if (lobby.isPileFull()) {
+      // change turn
+      lobby.changeTurn(lobby.getHighestPlayerIDFromPile())
+
+      // discard the pile
+      lobby.discardPile()
     } else {
-      // check for winning condition
-      if (playersWithCards.length === 1) {
-        database().ref(`${lobby.name}`).update({
-          state: 'END_GAME',
-          donkey: playersWithCards[0],
-          table
-        })
-      } else {
-        // update table
-        database().ref(`${lobby.name}/table`).set(table)
-      }
+      // change turn
+      const players = lobby.getPlayers()
+      const currentPlayerIndex = players.findIndex(({ playerID }) => playerID === playedCard.playerID)
+      const nextPlayerIndex = (currentPlayerIndex + 1) % players.length
+      const nextPlayer = players[nextPlayerIndex]
+      lobby.changeTurn(nextPlayer.playerID)
     }
   }
+
+  // check for winning condition
+  if (lobby.getPlayersWithCards().length === 1) {
+    lobby.emptyDiscard()
+    database().ref(`${lobby.name}`).update({
+      state: 'END_GAME',
+      donkey: lobby.getPlayersWithCards()[0]
+    })
+  }
+
+  // update firebase
+  database().ref(`${lobby.name}/table`).set(lobby.table)
 }
 
 export default onPlayCard

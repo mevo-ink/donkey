@@ -1,18 +1,15 @@
-const canPlaySuite = (suite, playerID, lobby, myCards) => {
-  // check if its current user's turn
-  if (playerID !== lobby.table.turn) {
-    return false
-  }
+const canPlaySuite = ({ suite, lobby }) => {
+  const pile = lobby.getPileCards()
 
-  if (!lobby.table.pile) {
+  if (pile.length === 0) {
     return 'GOOD_PILE_EMPTY'
   } else {
-    const topPileCard = Object.values(lobby.table.pile)[0]
+    const topPileCard = pile[0]
     // check if playing card's suite === topPileCard's suite
     if (suite === topPileCard.suite) {
       return 'GOOD' // legal move
     } else {
-      const hasMatchingSuite = myCards.some(({ suite }) => suite === topPileCard.suite)
+      const hasMatchingSuite = lobby.getMyCards().some(({ suite }) => suite === topPileCard.suite)
       if (hasMatchingSuite) {
         return false // invalid move
       } else {

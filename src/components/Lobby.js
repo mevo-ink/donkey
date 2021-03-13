@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 
-import { useLobby, usePlayers } from 'context/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
 import {
@@ -22,7 +22,8 @@ export default function Lobby () {
   const dealingTimer = useRef()
 
   const lobby = useLobby()
-  const players = usePlayers()
+
+  const players = lobby.getPlayers()
 
   const myPlayerID = window.localStorage.getItem('playerID')
 

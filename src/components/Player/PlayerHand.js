@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useLobby, useMyCards } from 'context/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 
 import {
   Box,
@@ -15,7 +15,7 @@ export default function PlayerHand () {
 
   const [rotateCardDegree, setRotateCardDegree] = useState(120)
 
-  const myCards = useMyCards()
+  const myCards = lobby.getMyCards()
 
   return (
     <Flex
