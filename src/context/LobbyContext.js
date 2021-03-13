@@ -5,7 +5,8 @@ import {
 
 import { maxBy } from 'lodash'
 
-import onPlayCard from 'utils/GameLogic/onPlayCard'
+import onPlayCard from 'context/utils/onPlayCard'
+import bot from 'context/utils/bot'
 
 export const LobbyContext = createContext()
 
@@ -121,6 +122,10 @@ export const useLobby = () => {
 
   lobby.playCard = (card) => {
     onPlayCard(card, lobby)
+  }
+
+  lobby.bot = () => {
+    bot(lobby)
   }
 
   return lobby

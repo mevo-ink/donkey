@@ -5,7 +5,6 @@ import { useLobby } from 'context/LobbyContext'
 import { CircularProgress } from '@chakra-ui/react'
 
 import database from 'utils/firebase'
-import bot from 'utils/GameLogic/bot'
 
 const TIME_LIMIT = 20
 
@@ -21,7 +20,7 @@ export default function HourGlass ({ playerID }) {
           if (lobby.table?.time >= TIME_LIMIT) {
             // player ran out of time; make bot play a card
             clearInterval(timer.current)
-            bot(lobby)
+            lobby.bot()
           } else {
             database().ref(`${lobby.name}/table/time`).set(lobby.table?.time + 1)
           }

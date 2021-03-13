@@ -7,7 +7,7 @@ import spinningCard from 'images/rotatingCardGif.gif'
 import { motion } from 'framer-motion'
 const MotionImage = motion(Image)
 
-export default function Dealing () {
+export default function DealingAnimation () {
   const lobby = useLobby()
 
   const players = lobby.getPlayers()

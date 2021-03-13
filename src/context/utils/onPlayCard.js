@@ -1,6 +1,6 @@
 import database from 'utils/firebase'
 
-import canPlaySuite from 'utils/GameLogic/canPlaySuite'
+import canPlaySuite from 'context/utils/canPlaySuite'
 
 const onPlayCard = (playedCard, lobby) => {
   // disable if game has ended

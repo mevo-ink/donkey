@@ -1,9 +1,14 @@
 import { useLobby } from 'context/LobbyContext'
 
-import { Grid } from '@chakra-ui/react'
+import { Grid, Text } from '@chakra-ui/react'
 
-import DiscardPileAnimation from 'components/Table/DiscardPileAnimation'
-import CutAnimation from 'components/Table/CutAnimation'
+import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
+import PreLobbyHost from 'components/TableContent/PreLobbyHost'
+import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
+import DealingAnimation from 'components/TableContent/DealingAnimation'
+import DiscardPileAnimation from 'components/TableContent/DiscardPileAnimation'
+import CutAnimation from 'components/TableContent/CutAnimation'
+import EndGameAnimation from 'components/TableContent/EndGameAnimation'
 
 import Player from 'components/Player'
 
@@ -66,7 +71,7 @@ const getPositions = (count) => {
   ].filter((_, idx) => seatingPositions.includes(idx))
 }
 
-export default function Table ({ tableContent }) {
+export default function Table () {
   const lobby = useLobby()
 
   const players = lobby.getPlayers()
@@ -81,22 +86,22 @@ export default function Table ({ tableContent }) {
 
   return (
     <MotionGrid
-      width='242px'
-      height='470px'
+      width={{ desktop: '90vw', ipad: '342px', mobile: '242px' }}
+      height={{ desktop: '90vw', ipad: '570px', mobile: '470px' }}
       placeItems='center'
       background='linear-gradient(180deg, #363C67 0%, #2A2E54 100%)'
       boxShadow='0px 5px 6px 5px rgba(0, 0, 0, 0.25)'
-      borderRadius='200px'
+      borderRadius={{ desktop: '50%', ipad: '200px', mobile: '200px' }}
       position='relative'
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
     >
       <Grid
-        width='215px'
-        height='440px'
+        width={{ desktop: '85vw', ipad: '315px', mobile: '215px' }}
+        height={{ desktop: '85vw', ipad: '540px', mobile: '440px' }}
         background='linear-gradient(180deg, #464D86 0%, #2A2E54 100%)'
         boxShadow='0px 4px 4px rgba(0, 0, 0, 0.25)'
-        borderRadius='200px'
+        borderRadius={{ desktop: '50%', ipad: '200px', mobile: '200px' }}
         gridTemplateColumns='1fr 1fr'
         display='block'
       >
@@ -106,9 +111,21 @@ export default function Table ({ tableContent }) {
           placeItems='center'
           gridColumn='1/-1'
         >
-          {tableContent}
+          {lobby.lastOnline && <LobbyHostOffline />}
+          {lobby.state === 'PRE_LOBBY' && myPlayerID === lobby.host && <PreLobbyHost />}
+          {lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
+          {lobby.state === 'DEALING' && <DealingAnimation />}
           {lobby.gotCut && <CutAnimation />}
           {lobby.pileFull && <DiscardPileAnimation />}
+          {lobby.donkey && <EndGameAnimation />}
+          <Text
+            fontSize='24px'
+            lineHeight='24px'
+            width='69px'
+            textAlign='center'
+          >
+            {lobby.table && lobby.players[lobby.table.turn]?.nickname} 's TURN
+          </Text>
         </Grid>
         {positions.map((positions, idx) => (
           <Grid key={idx} placeItems='center' width='100%' height='100%'>

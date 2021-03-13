@@ -45,7 +45,7 @@ export default function Player ({ player, positions: [playerPosition, cardPositi
         fontWeight='bold'
         width='100%'
         position='absolute'
-        top='3px'
+        top='34px'
       >
         {player.nickname} {lobby.table?.cards ? `- ${Object.values(lobby.table.cards).filter(card => card.playerID === player.playerID).length}` : ''}
       </Text>
