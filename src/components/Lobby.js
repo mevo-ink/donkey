@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 
 import LobbyInfo from 'components/Lobby/LobbyInfo'
-import Table from 'components/Lobby/Table'
+import Table from 'components/Table'
 import PlayerHand from 'components/Player/PlayerHand'
 import Dealing from 'components/Lobby/Dealing'
 import LobbyHostOffline from 'components/Lobby/LobbyHostOffline'

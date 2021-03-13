@@ -9,7 +9,7 @@ import { Grid } from '@chakra-ui/react'
 
 import LobbyInfo from 'components/Lobby/LobbyInfo'
 
-import Table from 'components/Lobby/Table'
+import Table from 'components/Table'
 import PreLobbyGuest from 'components/PreLobby/PreLobbyGuest'
 import PreLobbyHost from 'components/PreLobby/PreLobbyHost'
 
