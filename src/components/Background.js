@@ -1,3 +1,5 @@
+import { useLobby } from 'context/LobbyContext'
+
 import {
   Grid,
   Text,
@@ -6,7 +8,11 @@ import {
 
 import bgImage from 'images/bg.png'
 
-export default function Background ({ hideText = false, children }) {
+export default function Background ({ children }) {
+  const lobby = useLobby()
+
+  const offset = ['LOBBY', 'DEALING'].includes(lobby.state)
+
   return (
     <Grid
       bg='linear-gradient(180deg, rgba(54, 60, 105, 0.85) 0%, #222646 100%)'
@@ -28,8 +34,9 @@ export default function Background ({ hideText = false, children }) {
           w='95vw'
           maxWidth='920px'
           objectFit='cover'
+          mt={offset && '-100px'}
         />
-        {!hideText && (
+        {offset && (
           <>
             <Text
               fontSize='48px'

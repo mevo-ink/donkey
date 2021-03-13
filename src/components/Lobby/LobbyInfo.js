@@ -21,7 +21,7 @@ export default function LobbyInfo () {
       mb='54px'
       overflow='hidden'
       position='absolute'
-      top='50px'
+      top='25px'
     >
       <MotionBox
         ml='16px'

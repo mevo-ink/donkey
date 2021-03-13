@@ -22,7 +22,8 @@ export const useLobby = () => {
   const lobby = useContext(LobbyContext)
 
   if (lobby === undefined) {
-    throw new Error('useLobby must be used within a LobbyProvider')
+    return { state: 'NOT_READY' }
+    // throw new Error('useLobby must be used within a LobbyProvider')
   }
 
   // add some common getters for lobby

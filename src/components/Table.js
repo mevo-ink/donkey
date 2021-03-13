@@ -86,22 +86,26 @@ export default function Table () {
 
   return (
     <MotionGrid
-      width={{ desktop: '90vw', ipad: '342px', mobile: '242px' }}
-      height={{ desktop: '90vw', ipad: '570px', mobile: '470px' }}
+      width='242px'
+      height='470px'
       placeItems='center'
       background='linear-gradient(180deg, #363C67 0%, #2A2E54 100%)'
       boxShadow='0px 5px 6px 5px rgba(0, 0, 0, 0.25)'
-      borderRadius={{ desktop: '50%', ipad: '200px', mobile: '200px' }}
+      borderRadius='200px'
       position='relative'
+      sx={{
+        zoom: 1
+      }}
+      mt='-100px'
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
     >
       <Grid
-        width={{ desktop: '85vw', ipad: '315px', mobile: '215px' }}
-        height={{ desktop: '85vw', ipad: '540px', mobile: '440px' }}
+        width='215px'
+        height='440px'
         background='linear-gradient(180deg, #464D86 0%, #2A2E54 100%)'
         boxShadow='0px 4px 4px rgba(0, 0, 0, 0.25)'
-        borderRadius={{ desktop: '50%', ipad: '200px', mobile: '200px' }}
+        borderRadius='200px'
         gridTemplateColumns='1fr 1fr'
         display='block'
       >

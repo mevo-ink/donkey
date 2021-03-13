@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 import { LobbyProvider } from 'context/LobbyContext'
 
+import Background from 'components/Background'
+
 import Loading from 'components/Loading'
 
 import LobbyNotFound from 'components/LobbyManager/LobbyNotFound'
@@ -60,7 +62,9 @@ export default function LobbyManager ({ name }) {
 
   return (
     <LobbyProvider value={lobby}>
-      {render}
+      <Background>
+        {render}
+      </Background>
     </LobbyProvider>
   )
 }

@@ -21,8 +21,11 @@ function App () {
   useServiceWorker()
   useFingerprint()
 
+  const isLobbyManager = window.location.pathname.startsWith('/lobbies/')
+  if (isLobbyManager) return routeResult
+
   return (
-    <Background hideText={window.location.pathname.startsWith('/lobbies/')}>
+    <Background>
       {routeResult || <Home />}
     </Background>
   )
