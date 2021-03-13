@@ -87,6 +87,8 @@ export default function Table () {
 /*
   TODO LIST:
   - BUG: Block joining if game already in progress
+  - Copy to clipboard on room name click
+  - RESPONSIVE TABLE FOR DESKTOP
   - Player settings
     - Host will have additional settings
       - actions
