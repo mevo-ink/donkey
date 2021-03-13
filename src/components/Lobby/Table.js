@@ -1,3 +1,7 @@
+import { useEffect } from 'react'
+
+import database from 'utils/firebase'
+
 import { useLobby } from 'context/LobbyContext'
 
 import { Grid } from '@chakra-ui/react'
@@ -63,6 +67,19 @@ const getPositions = (count) => {
   ].filter((_, idx) => seatingPositions.includes(idx))
 }
 
+const CutAnimation = () => {
+  const lobby = useLobby()
+
+  useEffect(() => {
+    setTimeout(() => {
+      database().ref(`${lobby.name}/gotCuttedPlayerID`).set(null)
+    }, 5000)
+  }, [])
+  return (
+    <h1>HEHEHEHE</h1>
+  )
+}
+
 export default function Table ({ tableContent }) {
   const lobby = useLobby()
 
@@ -104,6 +121,7 @@ export default function Table ({ tableContent }) {
           gridColumn='1/-1'
         >
           {tableContent}
+          {lobby.gotCuttedPlayerID && <CutAnimation />}
         </Grid>
         {positions.map((positions, idx) => (
           <Grid key={idx} placeItems='center' width='100%' height='100%'>
