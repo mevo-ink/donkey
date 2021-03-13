@@ -14,22 +14,7 @@ export default function DealingAnimation () {
 
   const numberOfPlayers = players.length
 
-  const position = [
-    { x: 0, y: 222 },
-    { x: -80, y: 170 },
-    { x: -91, y: 93 },
-    { x: -91, y: -0 },
-    { x: -91, y: -79 },
-    { x: -80, y: -170 },
-    { x: 0, y: -232 },
-    { x: 80, y: -170 },
-    { x: 90, y: -79 },
-    { x: 90, y: -0 },
-    { x: 90, y: 93 },
-    { x: 80, y: 170 }
-  ]
-
-  const playersPosition = position.slice(0, (numberOfPlayers))
+  const playersPosition = lobby.getSeatingPositions().map(([_, __, playerPosition]) => playerPosition)
 
   const newPlayersPosition = []
 

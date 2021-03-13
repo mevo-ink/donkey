@@ -1,6 +1,6 @@
 import { useLobby } from 'context/LobbyContext'
 
-import { Grid, Text } from '@chakra-ui/react'
+import { Grid } from '@chakra-ui/react'
 
 import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
 import PreLobbyHost from 'components/TableContent/PreLobbyHost'
@@ -22,55 +22,6 @@ const rotate = (array, times) => {
   }
 }
 
-const getSeatingPositions = (count) => {
-  return {
-    1: [0],
-    2: [0, 6],
-    3: [0, 3, 9],
-    4: [0, 3, 6, 9],
-    5: [0, 3, 6, 8, 10],
-    6: [0, 2, 4, 6, 8, 10],
-    7: [0, 2, 4, 6, 8, 9, 10],
-    8: [0, 2, 3, 4, 6, 8, 9, 10],
-    9: [0, 1, 2, 3, 4, 6, 8, 9, 10],
-    10: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10],
-    11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    12: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-  }[count]
-}
-
-const getPositions = (count) => {
-  // const AVATAR_OFFSET = 16.5
-  const seatingPositions = getSeatingPositions(count)
-  // const EDGE = `${-AVATAR_OFFSET / 2}px`
-  return [
-    [{ bottom: '-10px' }, { bottom: '45px' }],
-    [{ left: '15px', bottom: '33px' }, { left: '40px', bottom: '33px' }],
-    [{ left: '-10px', bottom: '120px' }, { left: '50px', bottom: '15px' }],
-    [{ left: '-10px', top: '219.5px' }, { left: '42px' }],
-    [{ left: '-10px', top: '120px' }, { left: '50px', top: '15px' }],
-    [{ left: '15px', top: '33px' }, { left: '40px', top: '33px' }],
-    [{ top: '-10px' }, { top: '45px' }],
-    [{ right: '15px', top: '33px' }, { right: '40px', top: '33px' }],
-    [{ right: '-10px', top: '120px' }, { right: '50px', top: '15px' }],
-    [{ bottom: '219.5px', right: '-13px' }, { right: '42px' }],
-    [{ right: '-10px', bottom: '120px' }, { right: '50px', bottom: '15px' }],
-    [{ right: '15px', bottom: '33px' }, { right: '40px', bottom: '33px' }]
-    // [{ bottom: EDGE }, { bottom: '45px' }],
-    // [{ left: EDGE, bottom: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { left: '29px', bottom: '33px' }],
-    // [{ left: EDGE, bottom: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { left: '42px', bottom: '28px' }],
-    // [{ left: EDGE, top: `calc(50% - ${AVATAR_OFFSET}px)` }, { left: '42px' }],
-    // [{ left: EDGE, top: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { left: '42px', top: '28px' }],
-    // [{ left: EDGE, top: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { left: '29px', top: '33px' }],
-    // [{ top: EDGE }, { top: '45px' }],
-    // [{ right: EDGE, top: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { right: '29px', top: '33px' }],
-    // [{ right: EDGE, top: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { right: '42px', top: '28px' }],
-    // [{ bottom: `calc(50% - ${AVATAR_OFFSET}px)`, right: '-13px' }, { right: '42px' }],
-    // [{ right: EDGE, bottom: `calc(16.67% - ${AVATAR_OFFSET}px)` }, { right: '42px', bottom: '28px' }],
-    // [{ right: EDGE, bottom: `calc(33.34% - ${AVATAR_OFFSET}px)` }, { right: '29px', bottom: '33px' }]
-  ].filter((_, idx) => seatingPositions.includes(idx))
-}
-
 export default function Table () {
   const lobby = useLobby()
 
@@ -82,7 +33,7 @@ export default function Table () {
 
   if (currentPlayerIndex >= 0) rotate(players, currentPlayerIndex)
 
-  const positions = getPositions(players.length)
+  const positions = lobby.getSeatingPositions()
 
   return (
     <MotionGrid
@@ -122,14 +73,6 @@ export default function Table () {
           {lobby.gotCut && <CutAnimation />}
           {lobby.pileFull && <DiscardPileAnimation />}
           {lobby.donkey && <EndGameAnimation />}
-          <Text
-            fontSize='24px'
-            lineHeight='24px'
-            width='69px'
-            textAlign='center'
-          >
-            {lobby.table && lobby.players[lobby.table.turn]?.nickname} 's TURN
-          </Text>
         </Grid>
         {positions.map((positions, idx) => (
           <Grid key={idx} placeItems='center' width='100%' height='100%'>

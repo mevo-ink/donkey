@@ -17,44 +17,24 @@ export default function Lobby () {
 
   const lobby = useLobby()
 
-  const players = lobby.getPlayers()
-
   const myPlayerID = window.localStorage.getItem('playerID')
 
   usePlayerDisconnect(lobby)
 
   const cards = getCards()
 
-  const dealCard = (playerIndex) => {
-    const card = cards.pop()
-    const player = players[playerIndex]
-    const cardID = `${card.number}-of-${card.suite}`
-    database().ref(`${lobby.name}/table/cards/${cardID}`).set({
-      ...card,
-      cardID,
-      playerID: player.playerID
-    })
-    if (card.number === 14 && card.suite === 'spades') {
-      database().ref(`${lobby.name}/table`).update({
-        turn: player.playerID,
-        time: 0
-      })
-    }
-    playerIndex = (playerIndex + 1) % players.length
-    return playerIndex
-  }
-
   useEffect(() => {
     if (myPlayerID === lobby.host && lobby.state === 'DEALING') {
       database().ref(`${lobby.name}`).update({
-        state: 'DEALING'
+        state: 'DEALING',
+        table: null
       })
 
       let playerIndex = 0
 
       dealingTimer.current = setInterval(() => {
         if (cards.length > 0) {
-          playerIndex = dealCard(playerIndex)
+          playerIndex = lobby.dealPlayerCard(playerIndex, cards.pop())
         } else {
           clearInterval(dealingTimer.current)
           database().ref(`${lobby.name}`).update({
