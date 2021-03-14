@@ -74,7 +74,7 @@ export const useLobby = () => {
   }
 
   lobby.getPlayerCardFromPile = (playerID) => {
-    return Object.values(lobby.table.pile || {}).find(card => card.playerID === playerID)
+    return Object.values(lobby.table?.pile || {}).find(card => card.playerID === playerID)
   }
 
   lobby.movePileCardsToPlayer = (playerID) => {
