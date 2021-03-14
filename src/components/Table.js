@@ -93,7 +93,6 @@ export default function Table () {
     - Host will have additional settings
       - actions
         - change nickname - popover
-        - Change max players (while in pre_lobby)  - popover
     - Normal player
       - change nickname
   - Table content UI

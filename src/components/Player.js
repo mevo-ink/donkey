@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react'
 
 import HourGlass from 'components/Player/HourGlass'
+import NicknamePopover from 'components/Player/NicknamePopover'
 
 import { motion } from 'framer-motion'
 const MotionGrid = motion(Grid)
@@ -38,17 +39,19 @@ export default function Player ({ player, positions: [playerPosition, cardPositi
         borderRadius='50%'
         // background='black'
       />
-      <Text
-        fontSize='16px'
-        lineHeight='16px'
-        textAlign='center'
-        fontWeight='bold'
-        width='100%'
-        position='absolute'
-        top='34px'
-      >
-        {player.nickname} {lobby.table?.cards ? `- ${Object.values(lobby.table.cards).filter(card => card.playerID === player.playerID).length}` : ''}
-      </Text>
+      <NicknamePopover>
+        <Text
+          fontSize='16px'
+          lineHeight='16px'
+          textAlign='center'
+          fontWeight='bold'
+          width='100%'
+          position='absolute'
+          top='34px'
+        >
+          {player.nickname} {lobby.table?.cards ? `- ${Object.values(lobby.table.cards).filter(card => card.playerID === player.playerID).length}` : ''}
+        </Text>
+      </NicknamePopover>
     </MotionGrid>
   )
 }

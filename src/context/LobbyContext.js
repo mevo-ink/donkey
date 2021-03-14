@@ -137,6 +137,12 @@ export const useLobby = () => {
     })
   }
 
+  lobby.setPlayerNickname = (playerID, nickname) => {
+    database().ref(`${lobby.name}/players/${playerID}`).update({
+      nickname: nickname
+    })
+  }
+
   lobby.dealPlayerCard = (playerIndex, card) => {
     const players = lobby.getPlayers()
     const player = players[playerIndex]
