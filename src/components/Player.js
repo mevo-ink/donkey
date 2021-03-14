@@ -6,6 +6,8 @@ import {
   Image
 } from '@chakra-ui/react'
 
+import botImage from 'images/bot.png'
+
 import HourGlass from 'components/Player/HourGlass'
 import NicknamePopover from 'components/Player/NicknamePopover'
 
@@ -32,11 +34,20 @@ export default function Player ({ player, positions: [playerPosition, cardPositi
         position='absolute'
         {...cardPosition}
       />
+      {player.lastOnline &&
+        <Image
+          width='35px'
+          maxW='unset'
+          objectFit='contain'
+          src={botImage}
+          position='absolute'
+        />}
       <Image
         src={player.avatar}
         w='31px'
         h='31px'
         borderRadius='50%'
+        opacity={player.lastOnline ? '0' : '1'}
         // background='black'
       />
       <NicknamePopover>

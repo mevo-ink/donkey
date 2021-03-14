@@ -89,14 +89,7 @@ export default function Table () {
   - BUG: Block joining if game already in progress
   - Copy to clipboard on room name click
   - RESPONSIVE TABLE FOR DESKTOP
-  - Player settings
-    - Host will have additional settings
-      - actions
-        - change nickname - popover
-    - Normal player
-      - change nickname
   - Table content UI
-  - show BOT icon for player if offline
   - End Game UI
     - ask host to reset game (goes to pre_lobby)
 */
