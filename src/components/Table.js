@@ -102,6 +102,7 @@ export default function Table () {
   TODO LIST:
   - RESPONSIVE TABLE FOR DESKTOP
   - Table content UI
+  - SHOW FLAT LAYOUT IF CARDS > 10
   - End Game UI
     - ask host to reset game (goes to pre_lobby)
 */

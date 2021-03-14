@@ -14,7 +14,7 @@ export default function Nickname ({ playerID, position }) {
 
   const inputRef = useRef()
 
-  const [value, setValue] = useState(lobby.getMyself().nickname)
+  const [value, setValue] = useState(lobby.getPlayer(playerID).nickname)
 
   const [isEditing, setIsEditing] = useState(false)
 
