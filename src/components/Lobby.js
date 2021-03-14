@@ -27,7 +27,8 @@ export default function Lobby () {
     if (myPlayerID === lobby.host && lobby.state === 'DEALING') {
       database().ref(`${lobby.name}`).update({
         state: 'DEALING',
-        table: null
+        table: null,
+        maxPlayers: lobby.getPlayers().length
       })
 
       let playerIndex = 0

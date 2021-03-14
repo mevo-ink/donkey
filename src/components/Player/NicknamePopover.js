@@ -32,17 +32,14 @@ export default function NicknamePopover ({ children }) {
         {children}
       </PopoverTrigger>
       <PopoverContent
-        bg='transperant'
-        color='transperant'
+        bg=''
+        color=''
         borderRadius='25px'
         position='center'
       >
-        <PopoverArrow bg='transperant' />
+        <PopoverArrow bg='' />
         <PopoverBody p='0'>
-          <InputGroup
-            as='flex'
-            alignItems='center'
-          >
+          <InputGroup alignItems='center'>
             <Input
               ref={nicknameValue}
               width='80px'
@@ -80,7 +77,7 @@ export default function NicknamePopover ({ children }) {
                 height='25px'
                 backgroundColor='transparent'
                 color='green'
-                _hover={{ backgroundColour: 'transperant' }}
+                _hover={{ backgroundColour: 'transperent' }}
                 onClick={handleClick}
               />
             </InputRightAddon>

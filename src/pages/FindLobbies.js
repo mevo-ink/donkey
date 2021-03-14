@@ -36,7 +36,7 @@ export default function FindLobbies () {
         for (const lobby of Object.values(lobbies)) {
           const currentTime = new Date().getTime()
           if (!lobby.host || parseInt((currentTime - lobby.lastOnline) / 1000) > 900) {
-            database().ref(lobby.name).set(null)
+            await database().ref(lobby.name).set(null)
           }
         }
       }
