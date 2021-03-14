@@ -8,7 +8,17 @@ const breakpoints = createBreakpoints({
   base: '0px'
 })
 const theme = extendTheme({
-  breakpoints
+  breakpoints,
+  components: {
+    Popover: {
+      baseStyle: {
+        popper: {
+          width: 'fit-content',
+          maxWidth: 'fit-content'
+        }
+      }
+    }
+  }
 })
 
 export default theme

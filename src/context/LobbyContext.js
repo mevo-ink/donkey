@@ -131,6 +131,12 @@ export const useLobby = () => {
     bot(lobby)
   }
 
+  lobby.setMaxPlayers = (number) => {
+    database().ref(`${lobby.name}`).update({
+      maxPlayers: number
+    })
+  }
+
   lobby.dealPlayerCard = (playerIndex, card) => {
     const players = lobby.getPlayers()
     const player = players[playerIndex]

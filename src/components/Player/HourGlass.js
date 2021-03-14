@@ -18,7 +18,7 @@ export default function HourGlass ({ playerID }) {
           if (lobby.table?.time >= lobby.timeLimit) {
             // player ran out of time; make bot play a card
             clearInterval(timer.current)
-            lobby.bot()
+            // lobby.bot()
           } else {
             database().ref(`${lobby.name}/table/time`).set(lobby.table?.time + 1)
           }
