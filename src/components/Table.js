@@ -100,7 +100,6 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - Copy to clipboard on room name click
   - RESPONSIVE TABLE FOR DESKTOP
   - Table content UI
   - End Game UI
