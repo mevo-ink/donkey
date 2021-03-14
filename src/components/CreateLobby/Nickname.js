@@ -16,8 +16,8 @@ export default function Nickname ({ nickname, onSubmit }) {
   const onChange = (e) => {
     // disallow white spaces
     // force to uppercase
-    // limit characters to 15
-    onSubmit(e.target.value.trim().toUpperCase().slice(0, 15))
+    // limit characters to 9
+    onSubmit(e.target.value.trim().toUpperCase().slice(0, 9))
   }
 
   return (
