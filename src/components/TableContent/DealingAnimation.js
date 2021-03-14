@@ -31,7 +31,7 @@ export default function DealingAnimation () {
         objectFit='contain'
         position='absolute'
         initial={{ opacity: 0, x: 0, y: 0 }}
-        animate={{ opacity: [0, 1], x: pos.x, y: pos.y, transition: { delay: (1 + idx) / 2, duration: 0.2 } }}
+        animate={{ opacity: [0, 1, 0], x: pos.x, y: pos.y, transition: { delay: (1 + idx) / 2, duration: 0.2 } }}
       />
     ))
   )

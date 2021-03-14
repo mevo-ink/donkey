@@ -13,6 +13,7 @@ import NicknamePopover from 'components/Player/NicknamePopover'
 
 import { motion } from 'framer-motion'
 const MotionGrid = motion(Grid)
+const MotionImage = motion(Image)
 
 export default function Player ({ player, positions: [playerPosition, cardPosition] = [] }) {
   const lobby = useLobby()
@@ -26,13 +27,15 @@ export default function Player ({ player, positions: [playerPosition, cardPositi
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.3 } }}
     >
       {lobby.state === 'LOBBY' && !lobby.gotCut && !lobby.pileFull && <HourGlass playerID={player.playerID} />}
-      <Image
+      <MotionImage
         width='40px'
         maxW='unset'
         objectFit='contain'
         src={lobby.table?.pile && (Object.values(lobby.table.pile).find(card => card.playerID === player.playerID))?.url}
         position='absolute'
-        {...cardPosition}
+        initial={{ x: 0, y: 0, scale: 0 }}
+        animate={{ ...cardPosition, scale: 1, transition: { duration: 1 } }}
+        exit={{ scale: 0, transition: { duration: 1 } }}
       />
       {player.lastOnline &&
         <Image

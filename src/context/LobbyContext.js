@@ -179,18 +179,18 @@ export const useLobby = () => {
     }[lobby.getPlayers().length]
 
     const coordinates = [
-      [{ bottom: '-10px' }, { bottom: '45px' }, { x: 0, y: 230 }],
-      [{ left: '15px', bottom: '33px' }, { left: '40px', bottom: '33px' }, { x: -90, y: 185 }],
-      [{ left: '-10px', bottom: '120px' }, { left: '50px', bottom: '15px' }, { x: -115, y: 100 }],
-      [{ left: '-10px', top: '219.5px' }, { left: '42px' }, { x: -115, y: -0 }],
-      [{ left: '-10px', top: '120px' }, { left: '50px', top: '15px' }, { x: -115, y: -100 }],
-      [{ left: '15px', top: '33px' }, { left: '40px', top: '33px' }, { x: -90, y: -185 }],
+      [{ bottom: '-10px' }, { y: -45 }, { x: 0, y: 230 }],
+      [{ left: '15px', bottom: '33px' }, { x: 40, y: -33 }, { x: -90, y: 185 }],
+      [{ left: '-10px', bottom: '120px' }, { x: 50, y: -15 }, { x: -115, y: 100 }],
+      [{ left: '-10px', top: '219.5px' }, { x: 42 }, { x: -115, y: -0 }],
+      [{ left: '-10px', top: '120px' }, { x: 50, y: 15 }, { x: -115, y: -100 }],
+      [{ left: '15px', top: '33px' }, { x: 40, y: 33 }, { x: -90, y: -185 }],
       [{ top: '-10px' }, { top: '45px' }, { x: 0, y: -230 }],
-      [{ right: '15px', top: '33px' }, { right: '40px', top: '33px' }, { x: 90, y: -185 }],
-      [{ right: '-10px', top: '120px' }, { right: '50px', top: '15px' }, { x: 115, y: -100 }],
-      [{ bottom: '219.5px', right: '-13px' }, { right: '42px' }, { x: 115, y: -0 }],
-      [{ right: '-10px', bottom: '120px' }, { right: '50px', bottom: '15px' }, { x: 115, y: 100 }],
-      [{ right: '15px', bottom: '33px' }, { right: '40px', bottom: '33px' }, { x: 90, y: 185 }]
+      [{ right: '15px', top: '33px' }, { x: -40, y: 33 }, { x: 90, y: -185 }],
+      [{ right: '-10px', top: '120px' }, { x: -50, y: 15 }, { x: 115, y: -100 }],
+      [{ bottom: '219.5px', right: '-13px' }, { x: -42 }, { x: 115, y: -0 }],
+      [{ right: '-10px', bottom: '120px' }, { x: -50, y: -15 }, { x: 115, y: 100 }],
+      [{ right: '15px', bottom: '33px' }, { x: -40, y: -33 }, { x: 90, y: 185 }]
     ]
 
     return coordinates.filter((_, idx) => arrangements.includes(idx))

@@ -4,10 +4,27 @@ import database from 'utils/firebase'
 
 import { useLobby } from 'context/LobbyContext'
 
-import { Text } from '@chakra-ui/react'
+import { Image } from '@chakra-ui/react'
+
+import cardBack from 'images/cardBack.png'
+
+import { motion } from 'framer-motion'
+const MotionImage = motion(Image)
 
 export default function DiscardPileAnimation () {
   const lobby = useLobby()
+
+  const players = lobby.getPlayers()
+
+  const numberOfPlayers = players.length
+
+  const playersPosition = lobby.getSeatingPositions().map(([_, __, playerPosition]) => playerPosition)
+
+  const newPlayersPosition = []
+
+  for (let i = 0; i < players.length; i += numberOfPlayers) {
+    newPlayersPosition.push(...playersPosition)
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -30,13 +47,16 @@ export default function DiscardPileAnimation () {
   }, [])
 
   return (
-    <Text
-      fontSize='24px'
-      lineHeight='24px'
-      width='69px'
-      textAlign='center'
-    >
-      SHOW PILE DISCARDING ANIMATION !!
-    </Text>
+    newPlayersPosition.map((pos, idx) => (
+      <MotionImage
+        key={idx}
+        src={cardBack}
+        width='20px'
+        objectFit='contain'
+        position='absolute'
+        initial={{ opacity: 0, scale: 1.5, x: pos.x, y: pos.y }}
+        animate={{ opacity: [1, 0], x: 0, y: 0, transition: { delay: (1 + idx) / 2, duration: 1 } }}
+      />
+    ))
   )
 }

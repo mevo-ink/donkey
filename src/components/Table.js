@@ -1,6 +1,8 @@
 import { useLobby } from 'context/LobbyContext'
 
-import { Grid } from '@chakra-ui/react'
+import { Grid, Image } from '@chakra-ui/react'
+
+import cardBack from 'images/cardBack.png'
 
 import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
 import PreLobbyHost from 'components/TableContent/PreLobbyHost'
@@ -14,6 +16,7 @@ import Player from 'components/Player'
 
 import { motion } from 'framer-motion'
 const MotionGrid = motion(Grid)
+const MotionImage = motion(Image)
 
 const rotate = (array, times) => {
   while (times--) {
@@ -66,6 +69,14 @@ export default function Table () {
           placeItems='center'
           gridColumn='1/-1'
         >
+          {lobby.state === 'LOBBY' && !lobby.gotCut && lobby.table.discard &&
+            <MotionImage
+              src={cardBack}
+              width='30px'
+              objectFit='contain'
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
+            />}
           {lobby.lastOnline && <LobbyHostOffline />}
           {lobby.state === 'PRE_LOBBY' && myPlayerID === lobby.host && <PreLobbyHost />}
           {lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
