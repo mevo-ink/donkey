@@ -1,6 +1,6 @@
 import { useLobby } from 'context/LobbyContext'
 
-import { Grid, Image } from '@chakra-ui/react'
+import { Flex, Image } from '@chakra-ui/react'
 
 import cardBack from 'images/cardBack.png'
 
@@ -15,7 +15,7 @@ import EndGameAnimation from 'components/TableContent/EndGameAnimation'
 import Player from 'components/Player'
 
 import { motion } from 'framer-motion'
-const MotionGrid = motion(Grid)
+const MotionFlex = motion(Flex)
 const MotionImage = motion(Image)
 
 const rotate = (array, times) => {
@@ -39,10 +39,11 @@ export default function Table () {
   const positions = lobby.getSeatingPositions()
 
   return (
-    <MotionGrid
+    <MotionFlex
       width='242px'
       height='470px'
-      placeItems='center'
+      justifyContent='center'
+      alignItems='center'
       background='linear-gradient(180deg, #363C67 0%, #2A2E54 100%)'
       boxShadow='0px 5px 6px 5px rgba(0, 0, 0, 0.25)'
       borderRadius='200px'
@@ -54,20 +55,22 @@ export default function Table () {
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
     >
-      <Grid
+      <Flex
         width='215px'
         height='440px'
+        justifyContent='center'
+        alignItems='center'
+        position='absolute'
         background='linear-gradient(180deg, #464D86 0%, #2A2E54 100%)'
         boxShadow='0px 4px 4px rgba(0, 0, 0, 0.25)'
         borderRadius='200px'
-        gridTemplateColumns='1fr 1fr'
-        display='block'
       >
-        <Grid
+        <Flex
           w='100%'
           height='100%'
-          placeItems='center'
-          gridColumn='1/-1'
+          justifyContent='center'
+          alignItems='center'
+          position='absolute'
         >
           {lobby.state === 'LOBBY' && !lobby.gotCut && lobby.table.discard &&
             <MotionImage
@@ -84,14 +87,14 @@ export default function Table () {
           {lobby.gotCut && <CutAnimation />}
           {lobby.pileFull && <DiscardPileAnimation />}
           {lobby.donkey && <EndGameAnimation />}
-        </Grid>
+        </Flex>
         {positions.map((positions, idx) => (
-          <Grid key={idx} placeItems='center' width='100%' height='100%'>
+          <Flex key={idx} justifyContent='center' alignItems='center' position='absolute' width='100%' height='100%'>
             <Player player={players[idx]} positions={positions} />
-          </Grid>
+          </Flex>
         ))}
-      </Grid>
-    </MotionGrid>
+      </Flex>
+    </MotionFlex>
   )
 }
 

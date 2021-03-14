@@ -6,7 +6,7 @@ import { CircularProgress } from '@chakra-ui/react'
 
 import database from 'utils/firebase'
 
-export default function HourGlass ({ playerID }) {
+export default function HourGlass ({ playerID, position }) {
   const timer = useRef()
 
   const lobby = useLobby()
@@ -42,6 +42,7 @@ export default function HourGlass ({ playerID }) {
       color={lobby.table.time > 15 ? 'red' : lobby.table.time > 10 ? 'orange' : 'lime'}
       trackColor='transparent'
       position='absolute'
+      {...position}
       size='35px'
       thickness='10px'
     />

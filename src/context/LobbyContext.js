@@ -10,6 +10,8 @@ import bot from 'context/utils/bot'
 
 import database from 'utils/firebase'
 
+const myPlayerID = window.localStorage.getItem('playerID')
+
 export const LobbyContext = createContext()
 
 export const LobbyProvider = ({ value, children }) => {
@@ -71,6 +73,10 @@ export const useLobby = () => {
     lobby.table.pile[card.cardID] = { ...card }
   }
 
+  lobby.getPlayerCardFromPile = (playerID) => {
+    return Object.values(lobby.table.pile || {}).find(card => card.playerID === playerID)
+  }
+
   lobby.movePileCardsToPlayer = (playerID) => {
     for (const card of Object.values(lobby.table.pile)) {
       lobby.table.cards[card.cardID].playerID = {
@@ -101,7 +107,6 @@ export const useLobby = () => {
   }
 
   lobby.getMyCards = () => {
-    const myPlayerID = window.localStorage.getItem('playerID')
     return Object.values(lobby.table?.cards || {})
       .filter(({ playerID }) => playerID === myPlayerID)
   }
@@ -113,6 +118,10 @@ export const useLobby = () => {
 
   lobby.getPlayers = () => {
     return Object.values(lobby.players || {})
+  }
+
+  lobby.getMyself = () => {
+    return lobby.players[myPlayerID]
   }
 
   lobby.getPlayer = (playerID) => {
@@ -137,8 +146,8 @@ export const useLobby = () => {
     })
   }
 
-  lobby.setPlayerNickname = (playerID, nickname) => {
-    database().ref(`${lobby.name}/players/${playerID}`).update({
+  lobby.setPlayerNickname = (nickname) => {
+    database().ref(`${lobby.name}/players/${myPlayerID}`).update({
       nickname: nickname
     })
   }
