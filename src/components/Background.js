@@ -36,7 +36,7 @@ export default function Background ({ children, noText }) {
           objectFit='cover'
           mt={offset && '-50px'}
         />
-        {!offset && !noText && (
+        {!offset && !noText && lobby.state !== 'ENDGAME' && (
           <>
             <Text
               fontSize='48px'

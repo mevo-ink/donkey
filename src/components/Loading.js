@@ -8,7 +8,6 @@ import { motion } from 'framer-motion'
 const MotionImage = motion(Image)
 
 export default function LoadingRoom ({ marginTop }) {
-  console.log(marginTop)
   return (
     <MotionImage
       w='95vw'

@@ -9,8 +9,6 @@ export default function EndGameAnimation () {
 
   const donkeyPlayer = lobby.players[lobby.donkey]
 
-  console.log(donkeyPlayer)
-
   return (
     <Box>
       <Box position='relative' h='25px'>

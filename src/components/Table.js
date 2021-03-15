@@ -100,10 +100,10 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - BUG: Player Card Pile positions :)
-  - If bot, place card without waiting 20 secs
-  - RESPONSIVE TABLE FOR DESKTOP
-  - Table content UI
-  - End Game UI
+  - If bot, place card without waiting 20 secs - JANA
+  - CARD STACK LAYOUT - JANA
+  - RESPONSIVE TABLE FOR DESKTOP **
+  - CARD POSITIONS - ARUN
+  - End Game UI - ARUN
     - ask host to reset game (goes to pre_lobby)
 */

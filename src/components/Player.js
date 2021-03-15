@@ -30,7 +30,9 @@ export default function Player ({ player, positions: [avatarNicknamePosition, ca
         <HourGlass playerID={player.playerID} position={avatarNicknamePosition} />
       )}
       <Avatar player={player} position={avatarNicknamePosition} />
-      <Nickname playerID={player.playerID} position={avatarNicknamePosition} />
+      {lobby.state !== 'ENDGAME' && (
+        <Nickname playerID={player.playerID} position={avatarNicknamePosition} />
+      )}
     </MotionFlex>
   )
 }
