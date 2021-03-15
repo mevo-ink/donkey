@@ -7,23 +7,26 @@ export default function Avatar ({ player, position }) {
     <>
       {player.lastOnline && (
         <Image
-          width='35px'
+          width='32px'
           maxW='unset'
           objectFit='contain'
           src={botImage}
+          borderRadius='50%'
           position='absolute'
           {...position}
+          bg='white'
         />
       )}
       {!player.lastOnline && (
         <Image
           src={player.avatar}
-          w='31px'
+          w='32px'
           h='31px'
           borderRadius='50%'
           opacity={player.lastOnline ? '0' : '1'}
           position='absolute'
           {...position}
+          bg='white'
         />
       )}
     </>

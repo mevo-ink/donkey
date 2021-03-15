@@ -188,18 +188,19 @@ export const useLobby = () => {
     }[lobby.getPlayers().length]
 
     const coordinates = [
-      [{ bottom: '-10px' }, { y: -45 }, { x: 0, y: 230 }],
-      [{ left: '15px', bottom: '33px' }, { x: 40, y: -33 }, { x: -90, y: 185 }],
-      [{ left: '-10px', bottom: '120px' }, { x: 50, y: -15 }, { x: -115, y: 100 }],
-      [{ left: '-10px', top: '219.5px' }, { x: 42 }, { x: -115, y: -0 }],
-      [{ left: '-10px', top: '120px' }, { x: 50, y: 15 }, { x: -115, y: -100 }],
-      [{ left: '15px', top: '33px' }, { x: 40, y: 33 }, { x: -90, y: -185 }],
-      [{ top: '-10px' }, { top: '45px' }, { x: 0, y: -230 }],
-      [{ right: '15px', top: '33px' }, { x: -40, y: 33 }, { x: 90, y: -185 }],
-      [{ right: '-10px', top: '120px' }, { x: -50, y: 15 }, { x: 115, y: -100 }],
-      [{ bottom: '219.5px', right: '-13px' }, { x: -42 }, { x: 115, y: -0 }],
-      [{ right: '-10px', bottom: '120px' }, { x: -50, y: -15 }, { x: 115, y: 100 }],
-      [{ right: '15px', bottom: '33px' }, { x: -40, y: -33 }, { x: 90, y: 185 }]
+      [{ bottom: '-23.5px' }, { y: -45 }, { x: 0, y: 230 }],
+      [{ left: '0px', bottom: '25px' }, { x: 40, y: -33 }, { x: -90, y: 185 }],
+      [{ left: '-22.75', bottom: '115px' }, { x: 50, y: -15 }, { x: -115, y: 100 }],
+      [{ left: '-22.75', top: 'calc(50% - 16px)' }, { x: 42 }, { x: -115, y: -0 }],
+      [{ left: '-22.75', top: '115px' }, { x: 50, y: 15 }, { x: -115, y: -100 }],
+      [{ left: '0px', top: '25px' }, { x: 40, y: 33 }, { x: -90, y: -185 }],
+
+      [{ top: '-23.5px' }, { top: '45px' }, { x: 0, y: -230 }],
+      [{ right: '0px', top: '25px' }, { x: -40, y: 33 }, { x: 90, y: -185 }],
+      [{ right: '-22.75', top: '115px' }, { x: -50, y: 15 }, { x: 115, y: -100 }],
+      [{ right: '-22.75', bottom: 'calc(50% - 16px)' }, { x: -42 }, { x: 115, y: -0 }],
+      [{ right: '-22.75', bottom: '115px' }, { x: -50, y: -15 }, { x: 115, y: 100 }],
+      [{ right: '0px', bottom: '25px' }, { x: -40, y: -33 }, { x: 90, y: 185 }]
     ]
 
     return coordinates.filter((_, idx) => arrangements.includes(idx))

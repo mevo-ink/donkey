@@ -30,7 +30,7 @@ export default function Player ({ player, positions: [avatarPosition, cardPositi
         <HourGlass playerID={player.playerID} position={avatarPosition} />
       )}
       <Avatar player={player} position={avatarPosition} />
-      <Nickname playerID={player.playerID} position={avatarPosition} />
+      <Nickname playerID={player.playerID} position={nicknamePosition} />
     </MotionFlex>
   )
 }
