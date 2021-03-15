@@ -25,12 +25,11 @@ export default function PlayerHand () {
   return (
     <Flex
       w='100%'
-      h={isFanLayout ? '200px' : '100px'}
+      h={isFanLayout ? { mobile: '0px', iphone5: '150px', ipad: '150px' } : { mobile: '100px', ipad: '110px' }}
       wrap='wrap'
       position='absolute'
       bottom={0}
-      // overflow='scroll'
-      // overflowY='hidden'
+      overflowX='scroll'
       sx={{
         '::-webkit-scrollbar': {
           display: 'none'
@@ -43,9 +42,8 @@ export default function PlayerHand () {
     >
       <Flex
         width='100%'
-        height='100%'
         position='absolute'
-        justifyContent={isFanLayout && 'center'}
+        justifyContent='center'
       >
         {myCards.map((card, idx) => {
           let fanLayout = {}
@@ -55,52 +53,42 @@ export default function PlayerHand () {
               position: 'absolute',
               transform: `translate(-50%, -20%) rotate(${-rotateCardDegree[idx] / 2 + rotateCardDegree[idx] / (myCards.length + 1) * (idx + 1)}deg)`,
               transformOrigin: 'center 200%',
+              transition: 'transform 0.3s ease-out',
+              marginTop: '70px',
               _hover: {
                 transform: `translate(-50%, -70%) rotate(${-rotateCardDegree[idx] / 2 + rotateCardDegree[idx] / (myCards.length + 1) * (idx + 1)}deg)`
               },
-              // onMouseEnter: () => setRotateCardDegree({ ...initialRotations, [idx - 1]: 140, [idx]: 180, [idx + 1]: 140 }),
-              // onMouseLeave: () => setRotateCardDegree({ ...initialRotations })
+              onMouseEnter: () => setRotateCardDegree({ ...initialRotations, [idx - 1]: 140, [idx]: 180, [idx + 1]: 140 }),
+              onMouseLeave: () => setRotateCardDegree({ ...initialRotations })
             }
           } else {
             stackLayout = {
-              transform: `translateX(${-idx * 40}%)`,
+              // transform: `translateX(${-idx * 20}px)`,
+              marginRight: { mobile: '-32px', ipad: '-22px' },
+              marginTop: '20px',
+              width: '53px',
+              objectFit: 'contain',
               _hover: {
-                transform: `translate(${-idx * 40}%, -50px)`
-              },
-              // transform: `translateX(${-idx * 40}px)`,
-              // onMouseEnter: {
-              //   transform: 'translateY(50px)'
-              // },
-              // onMouseEnter: {
-              //   transform: 'translateY(0px)'
-              // }
+                marginTop: '0px'
+              }
             }
           }
           return (
             <Box
               key={card.cardID}
-              // width='100%'
-              // left='50%'
-              // top='50%'
-              onClick={() => lobby.playCard(card)}
-              maxHeight='200px'
+              transition='0.3s ease-out'
+              {...stackLayout}
             >
               <Image
+                key={card.cardID}
                 src={card.url}
                 alt={`${card.number} of ${card.suite}`}
-                objectFit='contain'
-                height='200px'
-                width='150px'
-                {...fanLayout}
-                {...stackLayout}
+                width={{ mobile: '40px', ipad: '80px' }}
+                maxW='1000px'
+                // height='100%'
                 filter='drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))'
-                transition='transform 0.3s ease-out'
-
-                // _hover={{
-                //   transform: 'translateY(-50px)'
-                // }}
-                // onMouseEnter={(e) => isFanLayout ? setRotateCardDegree(140) : (e.target.style.transform = 'translateY(0px)')}
-                // onMouseLeave={(e) => isFanLayout ? setRotateCardDegree(120) : (e.target.style.transform = 'translateY(0px)')}
+                {...fanLayout}
+                onClick={() => lobby.playCard(card)}
               />
             </Box>
           )

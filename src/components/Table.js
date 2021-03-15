@@ -48,11 +48,11 @@ export default function Table () {
       borderRadius='200px'
       position='relative'
       sx={{
-        zoom: 1
+        zoom: { iphone5: 0.7, iphone6: 0.9, iphone8: 1, ipad: 1.5 }
       }}
       mt='-50px'
-      initial={{ scale: 0 }}
-      animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
+      // initial={{ scale: 0 }}
+      // animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
     >
       <Flex
         width='215px'
@@ -76,6 +76,7 @@ export default function Table () {
               src={cardBack}
               width='30px'
               objectFit='contain'
+              zIndex='5'
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
             />}

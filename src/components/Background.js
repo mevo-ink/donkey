@@ -15,8 +15,7 @@ export default function Background ({ children, noText }) {
 
   return (
     <Grid
-      bg='linear-gradient(180deg, rgba(54, 60, 105, 0.85) 0%, #222646 100%)'
-      w='100vw'
+      w='100%'
       h='100vh'
       placeItems='center'
       position='relative'
