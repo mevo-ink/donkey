@@ -189,18 +189,18 @@ export const useLobby = () => {
 
     const coordinates = [
       [{ bottom: '-23.5px' }, { bottom: '18.5px' }, { x: 0, y: 230 }],
-      [{ left: '0px', bottom: '25px' }, { left: '0px', bottom: '0px' }, { x: -90, y: 185 }],
-      [{ left: '-22.75px', bottom: '115px' }, { left: '0px', bottom: '0px' }, { x: -115, y: 100 }],
-      [{ left: '-22.75px', bottom: '204px' }, { left: '0px', bottom: '0px' }, { x: -115, y: -0 }],
-      [{ left: '-22.75px', bottom: '293px' }, { left: '0px', bottom: '0px' }, { x: -115, y: -100 }],
-      [{ left: '0px', bottom: '383px' }, { left: '0px', bottom: '0px' }, { x: -90, y: -185 }],
+      [{ left: '0px', bottom: '25px' }, { left: '40px', bottom: '40px' }, { x: -90, y: 185 }],
+      [{ left: '-22.75px', bottom: '115px' }, { left: '35px', bottom: '115px' }, { x: -115, y: 100 }],
+      [{ left: '-22.75px', bottom: '204px' }, { left: '35px', bottom: '190px' }, { x: -115, y: -0 }],
+      [{ left: '-22.75px', bottom: '293px' }, { left: '35px', bottom: '265px' }, { x: -115, y: -100 }],
+      [{ left: '0px', bottom: '383px' }, { left: '40px', top: '40px' }, { x: -90, y: -185 }],
 
       [{ top: '-23.5px' }, { top: '18.5px' }, { x: 0, y: -230 }],
-      [{ right: '0px', bottom: '383px' }, { left: '0px', bottom: '0px' }, { x: 90, y: -185 }],
-      [{ right: '-22.75px', bottom: '293px' }, { left: '0px', bottom: '0px' }, { x: 115, y: -100 }],
-      [{ right: '-22.75px', bottom: '204px' }, { right: '27.75px', bottom: '204px' }, { x: 115, y: -0 }],
-      [{ right: '-22.75px', bottom: '115px' }, { left: '0px', bottom: '0px' }, { x: 115, y: 100 }],
-      [{ right: '0px', bottom: '25px' }, { left: '0px', bottom: '0px' }, { x: 90, y: 185 }]
+      [{ right: '0px', bottom: '383px' }, { right: '40px', top: '40px' }, { x: 90, y: -185 }],
+      [{ right: '-22.75px', bottom: '293px' }, { right: '35px', bottom: '265px' }, { x: 115, y: -100 }],
+      [{ right: '-22.75px', bottom: '204px' }, { right: '35px', bottom: '190px' }, { x: 115, y: -0 }],
+      [{ right: '-22.75px', bottom: '115px' }, { right: '35px', bottom: '115px' }, { x: 115, y: 100 }],
+      [{ right: '0px', bottom: '25px' }, { right: '40x', bottom: '40px' }, { x: 90, y: 185 }]
     ]
 
     return coordinates.filter((_, idx) => arrangements.includes(idx))
