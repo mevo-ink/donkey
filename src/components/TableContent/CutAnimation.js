@@ -13,22 +13,24 @@ export default function CutAnimation () {
 
   useEffect(() => {
     setTimeout(() => {
-      // move existing pile cards to the player who got cut
-      lobby.movePileCardsToPlayer(lobby.gotCut.playerID)
-      // add cut card to got cutted player's hand
-      lobby.addCardToPlayer(lobby.gotCut.card, lobby.gotCut.playerID)
-      // change turn
-      lobby.changeTurn(lobby.gotCut.playerID)
-      // update firebase
-      database().ref(`${lobby.name}/table`).set(lobby.table)
-      database().ref(`${lobby.name}/gotCut`).set(null)
-      // check for winning condition
-      if (lobby.isEndGame()) {
-        lobby.emptyDiscard()
-        database().ref(`${lobby.name}`).update({
-          state: 'END_GAME',
-          donkey: lobby.getPlayerIDsWithCards()[0]
-        })
+      if (lobby.getMyself().playerID === lobby.host) {
+        // move existing pile cards to the player who got cut
+        lobby.movePileCardsToPlayer(lobby.gotCut.playerID)
+        // add cut card to got cutted player's hand
+        lobby.addCardToPlayer(lobby.gotCut.card, lobby.gotCut.playerID)
+        // change turn
+        lobby.changeTurn(lobby.gotCut.playerID)
+        // update firebase
+        database().ref(`${lobby.name}/table`).set(lobby.table)
+        database().ref(`${lobby.name}/gotCut`).set(null)
+        // check for winning condition
+        if (lobby.isEndGame()) {
+          lobby.emptyDiscard()
+          database().ref(`${lobby.name}`).update({
+            state: 'END_GAME',
+            donkey: lobby.getPlayerIDsWithCards()[0]
+          })
+        }
       }
     }, 5000) // eslint-disable-next-line
   }, [])

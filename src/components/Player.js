@@ -7,6 +7,8 @@ import Nickname from 'components/Player/Nickname'
 import CurrentCard from 'components/Player/CurrentCard'
 import Avatar from 'components/Player/Avatar'
 
+import DiscardPileAnimation from 'components/TableContent/DiscardPileAnimation'
+
 import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
 
@@ -33,6 +35,8 @@ export default function Player ({ player, positions: [avatarNicknamePosition, ca
       {lobby.state !== 'ENDGAME' && (
         <Nickname playerID={player.playerID} position={avatarNicknamePosition} />
       )}
+      {lobby.pileFull && <DiscardPileAnimation />}
+
     </MotionFlex>
   )
 }

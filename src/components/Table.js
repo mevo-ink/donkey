@@ -8,7 +8,6 @@ import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
 import PreLobbyHost from 'components/TableContent/PreLobbyHost'
 import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
 import DealingAnimation from 'components/TableContent/DealingAnimation'
-import DiscardPileAnimation from 'components/TableContent/DiscardPileAnimation'
 import CutAnimation from 'components/TableContent/CutAnimation'
 import EndGameAnimation from 'components/TableContent/EndGameAnimation'
 
@@ -85,7 +84,6 @@ export default function Table () {
           {lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
           {lobby.state === 'DEALING' && <DealingAnimation />}
           {lobby.gotCut && <CutAnimation />}
-          {lobby.pileFull && <DiscardPileAnimation />}
           {lobby.donkey && <EndGameAnimation />}
         </Flex>
         {positions.map((positions, idx) => (
