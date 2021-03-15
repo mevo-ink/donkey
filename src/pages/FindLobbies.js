@@ -75,7 +75,7 @@ export default function FindLobbies () {
         sx={{
           /* Works on Chrome, Edge, and Safari */
           '::-webkit-scrollbar': {
-            width: '0px'
+            display: 'none'
           },
           /* Works on Firefox */
           '&': {

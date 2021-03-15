@@ -100,6 +100,7 @@ export default function Table () {
 
 /*
   TODO LIST:
+  - BUG: Player Card Pile positions :)
   - RESPONSIVE TABLE FOR DESKTOP
   - Table content UI
   - End Game UI

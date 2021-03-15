@@ -47,8 +47,8 @@ export default function Nickname ({ playerID, position }) {
   return (
     <MotionBox
       position='absolute'
-      left={`${parseInt(position.left) - 14}px`}
-      right={`${parseInt(position.right) - 14}px`}
+      left={`${parseInt(position.left) - (lobby.state !== 'LOBBY' ? 14 : 20)}px`}
+      right={`${parseInt(position.right) - (lobby.state !== 'LOBBY' ? 14 : 20)}px`}
       top={`${parseInt(position.top) - 26}px`}
       bottom={`${parseInt(position.bottom) - 23}px`}
     >
@@ -70,7 +70,8 @@ export default function Nickname ({ playerID, position }) {
           fontWeight='bold'
           textAlign='center'
           m='3px'
-          p='0px 10px'
+          mb={isEditing ? '60px' : 0}
+          p='0px 3px'
           _active={{ bg: '' }}
           _hover={{ bg: '' }}
           onFocus={onEdit}
@@ -81,18 +82,23 @@ export default function Nickname ({ playerID, position }) {
           _disabled={{
             bg: ''
           }}
-          mb={isEditing ? '31px' : 0}
         />
         {lobby.state !== 'PRE_LOBBY' && !isEditing && (
           <InputRightAddon
-            height='25px'
+            height='18px'
+            width='17px'
+            color='black'
+            fontSize='16px'
+            fontWeight='bold'
             p='0px'
             borderRadius='25px'
             bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
-            mr='3px'
+            mt='3px'
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0, transition: { duration: 0.3 } }}
           >
-            <Box>
-              {lobby.getMyCards().length}
+            <Box textAlign='center' w='17px'>
+              {lobby.getPlayerCards(playerID).length}
             </Box>
           </InputRightAddon>
         )}

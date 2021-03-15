@@ -54,7 +54,7 @@ export default function DiscardPileAnimation () {
         width='20px'
         objectFit='contain'
         position='absolute'
-        initial={{ opacity: 0, scale: 1.5, x: pos.x, y: pos.y }}
+        initial={{ opacity: 0, scale: 1.5, x: pos?.x, y: pos?.y }}
         animate={{ opacity: [1, 0], x: 0, y: 0, transition: { delay: (1 + idx) / 2, duration: 1 } }}
       />
     ))

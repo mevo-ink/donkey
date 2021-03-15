@@ -14,7 +14,6 @@ export default function Avatar ({ player, position }) {
           borderRadius='50%'
           position='absolute'
           {...position}
-          bg='white'
         />
       )}
       {!player.lastOnline && (
@@ -26,7 +25,6 @@ export default function Avatar ({ player, position }) {
           opacity={player.lastOnline ? '0' : '1'}
           position='absolute'
           {...position}
-          bg='white'
         />
       )}
     </>

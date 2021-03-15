@@ -18,7 +18,7 @@ export default function HourGlass ({ playerID, position }) {
           if (lobby.table?.time >= lobby.timeLimit) {
             // player ran out of time; make bot play a card
             clearInterval(timer.current)
-            lobby.bot()
+            // lobby.bot()
           } else {
             database().ref(`${lobby.name}/table/time`).set(lobby.table?.time + 1)
           }
@@ -43,7 +43,7 @@ export default function HourGlass ({ playerID, position }) {
       trackColor='transparent'
       position='absolute'
       {...position}
-      size='35px'
+      size='32px'
       thickness='10px'
     />
   )

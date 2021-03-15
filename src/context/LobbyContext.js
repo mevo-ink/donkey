@@ -188,7 +188,7 @@ export const useLobby = () => {
     }[lobby.getPlayers().length]
 
     const coordinates = [
-      [{ bottom: '-23.5px' }, { y: -45 }, { x: 0, y: 230 }],
+      [{ bottom: '-23.5px' }, { y: 50 }, { x: 0, y: 230 }],
       [{ left: '0px', bottom: '25px' }, { x: 40, y: -33 }, { x: -90, y: 185 }],
       [{ left: '-22.75', bottom: '115px' }, { x: 50, y: -15 }, { x: -115, y: 100 }],
       [{ left: '-22.75', bottom: '204px' }, { x: 42 }, { x: -115, y: -0 }],
