@@ -100,9 +100,8 @@ export default function Table () {
 /*
   TODO LIST:
   - If bot, place card without waiting 20 secs - JANA
-  - CARD STACK LAYOUT - JANA
-  - RESPONSIVE TABLE FOR DESKTOP **
-  - CARD POSITIONS - ARUN
-  - End Game UI - ARUN
+  - FORCE PWA - JANA
+  - CUT UI - ARUN
+  - End Game - ARUN
     - ask host to reset game (goes to pre_lobby)
 */
