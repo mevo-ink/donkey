@@ -9,6 +9,9 @@ import {
   InputRightAddon
 } from '@chakra-ui/react'
 
+import { motion } from 'framer-motion'
+const MotionBox = motion(Box)
+
 export default function Nickname ({ playerID, position }) {
   const lobby = useLobby()
 
@@ -42,7 +45,13 @@ export default function Nickname ({ playerID, position }) {
   }
 
   return (
-    <Box position='absolute' {...position}>
+    <MotionBox
+      position='absolute'
+      left={`${parseInt(position.left) - 14}px`}
+      right={`${parseInt(position.right) - 14}px`}
+      top={`${parseInt(position.top) - 26}px`}
+      bottom={`${parseInt(position.bottom) - 23}px`}
+    >
       <InputGroup alignItems='center'>
         <Input
           ref={inputRef}
@@ -88,6 +97,6 @@ export default function Nickname ({ playerID, position }) {
           </InputRightAddon>
         )}
       </InputGroup>
-    </Box>
+    </MotionBox>
   )
 }

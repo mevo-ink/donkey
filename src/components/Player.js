@@ -10,7 +10,7 @@ import Avatar from 'components/Player/Avatar'
 import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
 
-export default function Player ({ player, positions: [avatarPosition, cardPosition, _, nicknamePosition] = [] }) {
+export default function Player ({ player, positions: [avatarNicknamePosition, cardPosition] = [] }) {
   const lobby = useLobby()
 
   return (
@@ -27,10 +27,10 @@ export default function Player ({ player, positions: [avatarPosition, cardPositi
         <CurrentCard playerID={player.playerID} position={cardPosition} />
       )}
       {lobby.state === 'LOBBY' && !lobby.gotCut && !lobby.pileFull && (
-        <HourGlass playerID={player.playerID} position={avatarPosition} />
+        <HourGlass playerID={player.playerID} position={avatarNicknamePosition} />
       )}
-      <Avatar player={player} position={avatarPosition} />
-      <Nickname playerID={player.playerID} position={nicknamePosition} />
+      <Avatar player={player} position={avatarNicknamePosition} />
+      <Nickname playerID={player.playerID} position={avatarNicknamePosition} />
     </MotionFlex>
   )
 }
