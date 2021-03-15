@@ -8,10 +8,10 @@ import {
 
 import bgImage from 'images/bg.png'
 
-export default function Background ({ children }) {
+export default function Background ({ children, noText }) {
   const lobby = useLobby()
 
-  const offset = ['LOBBY', 'DEALING'].includes(lobby.state)
+  const offset = ['LOBBY', 'DEALING', 'PRE_LOBBY', 'ENDGAME'].includes(lobby.state)
 
   return (
     <Grid
@@ -34,9 +34,9 @@ export default function Background ({ children }) {
           w='95vw'
           maxWidth='920px'
           objectFit='cover'
-          mt={offset && '-100px'}
+          mt={offset && '-50px'}
         />
-        {offset && (
+        {!offset && !noText && (
           <>
             <Text
               fontSize='48px'

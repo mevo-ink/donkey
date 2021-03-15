@@ -51,7 +51,7 @@ export default function Table () {
       sx={{
         zoom: 1
       }}
-      mt='-100px'
+      mt='-50px'
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
     >
@@ -101,6 +101,7 @@ export default function Table () {
 /*
   TODO LIST:
   - BUG: Player Card Pile positions :)
+  - If bot, place card without waiting 20 secs
   - RESPONSIVE TABLE FOR DESKTOP
   - Table content UI
   - End Game UI

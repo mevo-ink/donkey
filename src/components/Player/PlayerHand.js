@@ -24,6 +24,7 @@ export default function PlayerHand () {
       position='absolute'
       bottom={0}
       overflow='scroll'
+      overflowY='hidden'
       sx={{
         '::-webkit-scrollbar': {
           display: 'none'
@@ -38,7 +39,7 @@ export default function PlayerHand () {
         width='100%'
         height='100%'
         position='absolute'
-        justifyContent='center'
+        justifyContent={isFanLayout && 'center'}
       >
         {myCards.map((card, idx) => {
           let fanLayout = {}
@@ -46,11 +47,11 @@ export default function PlayerHand () {
           if (isFanLayout) {
             fanLayout = {
               position: 'absolute',
-              transform: `translate(-50%, -50%) rotate(${-rotateCardDegree / 2 + rotateCardDegree / (myCards.length + 1) * (idx + 1)}deg)`
+              transform: `translate(-50%, -20%) rotate(${-rotateCardDegree / 2 + rotateCardDegree / (myCards.length + 1) * (idx + 1)}deg)`
             }
           } else {
             stackLayout = {
-              transform: `translateX(${+1550 / 2 - 800 / (myCards.length + 1) * (idx + 1)}px)`
+              transform: `translateX(${-idx * 40}px) translateY(50px)`
             }
           }
           return (
@@ -69,8 +70,8 @@ export default function PlayerHand () {
               transformOrigin='center 200%'
               transition='transform 0.3s ease-out'
               onClick={() => lobby.playCard(card)}
-              onMouseEnter={() => setRotateCardDegree(140)}
-              onMouseLeave={() => setRotateCardDegree(120)}
+              onMouseEnter={(e) => isFanLayout ? setRotateCardDegree(140) : (e.target.style.transform = 'translateY(-50px)')}
+              onMouseLeave={(e) => isFanLayout ? setRotateCardDegree(120) : (e.target.style.transform = 'translateY(+50px)')}
             />
           )
         })}

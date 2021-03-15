@@ -35,7 +35,7 @@ export default function LobbyManager ({ name }) {
     // eslint-disable-next-line
   }, [])
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading marginTop='120px' />
 
   if (error) return <Error error={error} />
 
