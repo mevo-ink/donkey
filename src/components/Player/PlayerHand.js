@@ -70,8 +70,9 @@ export default function PlayerHand () {
               transformOrigin='center 200%'
               transition='transform 0.3s ease-out'
               onClick={() => lobby.playCard(card)}
-              onMouseEnter={(e) => isFanLayout ? setRotateCardDegree(140) : (e.target.style.transform = 'translateY(0px)')}
-              onMouseLeave={(e) => isFanLayout ? setRotateCardDegree(120) : (e.target.style.transform = 'translateY(0px)')}
+              onMouseEnter={(e) => isFanLayout ? setRotateCardDegree(140) : ''}
+              onMouseLeave={(e) => isFanLayout ? setRotateCardDegree(120) : ''}
+              // (e.target.style.transform = 'translateY(0px)'
             />
           )
         })}

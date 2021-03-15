@@ -18,12 +18,12 @@ export default function DiscardPileAnimation () {
 
   const numberOfPlayers = players.length
 
-  const playersPosition = lobby.getSeatingPositions().map(([_, __, playerPosition]) => playerPosition)
+  const cardsPosition = lobby.getSeatingPositions().map(([_, cardPosition]) => cardPosition)
 
   const newPlayersPosition = []
 
   for (let i = 0; i < players.length; i += numberOfPlayers) {
-    newPlayersPosition.push(...playersPosition)
+    newPlayersPosition.push(...cardsPosition)
   }
 
   useEffect(() => {
@@ -51,11 +51,12 @@ export default function DiscardPileAnimation () {
       <MotionImage
         key={idx}
         src={cardBack}
-        width='20px'
+        width='40px'
         objectFit='contain'
+        maxW='unset'
         position='absolute'
-        initial={{ opacity: 0, scale: 1.5, x: pos?.x, y: pos?.y }}
-        animate={{ opacity: [1, 0], x: 0, y: 0, transition: { delay: (1 + idx) / 2, duration: 1 } }}
+        initial={{ scale: 1, ...pos }}
+        animate={{ scale: 0, top: 190, bottom: 190, left: 87.5, right: 87.5, transition: { delay: 1 / 2, duration: 1 } }}
       />
     ))
   )
