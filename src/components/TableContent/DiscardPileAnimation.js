@@ -19,7 +19,7 @@ export default function DiscardPileAnimation () {
   useEffect(() => {
     setTimeout(() => {
       if (lobby.getMyself().playerID === lobby.host) {
-        // change tur
+        // change turn
         lobby.changeTurn(lobby.getHighestPlayerIDFromPile())
         // discard the pile
         lobby.discardPile()

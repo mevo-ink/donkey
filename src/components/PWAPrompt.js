@@ -18,7 +18,6 @@ export default function PWAPrompt () {
   useEffect(() => {
     const handler = e => {
       e.preventDefault()
-      console.log('we are being triggered :D')
       setPromptInstall(e)
     }
     window.addEventListener('beforeinstallprompt', handler)
