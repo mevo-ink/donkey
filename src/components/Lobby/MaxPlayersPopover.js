@@ -12,7 +12,7 @@ import {
 export default function MaxPlayersPopover ({ children }) {
   const lobby = useLobby()
 
-  const remainingSeats = new Array(lobby.getPlayers().length - 12)
+  const remainingSeats = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(num => num > lobby.getPlayers().length)
 
   const handleClick = (idx, onClose) => {
     onClose()
