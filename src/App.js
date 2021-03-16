@@ -3,6 +3,8 @@ import useFingerprint from 'hooks/useFingerprint'
 
 import { useRoutes } from 'hookrouter'
 
+import PWAPrompt from 'components/PWAPrompt'
+
 import Home from 'pages/Home'
 import LobbyManager from 'pages/LobbyManager'
 import FindLobbies from 'pages/FindLobbies'
@@ -26,6 +28,7 @@ function App () {
 
   return (
     <Background>
+      <PWAPrompt />
       {routeResult || <Home />}
     </Background>
   )
