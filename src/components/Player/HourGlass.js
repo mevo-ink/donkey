@@ -43,7 +43,9 @@ export default function HourGlass ({ playerID, position }) {
       trackColor='transparent'
       position='absolute'
       {...position}
-      size='32px'
+      size='33px'
+      mb='-2px'
+      zIndex='5'
       thickness='10px'
     />
   )

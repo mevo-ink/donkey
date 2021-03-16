@@ -34,7 +34,6 @@ export default function DiscardPileAnimation () {
         // discard the pile
         lobby.discardPile()
         // update firebase
-        console.log(lobby.table)
         database().ref(`${lobby.name}/table`).set(lobby.table)
         database().ref(`${lobby.name}/pileFull`).set(null)
         // check for winning condition
@@ -58,8 +57,9 @@ export default function DiscardPileAnimation () {
         objectFit='contain'
         maxW='unset'
         position='absolute'
+        zIndex='3'
         initial={{ scale: 1, ...pos }}
-        animate={{ scale: 0, top: 190, bottom: 190, left: 87.5, right: 87.5, transition: { delay: 1 / 2, duration: 1 } }}
+        animate={{ scale: 0, top: '190px', bottom: '190px', left: '87.5px', right: '87.5px', transition: { delay: 0.8, duration: 1 } }}
       />
     ))
   )

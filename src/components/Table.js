@@ -10,6 +10,7 @@ import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
 import DealingAnimation from 'components/TableContent/DealingAnimation'
 import CutAnimation from 'components/TableContent/CutAnimation'
 import EndGameAnimation from 'components/TableContent/EndGameAnimation'
+import DiscardPileAnimation from 'components/TableContent/DiscardPileAnimation'
 
 import Player from 'components/Player'
 
@@ -51,8 +52,8 @@ export default function Table () {
         zoom: { iphone5: 0.7, iphone6: 0.9, iphone8: 1, ipad: 1.5 }
       }}
       mt='-50px'
-      // initial={{ scale: 0 }}
-      // animate={{ scale: 1, transition: { delay: 0.3, duration: 0.2 } }}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1, transition: { duration: 0.5 } }}
     >
       <Flex
         width='215px'
@@ -69,7 +70,7 @@ export default function Table () {
           height='100%'
           justifyContent='center'
           alignItems='center'
-          position='absolute'
+          position='relative'
         >
           {lobby.state === 'LOBBY' && !lobby.gotCut && lobby.table.discard &&
             <MotionImage
@@ -84,6 +85,7 @@ export default function Table () {
           {lobby.state === 'PRE_LOBBY' && myPlayerID === lobby.host && <PreLobbyHost />}
           {lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
           {lobby.state === 'DEALING' && <DealingAnimation />}
+          {lobby.pileFull && <DiscardPileAnimation />}
           {lobby.gotCut && <CutAnimation />}
           {lobby.donkey && <EndGameAnimation />}
         </Flex>

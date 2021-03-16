@@ -36,6 +36,9 @@ export default function Home () {
           w='50vw'
           h='51px'
           maxWidth='340px'
+          fontSize='20px'
+          lineHeight='20px'
+          fontWeight='bold'
           bg={button.color}
           _active={{ bg: button.color }}
           _hover={{ bg: button.color }}

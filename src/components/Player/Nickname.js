@@ -51,6 +51,8 @@ export default function Nickname ({ playerID, position }) {
       right={`${parseInt(position.right) - (['LOBBY', 'DEALING'].includes(!lobby.state) ? 14 : 20)}px`}
       top={`${parseInt(position.top) - 26}px`}
       bottom={`${parseInt(position.bottom) - 23}px`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { delay: 2, duration: 0.8 } }}
     >
       <InputGroup alignItems='center'>
         <Input
