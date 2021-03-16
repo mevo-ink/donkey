@@ -99,7 +99,6 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - If bot, place card without waiting 20 secs - JANA
-  - FORCE PWA - JANA
   - CUT UI - ARUN
+  - FIX DISCARD ANIMATION POSITIONS - ARUN MAMAOI
 */

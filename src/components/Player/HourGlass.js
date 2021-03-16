@@ -15,7 +15,10 @@ export default function HourGlass ({ playerID, position }) {
     if (lobby.host === playerID && lobby.state === 'LOBBY') {
       timer.current = setInterval(async () => {
         if (!lobby.lastOnline) {
-          if (lobby.table?.time >= lobby.timeLimit) {
+          if (lobby.players[lobby.table.turn].lastOnline) {
+            clearInterval(timer.current)
+            lobby.bot()
+          } else if (lobby.table?.time >= lobby.timeLimit) {
             // player ran out of time; make bot play a card
             clearInterval(timer.current)
             lobby.bot()
