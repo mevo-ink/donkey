@@ -12,6 +12,8 @@ import {
 export default function MaxPlayersPopover ({ children }) {
   const lobby = useLobby()
 
+  const remainingSeats = new Array(lobby.getPlayers().length - 12)
+
   const handleClick = (idx, onClose) => {
     onClose()
     lobby.setMaxPlayers(idx)
@@ -44,7 +46,7 @@ export default function MaxPlayersPopover ({ children }) {
           <PopoverContent bg='transparent' borderRadius='25px'>
             <PopoverArrow bg='transparent' />
             <PopoverBody p='0'>
-              {isOpen && [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(idx => (
+              {isOpen && remainingSeats.map(idx => (
                 <Button
                   key={idx}
                   width='30px'

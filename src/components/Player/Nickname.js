@@ -47,8 +47,8 @@ export default function Nickname ({ playerID, position }) {
   return (
     <MotionBox
       position='absolute'
-      left={`${parseInt(position.left) - (['LOBBY', 'DEALING'].includes(!lobby.state) ? 14 : 20)}px`}
-      right={`${parseInt(position.right) - (['LOBBY', 'DEALING'].includes(!lobby.state) ? 14 : 20)}px`}
+      left={`${parseInt(position.left) - (['PRE_LOBBY', 'ENDGAME'].includes(lobby.state) ? 10 : 20)}px`}
+      right={`${parseInt(position.right) - (['PRE_LOBBY', 'ENDGAME'].includes(lobby.state) ? 10 : 20)}px`}
       top={`${parseInt(position.top) - 26}px`}
       bottom={`${parseInt(position.bottom) - 23}px`}
       initial={{ opacity: 0 }}
@@ -83,7 +83,7 @@ export default function Nickname ({ playerID, position }) {
           isDisabled={playerID !== lobby.getMyself().playerID}
           _disabled={{ bg: '' }}
         />
-        {lobby.state !== 'PRE_LOBBY' && !isEditing && (
+        {['DEALING', 'LOBBY'].includes(lobby.state) && (
           <InputRightAddon
             height='18px'
             width='17px'
