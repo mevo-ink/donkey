@@ -102,6 +102,4 @@ export default function Table () {
   - If bot, place card without waiting 20 secs - JANA
   - FORCE PWA - JANA
   - CUT UI - ARUN
-  - End Game - ARUN
-    - ask host to reset game (goes to pre_lobby)
 */

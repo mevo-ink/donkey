@@ -1,6 +1,8 @@
 import { useLobby } from 'context/LobbyContext'
 
-import { Image, Text, Box, Flex } from '@chakra-ui/react'
+import database from 'utils/firebase'
+
+import { Image, Text, Box, Flex, Button } from '@chakra-ui/react'
 
 import donkeyTemplate from 'images/endgameDonkey.png'
 
@@ -8,6 +10,14 @@ export default function EndGameAnimation () {
   const lobby = useLobby()
 
   const donkeyPlayer = lobby.players[lobby.donkey]
+
+  const handleRestartGame = () => {
+    database().ref(`${lobby.name}`).update({
+      donkey: null,
+      state: 'PRE_LOBBY',
+      table: null
+    })
+  }
 
   return (
     <Box>
@@ -60,13 +70,51 @@ export default function EndGameAnimation () {
       </Box>
       <Text
         textAlign='center'
-        fontSize='20px'
-        lineHeight='20px'
+        fontSize='18px'
+        lineHeight='18px'
         fontWeight='bold'
         mt='20px'
       >
         {donkeyPlayer.nickname} is The Donkey!
       </Text>
+      {lobby.getMyself().playerID === lobby.host && (
+        <Flex w='100%' justifyContent='space-between'>
+          {[{
+            name: 'Restart',
+            color: 'linear-gradient(180deg, #6BE8FF 0%, #349CB6 100%)',
+            path: 'restart'
+          }, {
+            name: 'Go Home',
+            color: 'linear-gradient(180deg, #FE9696 0%, #E76C6C 100%)',
+            path: '/'
+          }
+          ].map((button, idx) => (
+            <Button
+              key={idx}
+              w='50px'
+              h='25px'
+              fontSize='15px'
+              lineHeight='15px'
+              fontWeight='bold'
+              bg={button.color}
+              _active={{ bg: button.color }}
+              _hover={{ bg: button.color }}
+              boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
+              borderRadius='25px'
+              cursor='pointer'
+              m='20px 10px'
+              zIndex='5'
+              onClick={() => {
+                if (button.path === '/') {
+                  window.location.href = button.path
+                } else { handleRestartGame() }
+              }}
+            >
+              {button.name}
+            </Button>
+          ))}
+        </Flex>
+      )}
     </Box>
   )
 }

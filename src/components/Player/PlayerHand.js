@@ -30,6 +30,7 @@ export default function PlayerHand () {
       position='absolute'
       bottom={0}
       overflowX='scroll'
+      overflowY='hidden'
       sx={{
         '::-webkit-scrollbar': {
           display: 'none'
