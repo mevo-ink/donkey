@@ -36,6 +36,8 @@ export default function ShareLobby () {
       lineHeight='18px'
       fontWeight='bold'
       p='0px 5px'
+      _active={{ bg: '' }}
+      _hover={{ bg: '' }}
       onClick={onShare}
     >
       {lobby.name}

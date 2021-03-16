@@ -67,8 +67,8 @@ export default function Nickname ({ playerID, position }) {
           bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
           boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
           borderRadius='25px'
-          fontSize='18px'
-          lineHeight='18px'
+          fontSize='16px'
+          lineHeight='16px'
           fontWeight='bold'
           textAlign='center'
           m='3px'
@@ -81,9 +81,7 @@ export default function Nickname ({ playerID, position }) {
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           isDisabled={playerID !== lobby.getMyself().playerID}
-          _disabled={{
-            bg: ''
-          }}
+          _disabled={{ bg: '' }}
         />
         {lobby.state !== 'PRE_LOBBY' && !isEditing && (
           <InputRightAddon
