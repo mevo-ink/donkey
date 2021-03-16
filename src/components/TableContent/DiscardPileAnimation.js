@@ -14,22 +14,12 @@ const MotionImage = motion(Image)
 export default function DiscardPileAnimation () {
   const lobby = useLobby()
 
-  const players = lobby.getPlayers()
-
-  const numberOfPlayers = players.length
-
-  const cardsPosition = lobby.getSeatingPositions().map(([_, cardPosition]) => cardPosition)
-
-  const newPlayersPosition = []
-
-  for (let i = 0; i < players.length; i += numberOfPlayers) {
-    newPlayersPosition.push(...cardsPosition)
-  }
+  const cardPositions = lobby.getSeatingPositions().map(([_, cardPositions]) => cardPositions)
 
   useEffect(() => {
     setTimeout(() => {
       if (lobby.getMyself().playerID === lobby.host) {
-        // change turn
+        // change tur
         lobby.changeTurn(lobby.getHighestPlayerIDFromPile())
         // discard the pile
         lobby.discardPile()
@@ -40,7 +30,7 @@ export default function DiscardPileAnimation () {
         if (lobby.isEndGame()) {
           lobby.emptyDiscard()
           database().ref(`${lobby.name}`).update({
-            state: 'END_GAME',
+            state: 'ENDGAME',
             donkey: lobby.getPlayerIDsWithCards()[0]
           })
         }
@@ -49,18 +39,20 @@ export default function DiscardPileAnimation () {
   }, [])
 
   return (
-    newPlayersPosition.map((pos, idx) => (
-      <MotionImage
-        key={idx}
-        src={cardBack}
-        width='40px'
-        objectFit='contain'
-        maxW='unset'
-        position='absolute'
-        zIndex='3'
-        initial={{ scale: 1, ...pos }}
-        animate={{ scale: 0, top: '190px', bottom: '190px', left: '87.5px', right: '87.5px', transition: { delay: 0.8, duration: 1 } }}
-      />
-    ))
+    cardPositions.map((pos, idx) => {
+      return (
+        <MotionImage
+          key={idx}
+          src={cardBack}
+          width='40px'
+          objectFit='contain'
+          maxW='unset'
+          position='absolute'
+          zIndex='3'
+          initial={{ scale: 1, ...pos }}
+          animate={{ scale: 0, ...pos, top: '190px', bottom: '190px', left: '87.5px', right: '87.5px', transition: { delay: 0.8, duration: 1 } }}
+        />
+      )
+    })
   )
 }

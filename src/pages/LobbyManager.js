@@ -66,7 +66,7 @@ export default function LobbyManager ({ name }) {
       // prompt the player to join
       render = <JoinLobby />
     }
-  } else if (['LOBBY', 'DEALING', 'END_GAME'].includes(lobby.state)) {
+  } else if (['LOBBY', 'DEALING', 'ENDGAME'].includes(lobby.state)) {
     render = <Lobby />
   } else {
     render = <PreLobby />

@@ -20,7 +20,7 @@ export default function PlayerHand () {
 
   const [rotateCardDegree, setRotateCardDegree] = useState({ ...initialRotations })
 
-  const isFanLayout = myCards.length < 10
+  const isFanLayout = myCards.length < 10 && lobby.state !== 'DEALING'
 
   return (
     <Flex

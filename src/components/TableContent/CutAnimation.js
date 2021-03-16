@@ -27,7 +27,7 @@ export default function CutAnimation () {
         if (lobby.isEndGame()) {
           lobby.emptyDiscard()
           database().ref(`${lobby.name}`).update({
-            state: 'END_GAME',
+            state: 'ENDGAME',
             donkey: lobby.getPlayerIDsWithCards()[0]
           })
         }

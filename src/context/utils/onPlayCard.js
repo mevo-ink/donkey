@@ -4,7 +4,7 @@ import canPlaySuite from 'context/utils/canPlaySuite'
 
 const onPlayCard = (playedCard, lobby) => {
   // disable if game has ended
-  if (lobby.state === 'END_GAME') return false
+  if (lobby.state === 'ENDGAME') return false
 
   // disable if currently showing cut animation
   if (lobby.gotCut) return false
@@ -53,7 +53,7 @@ const onPlayCard = (playedCard, lobby) => {
   if (canPlay !== 'CUT' && lobby.isEndGame()) {
     lobby.emptyDiscard()
     database().ref(`${lobby.name}`).update({
-      state: 'END_GAME',
+      state: 'ENDGAME',
       donkey: lobby.getPlayerIDsWithCards()[0]
     })
   }

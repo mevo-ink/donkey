@@ -82,17 +82,15 @@ export default function Table () {
               animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
             />}
           {lobby.lastOnline && <LobbyHostOffline />}
-          {lobby.state === 'PRE_LOBBY' && myPlayerID === lobby.host && <PreLobbyHost />}
-          {lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
-          {lobby.state === 'DEALING' && <DealingAnimation />}
-          {lobby.pileFull && <DiscardPileAnimation />}
-          {lobby.gotCut && <CutAnimation />}
-          {lobby.donkey && <EndGameAnimation />}
+          {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID === lobby.host && <PreLobbyHost />}
+          {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
+          {!lobby.lastOnline && lobby.state === 'DEALING' && <DealingAnimation />}
+          {!lobby.lastOnline && lobby.pileFull && <DiscardPileAnimation />}
+          {!lobby.lastOnline && lobby.gotCut && <CutAnimation />}
+          {!lobby.lastOnline && lobby.donkey && <EndGameAnimation />}
         </Flex>
         {positions.map((positions, idx) => (
-          <Flex key={idx} justifyContent='center' alignItems='center' position='absolute' width='100%' height='100%'>
-            <Player player={players[idx]} positions={positions} />
-          </Flex>
+          <Player key={idx} player={players[idx]} positions={positions} />
         ))}
       </Flex>
     </MotionFlex>

@@ -15,6 +15,7 @@ export default function EndGameAnimation () {
     database().ref(`${lobby.name}`).update({
       donkey: null,
       state: 'PRE_LOBBY',
+      pileFull: null,
       table: null
     })
   }
