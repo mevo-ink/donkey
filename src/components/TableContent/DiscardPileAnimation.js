@@ -35,7 +35,7 @@ export default function DiscardPileAnimation () {
           })
         }
       }
-    }, 5000) // eslint-disable-next-line
+    }, 2000) // eslint-disable-next-line
   }, [])
 
   return (

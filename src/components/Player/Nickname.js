@@ -44,6 +44,8 @@ export default function Nickname ({ playerID, position }) {
     }
   }
 
+  const remainingCards = lobby.getPlayerCards(playerID)
+
   return (
     <MotionBox
       position='absolute'
@@ -83,7 +85,7 @@ export default function Nickname ({ playerID, position }) {
           isDisabled={playerID !== lobby.getMyself().playerID}
           _disabled={{ bg: '' }}
         />
-        {['DEALING', 'LOBBY'].includes(lobby.state) && (
+        {['DEALING', 'LOBBY', 'ENDGAME'].includes(lobby.state) && remainingCards.length !== 0 && (
           <InputRightAddon
             height='18px'
             width='17px'

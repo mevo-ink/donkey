@@ -101,8 +101,7 @@ export default function Table () {
   TODO LIST:
   - CUT UI - ARUN
   - FIX DISCARD ANIMATION POSITIONS - ARUN MAMAOI
-  - REMOVE FAN LAYOUT - ARUN
-  - REMOVE NUMBER INDICATOR IF CARDS === 0
   - SHOW 1 2 3 BADGES
   - SCROLL ON BUTTON _ NETLFIX COPY
+  - BUG: Old lobbies are still showing on first Find Lobby click
 */
