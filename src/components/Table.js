@@ -100,7 +100,7 @@ export default function Table () {
 /*
   TODO LIST:
   - CUT UI - ARUN
-  - FIX DISCARD ANIMATION POSITIONS - ARUN MAMAOI
   - SHOW 1 2 3 BADGES
   - BUG: Old lobbies are still showing on first Find Lobby click
+  - BUG: Bot is not always triggering with 1 real player and 11 bots
 */
