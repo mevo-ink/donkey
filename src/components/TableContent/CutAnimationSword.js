@@ -101,7 +101,7 @@ export default function CutAnimationSword () {
           bottom='20px'
           right='30px'
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0, transition: { delay: 1.5, duration: 0.3 } }}
+          animate={{ opacity: 1, transition: { delay: 1.5, duration: 0.3 } }}
         />
         <MotionImage
           src={gotCuttedPlayer.avatar}

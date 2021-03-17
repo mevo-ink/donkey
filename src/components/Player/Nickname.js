@@ -85,7 +85,7 @@ export default function Nickname ({ playerID, position }) {
           isDisabled={playerID !== lobby.getMyself().playerID}
           _disabled={{ bg: '' }}
         />
-        {['DEALING', 'LOBBY', 'ENDGAME'].includes(lobby.state) && remainingCards.length !== 0 && (
+        {['DEALING', 'LOBBY', 'ENDGAME'].includes(lobby.state) && remainingCards.length !== 0 && !isEditing && (
           <InputRightAddon
             height='18px'
             width='17px'
