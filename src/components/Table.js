@@ -102,6 +102,5 @@ export default function Table () {
   - CUT UI - ARUN
   - FIX DISCARD ANIMATION POSITIONS - ARUN MAMAOI
   - SHOW 1 2 3 BADGES
-  - SCROLL ON BUTTON _ NETLFIX COPY
   - BUG: Old lobbies are still showing on first Find Lobby click
 */
