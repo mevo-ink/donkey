@@ -1,4 +1,4 @@
-const canPlaySuite = ({ suite, lobby }) => {
+const canPlaySuite = (suite, lobby) => {
   const pile = lobby.getPileCards()
 
   if (pile.length === 0) {
@@ -9,7 +9,7 @@ const canPlaySuite = ({ suite, lobby }) => {
     if (suite === topPileCard.suite) {
       return 'GOOD' // legal move
     } else {
-      const hasMatchingSuite = lobby.getMyCards().some(({ suite }) => suite === topPileCard.suite)
+      const hasMatchingSuite = lobby.getPlayerCards(lobby.table.turn).some(({ suite }) => suite === topPileCard.suite)
       if (hasMatchingSuite) {
         return false // invalid move
       } else {

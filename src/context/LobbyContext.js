@@ -6,6 +6,7 @@ import {
 import { maxBy } from 'lodash'
 
 import onPlayCard from 'context/utils/onPlayCard'
+import canPlaySuite from 'context/utils/canPlaySuite'
 import bot from 'context/utils/bot'
 
 import database from 'utils/firebase'
@@ -27,7 +28,6 @@ export const useLobby = () => {
 
   if (lobby === undefined) {
     return { state: 'NOT_READY' }
-    // throw new Error('useLobby must be used within a LobbyProvider')
   }
 
   // add some common getters for lobby
@@ -38,7 +38,10 @@ export const useLobby = () => {
   }
 
   lobby.getPlayerIDsWithCards = () => {
-    return Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards).some(card => card.playerID === playerID))
+    const playersWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards).some(card => card.playerID === playerID))
+    const playersInPile = Object.values(lobby.pile || {}).map(({ playerID }) => playerID)
+    const unoderedPalyerIDs = [...new Set([...playersWithCards, ...playersInPile])]
+    return Object.keys(lobby.players).filter(playerID => unoderedPalyerIDs.includes(playerID))
   }
 
   lobby.getPileCards = () => {
@@ -79,7 +82,7 @@ export const useLobby = () => {
 
   lobby.movePileCardsToPlayer = (playerID) => {
     for (const card of Object.values(lobby.table.pile)) {
-      lobby.table.cards[card.cardID].playerID = {
+      lobby.table.cards[card.cardID] = {
         ...lobby.table.cards[card.cardID],
         playerID
       }
@@ -88,9 +91,12 @@ export const useLobby = () => {
   }
 
   lobby.addCardToPlayer = (card, playerID) => {
-    lobby.table.cards[card.cardID] = {
-      ...lobby.table.cards[card.cardID],
-      playerID
+    lobby.table.cards = {
+      ...lobby.table.cards,
+      [card.cardID]: {
+        ...lobby.table.cards[card.cardID],
+        playerID
+      }
     }
   }
 
@@ -134,6 +140,10 @@ export const useLobby = () => {
 
   lobby.playCard = (card) => {
     onPlayCard(card, lobby)
+  }
+
+  lobby.canPlaySuite = (suite) => {
+    return canPlaySuite(suite, lobby)
   }
 
   lobby.bot = () => {

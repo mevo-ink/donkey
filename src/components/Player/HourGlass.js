@@ -13,15 +13,14 @@ export default function HourGlass ({ playerID, position }) {
 
   useEffect(() => {
     if (lobby.host === playerID && lobby.state === 'LOBBY') {
-      timer.current = setInterval(async () => {
+      timer.current = setInterval(() => {
         if (!lobby.lastOnline) {
           if (lobby.players[lobby.table.turn].lastOnline) {
-            clearInterval(timer.current)
             lobby.bot()
           } else if (lobby.table?.time >= lobby.timeLimit) {
             // player ran out of time; make bot play a card
-            clearInterval(timer.current)
             lobby.bot()
+            clearInterval(timer.current)
           } else {
             database().ref(`${lobby.name}/table/time`).set(lobby.table?.time + 1)
           }

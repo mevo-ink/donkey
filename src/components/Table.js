@@ -8,7 +8,7 @@ import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
 import PreLobbyHost from 'components/TableContent/PreLobbyHost'
 import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
 import DealingAnimation from 'components/TableContent/DealingAnimation'
-import CutAnimationSword from 'components/TableContent/CutAnimationSword'
+import CutAnimation from 'components/TableContent/CutAnimation'
 import EndGameAnimation from 'components/TableContent/EndGameAnimation'
 import DiscardPileAnimation from 'components/TableContent/DiscardPileAnimation'
 
@@ -86,7 +86,7 @@ export default function Table () {
           {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
           {!lobby.lastOnline && lobby.state === 'DEALING' && <DealingAnimation />}
           {!lobby.lastOnline && lobby.pileFull && !lobby.gotCut && <DiscardPileAnimation />}
-          {!lobby.lastOnline && lobby.gotCut && <CutAnimationSword />}
+          {!lobby.lastOnline && lobby.gotCut && <CutAnimation />}
           {!lobby.lastOnline && lobby.donkey && <EndGameAnimation />}
         </Flex>
         {positions.map((positions, idx) => (
@@ -99,11 +99,12 @@ export default function Table () {
 
 /*
   TODO LIST:
+  - BIG BUG - cards mudiya next player set aaavuthilla
   - SHOW 1 2 3 BADGES
-  - Optimize images
-  - Fix discard pile animation timing
+  - Fix discard pile animation  -FLIP AND GO
+  - Discard animation - Should come only from remaining players seats
+  - CUT TEXT - BUBBLE _ I CUT (player)
   - BUGs:
     - Old lobbies are still showing on first Find Lobby click
-    - Bot is not always triggering with 1 real player and 11 bots
-    - DiscardAnimation is there while starting cutting animation (i fixed it, but after cut animation, vedikkudhu)
+  - Optimize images
 */

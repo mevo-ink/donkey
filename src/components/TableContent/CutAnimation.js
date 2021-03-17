@@ -57,6 +57,7 @@ export default function CutAnimation () {
         fontSize='23px'
         lineHeight='23px'
         fontWeight='bold'
+        zIndex='10'
         initial={{ opacity: 0, scale: 0, y: 0 }}
         animate={{ opacity: 1, scale: 1, y: -58, transition: { delay: 6.5, duration: 1 } }}
       >

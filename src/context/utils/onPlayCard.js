@@ -1,7 +1,5 @@
 import database from 'utils/firebase'
 
-import canPlaySuite from 'context/utils/canPlaySuite'
-
 const onPlayCard = async (playedCard, lobby) => {
   // disable if game has ended
   if (lobby.state === 'ENDGAME') return false
@@ -16,7 +14,7 @@ const onPlayCard = async (playedCard, lobby) => {
   if (playedCard.playerID !== lobby.table.turn) return false
 
   // check if played card is a legal move
-  const canPlay = canPlaySuite({ suite: playedCard.suite, lobby })
+  const canPlay = lobby.canPlaySuite(playedCard.suite)
 
   if (!canPlay) return false
 
@@ -45,7 +43,7 @@ const onPlayCard = async (playedCard, lobby) => {
     database().ref(`${lobby.name}/gotCut`).set({ playerID: gotCuttedPlayerID, card: playedCard })
   }
 
-  if (lobby.isPileFull()) {
+  if (canPlay !== 'CUT' && lobby.isPileFull()) {
     // update the db to show discard pile
     database().ref(`${lobby.name}/pileFull`).set(true)
   }
