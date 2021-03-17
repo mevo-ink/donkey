@@ -85,7 +85,7 @@ export default function Table () {
           {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID === lobby.host && <PreLobbyHost />}
           {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
           {!lobby.lastOnline && lobby.state === 'DEALING' && <DealingAnimation />}
-          {!lobby.lastOnline && lobby.pileFull && <DiscardPileAnimation />}
+          {!lobby.lastOnline && lobby.pileFull && !lobby.gotCut && <DiscardPileAnimation />}
           {!lobby.lastOnline && lobby.gotCut && <CutAnimation />}
           {!lobby.lastOnline && lobby.donkey && <EndGameAnimation />}
         </Flex>
@@ -99,8 +99,11 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - CUT UI - ARUN
   - SHOW 1 2 3 BADGES
-  - BUG: Old lobbies are still showing on first Find Lobby click
-  - BUG: Bot is not always triggering with 1 real player and 11 bots
+  - Optimize images
+  - Fix discard pile animation timing
+  - BUGs:
+    - Old lobbies are still showing on first Find Lobby click
+    - Bot is not always triggering with 1 real player and 11 bots
+    - DiscardAnimation is there while starting cutting animation (i fixed it, but after cut animation, vedikkudhu)
 */

@@ -4,11 +4,26 @@ import database from 'utils/firebase'
 
 import { useLobby } from 'context/LobbyContext'
 
-import { Text } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Text,
+  Image
+} from '@chakra-ui/react'
+
+import thanosSnap from 'images/thanosSnap.gif'
+import bot from 'images/bot.png'
+
+import { motion } from 'framer-motion'
+const MotionBox = motion(Box)
+const MotionFlex = motion(Flex)
+const MotionText = motion(Text)
+const MotionImage = motion(Image)
 
 export default function CutAnimation () {
   const lobby = useLobby()
 
+  const doCutPlayer = lobby.getPlayer(lobby.table.turn)
   const gotCuttedPlayer = lobby.getPlayer(lobby.gotCut.playerID)
 
   useEffect(() => {
@@ -32,17 +47,62 @@ export default function CutAnimation () {
           })
         }
       }
-    }, 5000) // eslint-disable-next-line
+    }, 8000) // eslint-disable-next-line
   }, [])
 
   return (
-    <Text
-      fontSize='24px'
-      lineHeight='24px'
-      width='69px'
-      textAlign='center'
-    >
-      {gotCuttedPlayer.nickname} GOT CUT!!
-    </Text>
+    <>
+      <MotionText
+        position='absolute'
+        fontSize='23px'
+        lineHeight='23px'
+        fontWeight='bold'
+        initial={{ opacity: 0, scale: 0, y: 0 }}
+        animate={{ opacity: 1, scale: 1, y: -58, transition: { delay: 6.5, duration: 1 } }}
+      >
+        {gotCuttedPlayer.nickname} got Cutted!!
+      </MotionText>
+      <MotionFlex
+        width='90%'
+        justifyContent='space-between'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 1 } }}
+      >
+        <MotionBox
+          position='relative'
+          animate={{ x: [0, 32], transition: { delay: 5.6, duration: 1 } }}
+        >
+          <MotionImage
+            src={thanosSnap}
+            width='20px'
+            objectFit='contain'
+            position='absolute'
+            bottom='8px'
+            left='-8px'
+            initial={{ x: 40 }}
+            animate={{ opacity: [0, 1, 1, 1, 1, 1, 0], transition: { delay: 3.3, duration: 1.6 } }}
+          />
+          <MotionImage
+            src={doCutPlayer.avatar ? doCutPlayer.avatar : bot}
+            width='50px'
+            objectFit='contain'
+            borderRadius='100%'
+            animate={{ x: [0, 40], transition: { delay: 1, duration: 2 } }}
+          />
+        </MotionBox>
+        <MotionBox
+          position='relative'
+          animate={{ x: [0, -40], transition: { delay: 1, duration: 2 } }}
+        >
+          <MotionImage
+            src={gotCuttedPlayer.avatar ? gotCuttedPlayer.avatar : bot}
+            width='50px'
+            objectFit='contain'
+            borderRadius='100%'
+            animate={{ opacity: 0, transition: { delay: 4, duration: 2 } }}
+          />
+        </MotionBox>
+      </MotionFlex>
+    </>
   )
 }
