@@ -14,7 +14,14 @@ const MotionImage = motion(Image)
 export default function DiscardPileAnimation () {
   const lobby = useLobby()
 
-  const cardPositions = lobby.getSeatingPositions().map(([_, cardPositions]) => cardPositions)
+  const playerIDsWithCards = lobby.getPlayers().filter(({ hasCards }) => hasCards).map(({ playerID }) => playerID)
+
+  console.log(playerIDsWithCards)
+  const cardPositions = lobby.getSeatingPositions()
+    .filter(([_, __, ___, player]) => playerIDsWithCards.includes(player.playerID))
+    .map(([_, cardPositions, __, player]) => cardPositions)
+
+  console.log(cardPositions)
 
   useEffect(() => {
     setTimeout(() => {

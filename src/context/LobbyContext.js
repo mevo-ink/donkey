@@ -32,16 +32,28 @@ export const useLobby = () => {
 
   // add some common getters for lobby
   lobby.isEndGame = () => {
-    const playersWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards).some(card => card.playerID === playerID))
+    const playersWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards || {}).some(card => card.playerID === playerID))
     const playersInPile = Object.values(lobby.pile || {}).map(({ playerID }) => playerID)
     return [...new Set([...playersWithCards, ...playersInPile])].length === 1
   }
 
   lobby.getPlayerIDsWithCards = () => {
-    const playersWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards).some(card => card.playerID === playerID))
-    const playersInPile = Object.values(lobby.pile || {}).map(({ playerID }) => playerID)
-    const unoderedPalyerIDs = [...new Set([...playersWithCards, ...playersInPile])]
-    return Object.keys(lobby.players).filter(playerID => unoderedPalyerIDs.includes(playerID))
+    const playersIDsWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table?.cards || {}).some(card => card.playerID === playerID))
+    const playerIDsInPile = Object.values(lobby.pile || {}).map(({ playerID }) => playerID)
+    return [...new Set([...playersIDsWithCards, ...playerIDsInPile])]
+  }
+
+  lobby.getPlayers = () => {
+    const playerIDsWithCards = lobby.getPlayerIDsWithCards()
+    return Object.values(lobby.players || {}).map(player => ({ ...player, hasCards: playerIDsWithCards.includes(player.playerID) }))
+  }
+
+  lobby.getPlayerAtIdx = (idx) => {
+    return Object.values(lobby.players || {})[idx]
+  }
+
+  lobby.getNextPlayerInTurn = () => {
+    return Object.keys(lobby.players)[0]
   }
 
   lobby.getPileCards = () => {
@@ -122,10 +134,6 @@ export const useLobby = () => {
       .filter(card => card.playerID === playerID)
   }
 
-  lobby.getPlayers = () => {
-    return Object.values(lobby.players || {})
-  }
-
   lobby.getMyself = () => {
     return lobby.players[myPlayerID]
   }
@@ -181,6 +189,10 @@ export const useLobby = () => {
     return playerIndex
   }
 
+  lobby.setPlayerPositions = (playerID, positions) => {
+    lobby.players[playerID].positions = positions
+  }
+
   lobby.getSeatingPositions = () => {
     const arrangements = {
       1: [0],
@@ -213,7 +225,7 @@ export const useLobby = () => {
       [{ right: '0px', bottom: '25px' }, { right: '40px', top: '330px' }, { x: 90, y: 185 }]
     ]
 
-    return coordinates.filter((_, idx) => arrangements.includes(idx))
+    return coordinates.filter((_, idx) => arrangements.includes(idx)).map((pos, idx) => ([...pos, lobby.getPlayerAtIdx(idx)]))
   }
 
   return lobby

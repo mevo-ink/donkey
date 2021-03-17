@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { useLobby } from 'context/LobbyContext'
 
 import { Flex } from '@chakra-ui/react'
@@ -10,8 +12,14 @@ import Avatar from 'components/Player/Avatar'
 import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
 
-export default function Player ({ player, positions: [avatarNicknamePosition, cardPosition] = [] }) {
+export default function Player ({ player, positions = [] }) {
   const lobby = useLobby()
+
+  useEffect(() => {
+    lobby.setPlayerPositions(player.playerID, positions)
+  }, [])
+
+  const [avatarNicknamePosition, cardPosition] = positions
 
   return (
     <MotionFlex
