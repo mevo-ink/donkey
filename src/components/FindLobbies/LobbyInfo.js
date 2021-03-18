@@ -27,7 +27,7 @@ export default function LobbyInfo ({ lobby }) {
   return (
     <Flex
       as={Link}
-      href={`/lobbies/${lobby.name}`}
+      href={`/lobbies/${lobby.settings.name}`}
       width='100%'
       py={1}
       alignItems='center'
@@ -37,7 +37,7 @@ export default function LobbyInfo ({ lobby }) {
       _hover={{ textDecoration: 'none' }}
     >
       <Image
-        src={lobby.players[lobby.host]?.avatar}
+        src={lobby.players[lobby.settings.host]?.avatar}
         width='53px'
         h='53px'
         ml='9px'
@@ -51,9 +51,9 @@ export default function LobbyInfo ({ lobby }) {
         lineHeight='14px'
         fontWeight='bold'
       >
-        <RowInfo label='Host' value={lobby.players[lobby.host].nickname} />
-        <RowInfo label='Name' value={lobby.name} />
-        <RowInfo label='Players' value={`${Object.keys(lobby.players).length} / ${lobby.maxPlayers}`} />
+        <RowInfo label='Host' value={lobby.players[lobby.settings.host].nickname} />
+        <RowInfo label='Name' value={lobby.settings.name} />
+        <RowInfo label='Players' value={`${Object.keys(lobby.players).length} / ${lobby.settings.maxPlayers}`} />
       </Box>
     </Flex>
   )

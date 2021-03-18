@@ -23,6 +23,14 @@ export const LobbyProvider = ({ value, children }) => {
   )
 }
 
+export const useSettings = () => {
+  const settings = useContext(LobbyContext).settings
+
+  return settings
+}
+
+
+
 export const useLobby = () => {
   const lobby = useContext(LobbyContext)
 

@@ -37,6 +37,8 @@ export default function Table () {
 
   const positions = lobby.getSeatingPositions()
 
+  console.log('RENDERING TABLE')
+
   return (
     <MotionFlex
       width='242px'

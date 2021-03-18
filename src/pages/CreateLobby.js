@@ -25,19 +25,23 @@ export default function CreateLobby () {
   const [nickname, setNickname] = useState('')
   const [maxPlayers, setMaxPlayers] = useState(4)
 
+  const generator = new AvatarGenerator()
+  const myPlayerID = window.localStorage.getItem('playerID')
+  const avatar = generator.generateRandomAvatar(myPlayerID) + '&avatarStyle=Transparent'
+
   const onCreateLobby = (e) => {
     e.preventDefault()
     setIsLoading(true)
     const lobbyName = generateSlug()
-    const myPlayerID = window.localStorage.getItem('playerID')
-    const generator = new AvatarGenerator()
-    const avatar = generator.generateRandomAvatar(myPlayerID) + '&avatarStyle=Transparent'
-    database().ref(lobbyName).set({
-      name: lobbyName,
-      host: myPlayerID,
-      state: 'PRE_LOBBY',
-      maxPlayers,
-      timeLimit: 20,
+
+    database().ref(`${lobbyName}`).set({
+      settings: {
+        name: lobbyName,
+        host: myPlayerID,
+        state: 'PRE_LOBBY',
+        maxPlayers,
+        timeLimit: 20
+      },
       players: {
         [myPlayerID]: { playerID: myPlayerID, nickname, avatar }
       }
@@ -57,7 +61,7 @@ export default function CreateLobby () {
       onSubmit={onCreateLobby}
     >
       <Image
-        src='https://i.pinimg.com/originals/10/40/09/104009be202e45fd75e7466de2036f4f.jpg'
+        src={avatar}
         w='87px'
         h='87px'
         borderRadius='25px'

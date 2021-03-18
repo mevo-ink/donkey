@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useLobby } from 'context/LobbyContext'
+import { useSettings } from 'context/LobbyContext'
 import { useTitle } from 'hookrouter'
 
 import Nickname from 'components/CreateLobby/Nickname'
@@ -16,20 +16,9 @@ import database from 'utils/firebase'
 import { AvatarGenerator } from 'random-avatar-generator'
 
 export default function JoinRoom () {
-  const lobby = useLobby()
+  const settings = useSettings()
 
-  useTitle(lobby.name)
-
-  /*
-    TODO:
-    useEffect - check for active firebase auth session
-    if player session is active on firebase:
-      - automatically join the lobby with that player's name as nickname
-
-    https://firebase.google.com/docs/auth/web/start#set_an_authentication_state_observer_and_get_player_data
-
-    https://firebase.google.com/docs/auth/web/auth-state-persistence#supported_types_of_auth_state_persistence
-  */
+  useTitle(settings.name)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -41,7 +30,7 @@ export default function JoinRoom () {
     const myPlayerID = window.localStorage.getItem('playerID')
     const generator = new AvatarGenerator()
     const avatar = generator.generateRandomAvatar(myPlayerID) + '&avatarStyle=Transparent'
-    database().ref(`${lobby.name}/players/${myPlayerID}`).update({
+    database().ref(`${settings.name}/players/${myPlayerID}`).update({
       playerID: myPlayerID,
       nickname,
       avatar
@@ -70,7 +59,7 @@ export default function JoinRoom () {
         lineHeight='35px'
         mb='15px'
       >
-        {lobby.name}
+        {settings.name}
       </Text>
       <Nickname nickname={nickname} onSubmit={setNickname} />
       <CancelDone isLoading={isLoading} nickname={nickname} />
