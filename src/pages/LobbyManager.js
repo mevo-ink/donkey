@@ -80,3 +80,26 @@ export default function LobbyManager ({ name }) {
     </LobbyProvider>
   )
 }
+
+/*
+  settings:
+    - host
+    - maxPlayers
+    - name
+    - timeLimit
+  players:
+    []:
+      - playerID
+      - nickname
+      - avatar
+  table:
+    - state (PRE_LOBBY, DEALING, LOBBY, ENDGAME)
+    - donkey (playerID)
+    - turn (playerID)
+    - cards:
+      []:
+        - cardID
+        - suite
+        - number
+        - holder (playerID or table or null)
+*/
