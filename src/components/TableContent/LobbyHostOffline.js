@@ -12,13 +12,13 @@ import database from 'utils/firebase'
 export default function LobbyHostOffline () {
   const lobby = useLobby()
 
-  const players = lobby.getPlayers()
+  const players = lobby.getAllPlayers()
 
-  usePlayerDisconnect(lobby)
+  usePlayerDisconnect(lobby.settings)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      // choose a random online player - excluding the current lobby host
+      // choose a random online player - excluding the current GAME host
       const newHost = players.find(({ playerID, lastOnline }) => playerID !== lobby.host && !lastOnline)
       if (newHost) {
         database().ref(`${lobby.name}`).update({

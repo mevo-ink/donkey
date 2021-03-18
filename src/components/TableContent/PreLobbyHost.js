@@ -4,18 +4,12 @@ import { Text, Flex, Button } from '@chakra-ui/react'
 
 import LoadingInline from 'components/LoadingInline'
 
-import database from 'utils/firebase'
-
 export default function PreLobbyGuest () {
   const lobby = useLobby()
 
   const players = lobby.getPlayers()
 
-  const onStartGame = () => {
-    database().ref(`${lobby.name}`).update({
-      state: 'DEALING'
-    })
-  }
+  const onStartGame = lobby.startDealing
 
   return (
     <Flex
@@ -36,7 +30,7 @@ export default function PreLobbyGuest () {
         width='69px'
         textAlign='center'
       >
-        Waiting <br /> For <br /> Players <br /> {players.length} / {lobby.maxPlayers}
+        Waiting <br /> For <br /> Players <br /> {players.length} / {lobby.settings.maxPlayers}
       </Text>
       <LoadingInline />
       <Button

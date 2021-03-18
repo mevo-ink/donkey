@@ -16,6 +16,7 @@ import lobbyIsFullSVG from 'images/lobbyIsFull.svg'
 
 export default function LobbyIsFull () {
   const lobby = useLobby()
+
   return (
     <Modal isOpen isCentered size='xs'>
       <ModalOverlay />
@@ -23,9 +24,9 @@ export default function LobbyIsFull () {
         <ModalHeader fontSize='2xl' textAlign='center'>Lobby Is Full</ModalHeader>
         <ModalBody>
           <VStack spacing={8}>
-            <Image maxW='200px' height='150px' ignoreFallback src={lobbyIsFullSVG} alt='Lobby Is Full' />
-            <Text fontWeight='bold'>{lobby.name}</Text>
-            <Button colorScheme='purple' onClick={() => { window.location.href = '/lobbys' }}>
+            <Image maxW='200px' height='150px' ignoreFallback src={lobbyIsFullSVG} alt='Lobby is full' />
+            <Text fontWeight='bold'>{lobby.settings.name}</Text>
+            <Button colorScheme='purple' onClick={() => { window.location.href = '/lobbies' }}>
               Go Back
             </Button>
           </VStack>

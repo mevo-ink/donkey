@@ -15,7 +15,7 @@ export default function ShareLobby () {
 
   const onShare = () => {
     toast({
-      title: 'Room Invite Has Been Copied!',
+      title: 'Lobby Invite Has Been Copied!',
       status: 'success',
       duration: 3000
     })
@@ -40,7 +40,7 @@ export default function ShareLobby () {
       _hover={{ bg: '' }}
       onClick={onShare}
     >
-      {lobby.name}
+      {lobby.settings.name}
     </Button>
   )
 }

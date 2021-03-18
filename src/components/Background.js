@@ -11,7 +11,7 @@ import bgImage from 'images/bg.png'
 export default function Background ({ children, noText }) {
   const lobby = useLobby()
 
-  const offset = ['LOBBY', 'DEALING', 'PRE_LOBBY', 'ENDGAME'].includes(lobby.state)
+  const offset = ['GAME', 'DEALING', 'PREGAME', 'ENDGAME'].includes(lobby?.table.state)
 
   return (
     <Grid
@@ -35,7 +35,7 @@ export default function Background ({ children, noText }) {
           objectFit='cover'
           mt={offset && '-50px'}
         />
-        {!offset && !noText && lobby.state !== 'ENDGAME' && (
+        {!offset && !noText && lobby?.table.state !== 'ENDGAME' && (
           <>
             <Text
               fontSize='48px'

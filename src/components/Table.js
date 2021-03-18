@@ -4,7 +4,7 @@ import { Flex, Image } from '@chakra-ui/react'
 
 import cardBack from 'images/cardBack.png'
 
-import Player from 'components/Player'
+import Players from 'components/Players'
 import CutAnimation from 'components/TableContent/CutAnimation'
 import PreLobbyHost from 'components/TableContent/PreLobbyHost'
 import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
@@ -34,10 +34,6 @@ export default function Table () {
   const currentPlayerIndex = players.findIndex(({ playerID }) => playerID === myPlayerID)
 
   if (currentPlayerIndex >= 0) rotate(players, currentPlayerIndex)
-
-  const positions = lobby.getSeatingPositions()
-
-  console.log('RENDERING TABLE')
 
   return (
     <MotionFlex
@@ -73,7 +69,7 @@ export default function Table () {
           alignItems='center'
           position='relative'
         >
-          {lobby.state === 'LOBBY' && !lobby.gotCut && lobby.table.discard &&
+          {lobby.hasDiscard() &&
             <MotionImage
               src={cardBack}
               width='30px'
@@ -82,17 +78,15 @@ export default function Table () {
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
             />}
-          {lobby.lastOnline && <LobbyHostOffline />}
-          {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID === lobby.host && <PreLobbyHost />}
-          {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
-          {!lobby.lastOnline && lobby.state === 'DEALING' && <DealingAnimation />}
-          {!lobby.lastOnline && lobby.pileFull && !lobby.gotCut && <DiscardPileAnimation />}
-          {!lobby.lastOnline && lobby.gotCut && <CutAnimation zIndex='5' />}
-          {!lobby.lastOnline && lobby.donkey && <EndGameAnimation />}
+          {!lobby.isHostOnline() && <LobbyHostOffline />}
+          {lobby.isHostOnline() && lobby.table.state === 'PREGAME' && lobby.amIHost() && <PreLobbyHost />}
+          {lobby.isHostOnline() && lobby.table.state === 'PREGAME' && !lobby.amIHost() && <PreLobbyGuest />}
+          {lobby.isHostOnline() && lobby.table.state === 'DEALING' && <DealingAnimation />}
+          {lobby.isHostOnline() && lobby.pileFull && !lobby.gotCut && <DiscardPileAnimation />}
+          {lobby.isHostOnline() && lobby.gotCut && <CutAnimation />}
+          {lobby.isHostOnline() && lobby.donkey && <EndGameAnimation />}
         </Flex>
-        {positions.map((positions, idx) => (
-          <Player key={idx} player={players[idx]} positions={positions} />
-        ))}
+        <Players />
       </Flex>
     </MotionFlex>
   )
@@ -106,6 +100,6 @@ export default function Table () {
   - Discard animation - Should come only from remaining players seats
   - CUT TEXT - BUBBLE _ I CUT (player)
   - BUGs:
-    - Old lobbies are still showing on first Find Lobby click
+    - Old lobbies are still showing on first Find GAME click
   - Optimize images
 */

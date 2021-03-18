@@ -1,38 +1,50 @@
+import { useEffect } from 'react'
+
 import { useLobby } from 'context/LobbyContext'
 
 import { Image } from '@chakra-ui/react'
 
+import { getCards } from 'utils/cards'
+
 import spinningCard from 'images/rotatingCardGif.gif'
 
-import { motion } from 'framer-motion'
+import { motion, useAnimation } from 'framer-motion'
 const MotionImage = motion(Image)
 
 export default function DealingAnimation () {
+  const controls = useAnimation()
+
   const lobby = useLobby()
 
-  const players = lobby.getPlayers()
+  const cards = getCards()
 
-  const numberOfPlayers = players.length
-
-  const playersPosition = lobby.getSeatingPositions().map(([_, __, playerPosition]) => playerPosition)
-
-  const newPlayersPosition = []
-
-  for (let i = 0; i < 52; i += numberOfPlayers) {
-    newPlayersPosition.push(...playersPosition)
-  }
+  useEffect(() => {
+    (async () => {
+      if (lobby.table.state === 'DEALING') {
+        let playerIndex = 0
+        while (cards.length > 0) {
+          const playerIDs = Object.values(lobby.table.seatings)
+          const dealtPlayerID = playerIDs[playerIndex]
+          const card = cards.pop()
+          lobby.amIHost() && await lobby.dealPlayerCard(playerIndex, card)
+          const { dealingPos: { x, y } } = dealtPlayerID ? lobby.getPlayerPositions(dealtPlayerID) : {}
+          await controls.start({ opacity: [0, 1, 0], x, y, transition: { duration: 0.3 } })
+          await controls.start({ opacity: 0, x: 0, y: 0 })
+          playerIndex = (playerIndex + 1) % playerIDs.length
+        }
+        lobby.amIHost() && await lobby.startGame()
+      }
+    })() // eslint-disable-next-line
+  }, [])
 
   return (
-    newPlayersPosition.map((pos, idx) => (
-      <MotionImage
-        key={idx}
-        src={spinningCard}
-        width='20px'
-        objectFit='contain'
-        position='absolute'
-        initial={{ opacity: 0, x: 0, y: 0 }}
-        animate={{ opacity: [0, 1, 0], x: pos?.x, y: pos?.y, transition: { delay: (1 + idx) / 2, duration: 0.2 } }}
-      />
-    ))
+    <MotionImage
+      src={spinningCard}
+      width='20px'
+      objectFit='contain'
+      position='absolute'
+      animate={controls}
+      initial={{ opacity: 0, x: 0, y: 0 }}
+    />
   )
 }

@@ -15,7 +15,7 @@ const MotionBox = motion(Box)
 export default function LobbyInfo () {
   const lobby = useLobby()
 
-  const isHostAndPreLobby = window.localStorage.getItem('playerID') === lobby.host && lobby.state === 'PRE_LOBBY'
+  const isHostAndPreGame = lobby.amIHost() && lobby.table.state === 'PREGAME'
 
   return (
     <Flex
@@ -36,8 +36,8 @@ export default function LobbyInfo () {
         <Text fontSize='xs'>
           Lobby Name:
         </Text>
-        {isHostAndPreLobby && <ShareLobby />}
-        {!isHostAndPreLobby && <Text fontSize='lg' mt='2px'> {`${lobby.name}`} </Text>}
+        {isHostAndPreGame && <ShareLobby />}
+        {!isHostAndPreGame && <Text fontSize='lg' mt='2px'> {`${lobby.settings.name}`} </Text>}
       </MotionBox>
       <MotionBox
         mr='16px'
@@ -48,8 +48,8 @@ export default function LobbyInfo () {
         <Text fontSize='xs'>
           Players:
         </Text>
-        {isHostAndPreLobby && <MaxPlayersPopover />}
-        {!isHostAndPreLobby && <Text fontSize='lg' mt='2px'> {`${lobby.getPlayers().length} / ${lobby.maxPlayers}`} </Text>}
+        {isHostAndPreGame && <MaxPlayersPopover />}
+        {!isHostAndPreGame && <Text fontSize='lg' mt='2px'> {`${lobby.getAllPlayers().length} / ${lobby.settings.maxPlayers}`} </Text>}
       </MotionBox>
     </Flex>
   )

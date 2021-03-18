@@ -24,6 +24,8 @@ const RowInfo = ({ label, value }) => (
 )
 
 export default function LobbyInfo ({ lobby }) {
+  const host = lobby.players[lobby.settings.host.playerID]
+
   return (
     <Flex
       as={Link}
@@ -37,7 +39,7 @@ export default function LobbyInfo ({ lobby }) {
       _hover={{ textDecoration: 'none' }}
     >
       <Image
-        src={lobby.players[lobby.settings.host]?.avatar}
+        src={host.avatar}
         width='53px'
         h='53px'
         ml='9px'
@@ -51,7 +53,7 @@ export default function LobbyInfo ({ lobby }) {
         lineHeight='14px'
         fontWeight='bold'
       >
-        <RowInfo label='Host' value={lobby.players[lobby.settings.host].nickname} />
+        <RowInfo label='Host' value={host.nickname} />
         <RowInfo label='Name' value={lobby.settings.name} />
         <RowInfo label='Players' value={`${Object.keys(lobby.players).length} / ${lobby.settings.maxPlayers}`} />
       </Box>

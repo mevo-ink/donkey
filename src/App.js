@@ -6,7 +6,7 @@ import { useRoutes } from 'hookrouter'
 import PWAPrompt from 'components/PWAPrompt'
 
 import Home from 'pages/Home'
-import LobbyManager from 'pages/LobbyManager'
+import Lobby from 'pages/Lobby'
 import FindLobbies from 'pages/FindLobbies'
 import CreateLobby from 'pages/CreateLobby'
 import Background from 'components/Background'
@@ -14,7 +14,7 @@ import Background from 'components/Background'
 const routes = {
   '/lobbies': () => <FindLobbies />,
   '/createLobby': () => <CreateLobby />,
-  '/lobbies/:name': ({ name }) => <LobbyManager name={name} />
+  '/lobbies/:name': ({ name }) => <Lobby name={name} />
 }
 
 function App () {
@@ -23,8 +23,8 @@ function App () {
   useServiceWorker()
   useFingerprint()
 
-  const isLobbyManager = window.location.pathname.startsWith('/lobbies/')
-  if (isLobbyManager) return routeResult
+  const isLobby = window.location.pathname.startsWith('/lobbies/')
+  if (isLobby) return routeResult
 
   return (
     <Background>

@@ -6,16 +6,16 @@ import Background from 'components/Background'
 
 import Loading from 'components/Loading'
 
-import LobbyNotFound from 'components/LobbyManager/LobbyNotFound'
-import LobbyIsFull from 'components/LobbyManager/LobbyIsFull'
-import JoinLobby from 'components/LobbyManager/JoinLobby'
+import LobbyNotFound from 'components/Lobby/LobbyNotFound'
+import LobbyIsFull from 'components/Lobby/LobbyIsFull'
+import JoinLobby from 'components/Lobby/JoinLobby'
 
-import Lobby from 'components/Lobby'
-import PreLobby from 'components/PreLobby'
+import Game from 'components/Game'
 
 import Error from 'components/Error'
 
 import database from 'utils/firebase'
+import preloadCardImages from 'utils/cards'
 
 export default function LobbyManager ({ name }) {
   const myPlayerID = window.localStorage.getItem('playerID')
@@ -27,7 +27,9 @@ export default function LobbyManager ({ name }) {
   const [lobby, setLobby] = useState()
 
   useEffect(() => {
-    // find the lobby
+    // preload card images to browser cache
+    preloadCardImages()
+    // find the Game
     database().ref(name).on('value', (snapshot) => {
       setLobby(snapshot.val())
       setIsLoading(false)
@@ -42,22 +44,20 @@ export default function LobbyManager ({ name }) {
   if (!lobby) return <LobbyNotFound name={name} />
 
   // check if the current player is in the lobby
-  const isCurrentPlayerInRoom = lobby?.players[myPlayerID]?.nickname
+  const isCurrentPlayerInLobby = lobby.players[myPlayerID]?.nickname
 
   let render
 
-  if (!isCurrentPlayerInRoom) {
+  if (!isCurrentPlayerInLobby) {
     // check if lobby is full
-    if (lobby.maxPlayers === Object.keys(lobby.players).length) {
+    if (lobby.settings.maxPlayers === Object.keys(lobby.players).length) {
       render = <LobbyIsFull />
     } else {
       // prompt the player to join
       render = <JoinLobby />
     }
-  } else if (['LOBBY', 'DEALING', 'ENDGAME'].includes(lobby.state)) {
-    render = <Lobby />
   } else {
-    render = <PreLobby />
+    render = <Game />
   }
 
   return (
@@ -72,6 +72,8 @@ export default function LobbyManager ({ name }) {
 /*
   settings:
     - host
+      - playerID
+      - lastOnline
     - maxPlayers
     - name
     - timeLimit
@@ -81,7 +83,8 @@ export default function LobbyManager ({ name }) {
       - nickname
       - avatar
   table:
-    - state (PRE_LOBBY, DEALING, LOBBY, ENDGAME)
+    - seatings [playerID, playerID, ...]
+    - state (PREGame, DEALING, Game, ENDGame)
     - donkey (playerID)
     - turn (playerID)
     - cards:

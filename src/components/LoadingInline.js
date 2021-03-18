@@ -47,7 +47,7 @@ export default function LoadingInline () {
         initial='start'
         animate='end'
       >
-        {'123'.split('').map(idx => (
+        {[...'123'].map(idx => (
           <MotionFlex
             key={idx}
             variants={circleVariants}

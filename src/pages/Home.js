@@ -22,7 +22,7 @@ export default function Home () {
       justifyContent='space-between'
     >
       {[{
-        name: 'Create Lobby',
+        name: 'Create GAME',
         color: 'linear-gradient(180deg, #FE9696 0%, #E76C6C 100%)',
         path: '/createLobby'
       }, {

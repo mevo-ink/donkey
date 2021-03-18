@@ -15,6 +15,37 @@ const myPlayerID = window.localStorage.getItem('playerID')
 
 export const LobbyContext = createContext()
 
+const seatings = {
+  1: [0],
+  2: [0, 6],
+  3: [0, 3, 9],
+  4: [0, 3, 6, 9],
+  5: [0, 3, 6, 8, 10],
+  6: [0, 2, 4, 6, 8, 10],
+  7: [0, 2, 4, 6, 8, 9, 10],
+  8: [0, 2, 3, 4, 6, 8, 9, 10],
+  9: [0, 1, 2, 3, 4, 6, 8, 9, 10],
+  10: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10],
+  11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  12: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+
+const positions = [
+  [{ bottom: '-23.5px' }, { top: '361.5px' }, { x: 0, y: 230 }],
+  [{ left: '0px', bottom: '25px' }, { left: '40px', top: '330px' }, { x: -90, y: 185 }],
+  [{ left: '-22.75px', bottom: '115px' }, { left: '35px', top: '260px' }, { x: -115, y: 100 }],
+  [{ left: '-22.75px', bottom: '204px' }, { left: '35px', top: '190px' }, { x: -115, y: -0 }],
+  [{ left: '-22.75px', bottom: '293px' }, { left: '35px', top: '120px' }, { x: -115, y: -100 }],
+  [{ left: '0px', bottom: '383px' }, { left: '40px', top: '50px' }, { x: -90, y: -185 }],
+
+  [{ top: '-23.5px' }, { top: '18.5px' }, { x: 0, y: -230 }],
+  [{ right: '0px', bottom: '383px' }, { right: '40px', top: '50px' }, { x: 90, y: -185 }],
+  [{ right: '-22.75px', bottom: '293px' }, { right: '35px', top: '120px' }, { x: 115, y: -100 }],
+  [{ right: '-22.75px', bottom: '204px' }, { right: '35px', top: '190px' }, { x: 115, y: -0 }],
+  [{ right: '-22.75px', bottom: '115px' }, { right: '35px', top: '260px' }, { x: 115, y: 100 }],
+  [{ right: '0px', bottom: '25px' }, { right: '40px', top: '330px' }, { x: 90, y: 185 }]
+]
+
 export const LobbyProvider = ({ value, children }) => {
   return (
     <LobbyContext.Provider value={value}>
@@ -27,8 +58,86 @@ export const useLobby = () => {
   const lobby = useContext(LobbyContext)
 
   if (lobby === undefined) {
-    return { state: 'NOT_READY' }
+    return { table: { state: 'NOT_READY' } }
   }
+
+  lobby.amIHost = () => {
+    return lobby.settings.host.playerID === myPlayerID
+  }
+
+  lobby.getHost = () => {
+    return lobby.players[lobby.settings.host.playerID]
+  }
+
+  lobby.isHostOnline = () => {
+    return !lobby.settings.host.lastOnline
+  }
+
+  lobby.hasDiscard = () => {
+    return !lobby.table.gotCut && Object.values(lobby.table.cards || {}).some(({ playerID }) => !playerID)
+  }
+
+  lobby.getAllPlayers = () => {
+    return Object.values(lobby.players)
+  }
+
+  lobby.setMaxPlayers = async (count) => {
+    await database().ref(`${lobby.settings.name}/settings/maxPlayers`).set(count)
+  }
+
+  lobby.startDealing = async () => {
+    await database().ref(`${lobby.settings.name}/table`).update({
+      state: 'DEALING',
+      maxPlayers: lobby.getAllPlayers().length
+    })
+  }
+
+  lobby.getPlayerSeatings = () => {
+    return Object.values(lobby.table.seatings)
+  }
+
+  lobby.getPlayerPositions = (playerID) => {
+    // find playerID's idx from seatings
+    const allPlayerPositions = seatings[lobby.getAllPlayers().length]
+    const playerIDIdx = Object.values(lobby.table.seatings).findIndex(ID => ID === playerID)
+    const playerPositionIdx = allPlayerPositions[playerIDIdx]
+    const [avatarPos, cardPos, dealingPos] = positions[playerPositionIdx]
+    return { avatarPos, cardPos, dealingPos }
+  }
+
+  lobby.dealPlayerCard = async (playerIndex, card) => {
+    const playerIDs = Object.values(lobby.table.seatings)
+
+    const dealtPlayerID = playerIDs[playerIndex]
+
+    const cardID = `${card.number}-of-${card.suite}`
+    await database().ref(`${lobby.settings.name}/table/cards/${cardID}`).set({
+      ...card,
+      cardID,
+      playerID: dealtPlayerID
+    })
+    if (card.number === 14 && card.suite === 'spades') {
+      await database().ref(`${lobby.settings.name}/table`).update({
+        turn: dealtPlayerID,
+        time: 0
+      })
+    }
+  }
+
+  lobby.startGame = async () => {
+    await database().ref(`${lobby.settings.name}/table/state`).set('GAME')
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   // add some common getters for lobby
   lobby.isEndGame = () => {
@@ -158,75 +267,53 @@ export const useLobby = () => {
     bot(lobby)
   }
 
-  lobby.setMaxPlayers = (number) => {
-    database().ref(`${lobby.name}`).update({
-      maxPlayers: number
-    })
-  }
 
   lobby.setPlayerNickname = (nickname) => {
-    database().ref(`${lobby.name}/players/${myPlayerID}`).update({
+    database().ref(`${lobby.settings.name}/players/${myPlayerID}`).update({
       nickname: nickname
     })
   }
 
-  lobby.dealPlayerCard = (playerIndex, card) => {
-    const players = lobby.getPlayers()
-    const player = players[playerIndex]
-    const cardID = `${card.number}-of-${card.suite}`
-    database().ref(`${lobby.name}/table/cards/${cardID}`).set({
-      ...card,
-      cardID,
-      playerID: player.playerID
-    })
-    if (card.number === 14 && card.suite === 'spades') {
-      database().ref(`${lobby.name}/table`).update({
-        turn: player.playerID,
-        time: 0
-      })
-    }
-    playerIndex = (playerIndex + 1) % players.length
-    return playerIndex
-  }
+
 
   lobby.setPlayerPositions = (playerID, positions) => {
     lobby.players[playerID].positions = positions
   }
 
-  lobby.getSeatingPositions = () => {
-    const arrangements = {
-      1: [0],
-      2: [0, 6],
-      3: [0, 3, 9],
-      4: [0, 3, 6, 9],
-      5: [0, 3, 6, 8, 10],
-      6: [0, 2, 4, 6, 8, 10],
-      7: [0, 2, 4, 6, 8, 9, 10],
-      8: [0, 2, 3, 4, 6, 8, 9, 10],
-      9: [0, 1, 2, 3, 4, 6, 8, 9, 10],
-      10: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10],
-      11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      12: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    }[lobby.getPlayers().length]
+  // lobby.getSeatingPositions = () => {
+  //   const seatings = {
+  //     1: [0],
+  //     2: [0, 6],
+  //     3: [0, 3, 9],
+  //     4: [0, 3, 6, 9],
+  //     5: [0, 3, 6, 8, 10],
+  //     6: [0, 2, 4, 6, 8, 10],
+  //     7: [0, 2, 4, 6, 8, 9, 10],
+  //     8: [0, 2, 3, 4, 6, 8, 9, 10],
+  //     9: [0, 1, 2, 3, 4, 6, 8, 9, 10],
+  //     10: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10],
+  //     11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  //     12: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  //   }[lobby.getPlayers().length]
 
-    const coordinates = [
-      [{ bottom: '-23.5px' }, { top: '361.5px' }, { x: 0, y: 230 }],
-      [{ left: '0px', bottom: '25px' }, { left: '40px', top: '330px' }, { x: -90, y: 185 }],
-      [{ left: '-22.75px', bottom: '115px' }, { left: '35px', top: '260px' }, { x: -115, y: 100 }],
-      [{ left: '-22.75px', bottom: '204px' }, { left: '35px', top: '190px' }, { x: -115, y: -0 }],
-      [{ left: '-22.75px', bottom: '293px' }, { left: '35px', top: '120px' }, { x: -115, y: -100 }],
-      [{ left: '0px', bottom: '383px' }, { left: '40px', top: '50px' }, { x: -90, y: -185 }],
+  //   const seatings = [
+  //     [{ bottom: '-23.5px' }, { top: '361.5px' }, { x: 0, y: 230 }],
+  //     [{ left: '0px', bottom: '25px' }, { left: '40px', top: '330px' }, { x: -90, y: 185 }],
+  //     [{ left: '-22.75px', bottom: '115px' }, { left: '35px', top: '260px' }, { x: -115, y: 100 }],
+  //     [{ left: '-22.75px', bottom: '204px' }, { left: '35px', top: '190px' }, { x: -115, y: -0 }],
+  //     [{ left: '-22.75px', bottom: '293px' }, { left: '35px', top: '120px' }, { x: -115, y: -100 }],
+  //     [{ left: '0px', bottom: '383px' }, { left: '40px', top: '50px' }, { x: -90, y: -185 }],
 
-      [{ top: '-23.5px' }, { top: '18.5px' }, { x: 0, y: -230 }],
-      [{ right: '0px', bottom: '383px' }, { right: '40px', top: '50px' }, { x: 90, y: -185 }],
-      [{ right: '-22.75px', bottom: '293px' }, { right: '35px', top: '120px' }, { x: 115, y: -100 }],
-      [{ right: '-22.75px', bottom: '204px' }, { right: '35px', top: '190px' }, { x: 115, y: -0 }],
-      [{ right: '-22.75px', bottom: '115px' }, { right: '35px', top: '260px' }, { x: 115, y: 100 }],
-      [{ right: '0px', bottom: '25px' }, { right: '40px', top: '330px' }, { x: 90, y: 185 }]
-    ]
+  //     [{ top: '-23.5px' }, { top: '18.5px' }, { x: 0, y: -230 }],
+  //     [{ right: '0px', bottom: '383px' }, { right: '40px', top: '50px' }, { x: 90, y: -185 }],
+  //     [{ right: '-22.75px', bottom: '293px' }, { right: '35px', top: '120px' }, { x: 115, y: -100 }],
+  //     [{ right: '-22.75px', bottom: '204px' }, { right: '35px', top: '190px' }, { x: 115, y: -0 }],
+  //     [{ right: '-22.75px', bottom: '115px' }, { right: '35px', top: '260px' }, { x: 115, y: 100 }],
+  //     [{ right: '0px', bottom: '25px' }, { right: '40px', top: '330px' }, { x: 90, y: 185 }]
+  //   ]
 
-    return coordinates.filter((_, idx) => arrangements.includes(idx)).map((pos, idx) => ([...pos, lobby.getPlayerAtIdx(idx)]))
-  }
+  //   return seatings.filter((_, idx) => arrangements.includes(idx)).map((pos, idx) => ([...pos, lobby.getPlayerAtIdx(idx)]))
+  // }
 
   return lobby
 }

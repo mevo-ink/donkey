@@ -12,7 +12,7 @@ import {
 export default function MaxPlayersPopover ({ children }) {
   const lobby = useLobby()
 
-  const remainingSeats = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(num => num > lobby.getPlayers().length)
+  const remainingSeats = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(num => num > lobby.getAllPlayers().length)
 
   const handleClick = (idx, onClose) => {
     onClose()
@@ -40,7 +40,7 @@ export default function MaxPlayersPopover ({ children }) {
               _active={{ bg: '' }}
               _hover={{ bg: '' }}
             >
-              {`${lobby.getPlayers().length} / ${lobby.maxPlayers}`}
+              {`${lobby.getPlayers().length} / ${lobby.settings.maxPlayers}`}
             </Button>
           </PopoverTrigger>
           <PopoverContent bg='transparent' borderRadius='25px'>

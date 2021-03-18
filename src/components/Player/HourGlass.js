@@ -12,7 +12,7 @@ export default function HourGlass ({ playerID, position }) {
   const lobby = useLobby()
 
   useEffect(() => {
-    if (lobby.host === playerID && lobby.state === 'LOBBY') {
+    if (lobby.host === playerID && lobby.state === 'GAME') {
       timer.current = setInterval(() => {
         if (!lobby.lastOnline) {
           if (lobby.players[lobby.table.turn].lastOnline) {
@@ -27,7 +27,7 @@ export default function HourGlass ({ playerID, position }) {
         }
       }, 1000)
       if (lobby.lastOnline) {
-        // waiting for new room owner
+        // waiting for new lobby owner
         clearInterval(timer.current)
       }
     } else {

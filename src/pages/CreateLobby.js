@@ -18,7 +18,7 @@ import { generateSlug } from 'random-word-slugs'
 import database from 'utils/firebase'
 
 export default function CreateLobby () {
-  useTitle('Create Lobby')
+  useTitle('Create GAME')
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -37,13 +37,20 @@ export default function CreateLobby () {
     database().ref(`${lobbyName}`).set({
       settings: {
         name: lobbyName,
-        host: myPlayerID,
-        state: 'PRE_LOBBY',
+        host: {
+          playerID: myPlayerID
+        },
         maxPlayers,
         timeLimit: 20
       },
       players: {
         [myPlayerID]: { playerID: myPlayerID, nickname, avatar }
+      },
+      table: {
+        state: 'PREGAME',
+        seatings: [
+          myPlayerID
+        ]
       }
     })
       .then(() => { window.location.href = `/lobbies/${lobbyName}` })
