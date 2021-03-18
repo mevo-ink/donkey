@@ -4,15 +4,14 @@ import { Flex, Image } from '@chakra-ui/react'
 
 import cardBack from 'images/cardBack.png'
 
-import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
+import Player from 'components/Player'
+import CutAnimation from 'components/TableContent/CutAnimation'
 import PreLobbyHost from 'components/TableContent/PreLobbyHost'
 import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
 import DealingAnimation from 'components/TableContent/DealingAnimation'
-import CutAnimation from 'components/TableContent/CutAnimation'
+import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
 import EndGameAnimation from 'components/TableContent/EndGameAnimation'
 import DiscardPileAnimation from 'components/TableContent/DiscardPileAnimation'
-
-import Player from 'components/Player'
 
 import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
@@ -86,7 +85,7 @@ export default function Table () {
           {!lobby.lastOnline && lobby.state === 'PRE_LOBBY' && myPlayerID !== lobby.host && <PreLobbyGuest />}
           {!lobby.lastOnline && lobby.state === 'DEALING' && <DealingAnimation />}
           {!lobby.lastOnline && lobby.pileFull && !lobby.gotCut && <DiscardPileAnimation />}
-          {!lobby.lastOnline && lobby.gotCut && <CutAnimation />}
+          {!lobby.lastOnline && lobby.gotCut && <CutAnimation zIndex='5' />}
           {!lobby.lastOnline && lobby.donkey && <EndGameAnimation />}
         </Flex>
         {positions.map((positions, idx) => (
@@ -106,5 +105,6 @@ export default function Table () {
   - CUT TEXT - BUBBLE _ I CUT (player)
   - BUGs:
     - Old lobbies are still showing on first Find Lobby click
+    - react-infinity-gauntlet console.log errors and logs
   - Optimize images
 */

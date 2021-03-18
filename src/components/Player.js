@@ -17,6 +17,7 @@ export default function Player ({ player, positions = [] }) {
 
   useEffect(() => {
     lobby.setPlayerPositions(player.playerID, positions)
+    // eslint-disable-next-line
   }, [])
 
   const [avatarNicknamePosition, cardPosition] = positions

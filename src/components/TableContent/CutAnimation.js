@@ -1,4 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+import InfinityGauntlet from 'react-thanos-snap'
 
 import database from 'utils/firebase'
 
@@ -22,6 +24,8 @@ const MotionImage = motion(Image)
 
 export default function CutAnimation () {
   const lobby = useLobby()
+
+  const [snap, setSnap] = useState(false)
 
   const doCutPlayer = lobby.getPlayer(lobby.table.turn)
   const gotCuttedPlayer = lobby.getPlayer(lobby.gotCut.playerID)
@@ -47,7 +51,13 @@ export default function CutAnimation () {
           })
         }
       }
-    }, 8000) // eslint-disable-next-line
+    }, 8000000) // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    setTimeout(() => (
+      setSnap(true)
+    ), [4000])
   }, [])
 
   return (
@@ -57,9 +67,9 @@ export default function CutAnimation () {
         fontSize='23px'
         lineHeight='23px'
         fontWeight='bold'
-        zIndex='10'
+        zIndex='3'
         initial={{ opacity: 0, scale: 0, y: 0 }}
-        animate={{ opacity: 1, scale: 1, y: -58, transition: { delay: 6.5, duration: 1 } }}
+        animate={{ opacity: 1, scale: 1, y: -58, transition: { delay: 7.8, duration: 1 } }}
       >
         {gotCuttedPlayer.nickname} got Cutted!!
       </MotionText>
@@ -71,7 +81,7 @@ export default function CutAnimation () {
       >
         <MotionBox
           position='relative'
-          animate={{ x: [0, 32], transition: { delay: 5.6, duration: 1 } }}
+          animate={{ x: [0, 32], transition: { delay: 7, duration: 1 } }}
         >
           <MotionImage
             src={thanosSnap}
@@ -80,8 +90,9 @@ export default function CutAnimation () {
             position='absolute'
             bottom='8px'
             left='-8px'
+            zIndex='10'
             initial={{ x: 40 }}
-            animate={{ opacity: [0, 1, 1, 1, 1, 1, 0], transition: { delay: 3.3, duration: 1.6 } }}
+            animate={{ opacity: [0, 1, 1, 1, 1, 1, 1, 1, 1, 0], transition: { delay: 3.3, duration: 1.8 } }}
           />
           <MotionImage
             src={doCutPlayer.avatar ? doCutPlayer.avatar : bot}
@@ -95,13 +106,21 @@ export default function CutAnimation () {
           position='relative'
           animate={{ x: [0, -40], transition: { delay: 1, duration: 2 } }}
         >
-          <MotionImage
-            src={gotCuttedPlayer.avatar ? gotCuttedPlayer.avatar : bot}
-            width='50px'
-            objectFit='contain'
-            borderRadius='100%'
-            animate={{ opacity: 0, transition: { delay: 4, duration: 2 } }}
-          />
+          <InfinityGauntlet
+            snap={snap}
+            style={{
+              width: '50px',
+              height: '50px'
+            }}
+          >
+            <MotionImage
+              src={bot}
+              // gotCuttedPlayer.avatar ? gotCuttedPlayer.avatar : bot
+              width='50px'
+              objectFit='contain'
+              borderRadius='100%'
+            />
+          </InfinityGauntlet>
         </MotionBox>
       </MotionFlex>
     </>
