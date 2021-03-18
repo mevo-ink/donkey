@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
-
-import InfinityGauntlet from 'react-thanos-snap'
+import { useEffect } from 'react'
 
 import database from 'utils/firebase'
 
@@ -24,8 +22,6 @@ const MotionImage = motion(Image)
 
 export default function CutAnimation () {
   const lobby = useLobby()
-
-  const [snap, setSnap] = useState(false)
 
   const doCutPlayer = lobby.getPlayer(lobby.table.turn)
   const gotCuttedPlayer = lobby.getPlayer(lobby.gotCut.playerID)
@@ -51,13 +47,7 @@ export default function CutAnimation () {
           })
         }
       }
-    }, 8000000) // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    setTimeout(() => (
-      setSnap(true)
-    ), [4000])
+    }, 8000) // eslint-disable-next-line
   }, [])
 
   return (
@@ -106,21 +96,13 @@ export default function CutAnimation () {
           position='relative'
           animate={{ x: [0, -40], transition: { delay: 1, duration: 2 } }}
         >
-          <InfinityGauntlet
-            snap={snap}
-            style={{
-              width: '50px',
-              height: '50px'
-            }}
-          >
-            <MotionImage
-              src={bot}
-              // gotCuttedPlayer.avatar ? gotCuttedPlayer.avatar : bot
-              width='50px'
-              objectFit='contain'
-              borderRadius='100%'
-            />
-          </InfinityGauntlet>
+          <MotionImage
+            src={gotCuttedPlayer.avatar ? gotCuttedPlayer.avatar : bot}
+            width='50px'
+            objectFit='contain'
+            borderRadius='100%'
+            animate={{ x: [0, 40], transition: { delay: 1, duration: 2 } }}
+          />
         </MotionBox>
       </MotionFlex>
     </>

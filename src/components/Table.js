@@ -105,6 +105,5 @@ export default function Table () {
   - CUT TEXT - BUBBLE _ I CUT (player)
   - BUGs:
     - Old lobbies are still showing on first Find Lobby click
-    - react-infinity-gauntlet console.log errors and logs
   - Optimize images
 */
