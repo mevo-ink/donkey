@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 
-import { Grid } from '@chakra-ui/react'
-
 import { LobbyProvider } from 'context/LobbyContext'
 
 import Background from 'components/Background'
@@ -37,17 +35,7 @@ export default function LobbyManager ({ name }) {
     // eslint-disable-next-line
   }, [])
 
-  if (isLoading) {
-    return (
-      <Grid
-        w='100vw'
-        h='100vh'
-        placeItems='center'
-      >
-        <Loading />
-      </Grid>
-    )
-  }
+  if (isLoading) return <Loading />
 
   if (error) return <Error error={error} />
 

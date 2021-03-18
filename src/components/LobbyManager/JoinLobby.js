@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useSettings } from 'context/LobbyContext'
+import { useLobby } from 'context/LobbyContext'
 import { useTitle } from 'hookrouter'
 
 import Nickname from 'components/CreateLobby/Nickname'
@@ -16,9 +16,9 @@ import database from 'utils/firebase'
 import { AvatarGenerator } from 'random-avatar-generator'
 
 export default function JoinRoom () {
-  const settings = useSettings()
+  const lobby = useLobby()
 
-  useTitle(settings.name)
+  useTitle(lobby.settings.name)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -30,7 +30,7 @@ export default function JoinRoom () {
     const myPlayerID = window.localStorage.getItem('playerID')
     const generator = new AvatarGenerator()
     const avatar = generator.generateRandomAvatar(myPlayerID) + '&avatarStyle=Transparent'
-    database().ref(`${settings.name}/players/${myPlayerID}`).update({
+    database().ref(`${lobby.settings.name}/players/${myPlayerID}`).update({
       playerID: myPlayerID,
       nickname,
       avatar
@@ -59,7 +59,7 @@ export default function JoinRoom () {
         lineHeight='35px'
         mb='15px'
       >
-        {settings.name}
+        {lobby.settings.name}
       </Text>
       <Nickname nickname={nickname} onSubmit={setNickname} />
       <CancelDone isLoading={isLoading} nickname={nickname} />

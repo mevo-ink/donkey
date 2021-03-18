@@ -31,17 +31,8 @@ export default function FindLobbies () {
   useEffect(() => {
     database().ref().on('value', async (snapshot) => {
       const lobbies = Object.values(snapshot.val() || {})
-      // delete lobbies if inactive for more than 15 mins
-      // if (lobbies) {
-      //   for (const lobby of Object.values(lobbies)) {
-      //     const currentTime = new Date().getTime()
-      //     if (!lobby.host || parseInt((currentTime - lobby.lastOnline) / 1000) > 900) {
-      //       await database().ref(lobby.name).set(null)
-      //     }
-      //   }
-      // }
       setLobbies(lobbies)
-      setTimeout(() => setIsLoading(false), 1000)
+      setIsLoading(false)
     }, setError)
   }, [])
 
