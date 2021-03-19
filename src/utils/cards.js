@@ -14,6 +14,7 @@ export const getCards = () => {
   for (const number of NUMBERS) {
     for (const suite of SUITES) {
       cards.push({
+        cardID: `${number}-of-${suite}`,
         suite,
         number,
         url: getCardURL({ suite, number })

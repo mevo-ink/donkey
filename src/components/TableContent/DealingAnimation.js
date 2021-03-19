@@ -23,7 +23,7 @@ export default function DealingAnimation () {
       if (lobby.table.state === 'DEALING') {
         let playerIndex = 0
         while (cards.length > 0) {
-          const playerIDs = Object.values(lobby.table.seatings)
+          const playerIDs = lobby.getPlayerSeatings()
           const dealtPlayerID = playerIDs[playerIndex]
           const card = cards.pop()
           lobby.amIHost() && await lobby.dealPlayerCard(playerIndex, card)

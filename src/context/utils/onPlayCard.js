@@ -2,7 +2,7 @@ import database from 'utils/firebase'
 
 const onPlayCard = async (playedCard, lobby) => {
   // disable if game has ended
-  if (lobby.state === 'ENDGAME') return false
+  if (lobby.table.state === 'ENDGAME') return false
 
   // disable if currently showing cut animation
   if (lobby.gotCut) return false

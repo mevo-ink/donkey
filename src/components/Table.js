@@ -17,23 +17,8 @@ import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
 const MotionImage = motion(Image)
 
-const rotate = (array, times) => {
-  while (times--) {
-    const temp = array.shift()
-    array.push(temp)
-  }
-}
-
 export default function Table () {
   const lobby = useLobby()
-
-  const players = lobby.getPlayers()
-
-  const myPlayerID = window.localStorage.getItem('playerID')
-
-  const currentPlayerIndex = players.findIndex(({ playerID }) => playerID === myPlayerID)
-
-  if (currentPlayerIndex >= 0) rotate(players, currentPlayerIndex)
 
   return (
     <MotionFlex

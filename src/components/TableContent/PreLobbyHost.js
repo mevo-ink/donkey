@@ -4,10 +4,10 @@ import { Text, Flex, Button } from '@chakra-ui/react'
 
 import LoadingInline from 'components/LoadingInline'
 
-export default function PreLobbyGuest () {
+export default function PreLobbyHost () {
   const lobby = useLobby()
 
-  const players = lobby.getPlayers()
+  const playersCount = lobby.countAllPlayers()
 
   const onStartGame = lobby.startDealing
 
@@ -30,7 +30,7 @@ export default function PreLobbyGuest () {
         width='69px'
         textAlign='center'
       >
-        Waiting <br /> For <br /> Players <br /> {players.length} / {lobby.settings.maxPlayers}
+        Waiting <br /> For <br /> Players <br /> {playersCount} / {lobby.settings.maxPlayers}
       </Text>
       <LoadingInline />
       <Button

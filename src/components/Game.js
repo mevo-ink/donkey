@@ -1,5 +1,3 @@
-import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
-
 import { useLobby } from 'context/LobbyContext'
 
 import { Grid } from '@chakra-ui/react'
@@ -10,8 +8,6 @@ import PlayerHand from 'components/Player/PlayerHand'
 
 export default function Game () {
   const lobby = useLobby()
-
-  usePlayerDisconnect(lobby.settings)
 
   return (
     <Grid

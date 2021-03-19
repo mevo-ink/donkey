@@ -33,7 +33,7 @@ export default function Nickname ({ playerID, position }) {
   }
 
   const handleBlur = () => {
-    lobby.setPlayerNickname(value)
+    lobby.setMyNickname(value)
     setIsEditing(false)
     inputRef.current.blur()
   }
@@ -44,7 +44,7 @@ export default function Nickname ({ playerID, position }) {
     }
   }
 
-  const remainingCards = lobby.getPlayerCards(playerID)
+  const remainingCards = lobby.countPlayerCards(playerID)
 
   return (
     <MotionBox
@@ -85,7 +85,7 @@ export default function Nickname ({ playerID, position }) {
           isDisabled={playerID !== lobby.getMyself().playerID}
           _disabled={{ bg: '' }}
         />
-        {['DEALING', 'lobby', 'ENDGAME'].includes(lobby.table.state) && remainingCards.length !== 0 && !isEditing && (
+        {['DEALING', 'lobby', 'ENDGAME'].includes(lobby.table.state) && remainingCards !== 0 && !isEditing && (
           <InputRightAddon
             height='18px'
             width='17px'
@@ -100,7 +100,7 @@ export default function Nickname ({ playerID, position }) {
             animate={{ opacity: 1, x: 0, transition: { duration: 0.3 } }}
           >
             <Box textAlign='center' w='17px'>
-              {lobby.getPlayerCards(playerID).length}
+              {remainingCards}
             </Box>
           </InputRightAddon>
         )}

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 import { LobbyProvider } from 'context/LobbyContext'
 
+import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
+
 import Background from 'components/Background'
 
 import Loading from 'components/Loading'
@@ -25,6 +27,8 @@ export default function LobbyManager ({ name }) {
   const [error, setError] = useState(false)
 
   const [lobby, setLobby] = useState()
+
+  usePlayerDisconnect(lobby?.settings)
 
   useEffect(() => {
     // preload card images to browser cache
@@ -92,5 +96,6 @@ export default function LobbyManager ({ name }) {
         - cardID
         - suite
         - number
-        - holder (playerID or table or null)
+        - playerID
+        - state (TURN or DISCARD)
 */

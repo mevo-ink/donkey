@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { useLobby } from 'context/LobbyContext'
-import usePlayerDisconnect from 'hooks/usePlayerDisconnect'
 
 import { Text, Flex } from '@chakra-ui/react'
 
@@ -13,8 +12,6 @@ export default function LobbyHostOffline () {
   const lobby = useLobby()
 
   const players = lobby.getAllPlayers()
-
-  usePlayerDisconnect(lobby.settings)
 
   useEffect(() => {
     const timeout = setTimeout(() => {

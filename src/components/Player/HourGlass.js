@@ -12,7 +12,7 @@ export default function HourGlass ({ playerID, position }) {
   const lobby = useLobby()
 
   useEffect(() => {
-    if (lobby.host === playerID && lobby.state === 'GAME') {
+    if (lobby.host === playerID && lobby.table.state === 'GAME') {
       timer.current = setInterval(() => {
         if (!lobby.lastOnline) {
           if (lobby.players[lobby.table.turn].lastOnline) {
