@@ -97,5 +97,5 @@ export default function LobbyManager ({ name }) {
         - suite
         - number
         - playerID
-        - state (TURN or DISCARD)
+        - holder (PLAYER or TABLE or DISCARD)
 */

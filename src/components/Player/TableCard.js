@@ -16,7 +16,7 @@ export default function CurrentCard ({ playerID, position }) {
       width='40px'
       maxW='unset'
       objectFit='contain'
-      src={lobby.getPlayerCardFromCurrentTurn(playerID)?.url}
+      src={lobby.getPlayerCardFromTableCards(playerID)?.url}
       position='absolute'
       {...position}
       // initial={{ x: 0, y: 0, scale: 0 }}

@@ -10,7 +10,7 @@ import {
 
 import CardScroll from 'components/Player/CardScroll'
 
-export default function PlayerHand () {
+export default function MyHand () {
   const lobby = useLobby()
 
   const myCards = lobby.getMyCards()

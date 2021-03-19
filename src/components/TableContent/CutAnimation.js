@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 
-import database from 'utils/firebase'
-
 import { useLobby } from 'context/LobbyContext'
 
 import {
@@ -23,28 +21,22 @@ const MotionImage = motion(Image)
 export default function CutAnimation () {
   const lobby = useLobby()
 
-  const doCutPlayer = lobby.getPlayer(lobby.table.turn)
-  const gotCuttedPlayer = lobby.getPlayer(lobby.gotCut.playerID)
+  const cutPlayer = lobby.getPlayer(lobby.table.turn)
+  const gutCutPlayerID = lobby.table.gotCut.playerID
+  const gotCutPlayer = lobby.getPlayer(gutCutPlayerID)
 
   useEffect(() => {
-    setTimeout(() => {
-      if (lobby.getMyself().playerID === lobby.host) {
-        // move existing pile cards to the player who got cut
-        lobby.movePileCardsToPlayer(lobby.gotCut.playerID)
-        // add cut card to got cutted player's hand
-        lobby.addCardToPlayer(lobby.gotCut.card, lobby.gotCut.playerID)
+    setTimeout(async () => {
+      if (lobby.amIHost()) {
+        // move existing table cards to the player who got cut
+        await lobby.moveTableCardsToPlayer(gutCutPlayerID)
         // change turn
-        lobby.changeTurn(lobby.gotCut.playerID)
+        await lobby.changeTurn(gutCutPlayerID)
         // update firebase
-        database().ref(`${lobby.name}/table`).set(lobby.table)
-        database().ref(`${lobby.name}/gotCut`).set(null)
+        await lobby.removeCutAnimation()
         // check for winning condition
         if (lobby.isEndGame()) {
-          lobby.emptyDiscard()
-          database().ref(`${lobby.name}`).update({
-            state: 'ENDGAME',
-            donkey: lobby.getPlayerIDsWithCards()[0]
-          })
+          await lobby.setEndGame()
         }
       }
     }, 8000) // eslint-disable-next-line
@@ -61,7 +53,7 @@ export default function CutAnimation () {
         initial={{ opacity: 0, scale: 0, y: 0 }}
         animate={{ opacity: 1, scale: 1, y: -58, transition: { delay: 7.8, duration: 1 } }}
       >
-        {gotCuttedPlayer.nickname} got Cutted!!
+        {gotCutPlayer.nickname} got Cut!!
       </MotionText>
       <MotionFlex
         width='90%'
@@ -85,7 +77,7 @@ export default function CutAnimation () {
             animate={{ opacity: [0, 1, 1, 1, 1, 1, 1, 1, 1, 0], transition: { delay: 3.3, duration: 1.8 } }}
           />
           <MotionImage
-            src={doCutPlayer.avatar ? doCutPlayer.avatar : bot}
+            src={cutPlayer.avatar ? cutPlayer.avatar : bot}
             width='50px'
             objectFit='contain'
             borderRadius='100%'
@@ -97,7 +89,7 @@ export default function CutAnimation () {
           animate={{ x: [0, -40], transition: { delay: 1, duration: 2 } }}
         >
           <MotionImage
-            src={gotCuttedPlayer.avatar ? gotCuttedPlayer.avatar : bot}
+            src={gotCutPlayer.avatar ? gotCutPlayer.avatar : bot}
             width='50px'
             objectFit='contain'
             borderRadius='100%'

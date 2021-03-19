@@ -11,7 +11,7 @@ import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
 import DealingAnimation from 'components/TableContent/DealingAnimation'
 import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
 import EndGameAnimation from 'components/TableContent/EndGameAnimation'
-import DiscardPileAnimation from 'components/TableContent/DiscardPileAnimation'
+import DiscardAnimation from 'components/TableContent/DiscardAnimation'
 
 import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
@@ -67,8 +67,8 @@ export default function Table () {
           {lobby.isHostOnline() && lobby.table.state === 'PREGAME' && lobby.amIHost() && <PreLobbyHost />}
           {lobby.isHostOnline() && lobby.table.state === 'PREGAME' && !lobby.amIHost() && <PreLobbyGuest />}
           {lobby.isHostOnline() && lobby.table.state === 'DEALING' && <DealingAnimation />}
-          {lobby.isHostOnline() && lobby.pileFull && !lobby.gotCut && <DiscardPileAnimation />}
-          {lobby.isHostOnline() && lobby.gotCut && <CutAnimation />}
+          {lobby.isHostOnline() && lobby.table.tableCardsFull && !lobby.gotCut && <DiscardAnimation />}
+          {lobby.isHostOnline() && lobby.table.gotCut && <CutAnimation />}
           {lobby.isHostOnline() && lobby.donkey && <EndGameAnimation />}
         </Flex>
         <Players />

@@ -30,11 +30,22 @@ export default function JoinLobby () {
     const myPlayerID = window.localStorage.getItem('playerID')
     const generator = new AvatarGenerator()
     const avatar = generator.generateRandomAvatar(myPlayerID) + '&avatarStyle=Transparent'
-    await database().ref(`${lobby.settings.name}/table/seatings`).push(myPlayerID)
-    await database().ref(`${lobby.settings.name}/players/${myPlayerID}`).update({
-      playerID: myPlayerID,
-      nickname,
-      avatar
+    await database().ref(`${lobby.settings.name}`).update({
+      players: {
+        ...lobby.players,
+        [myPlayerID]: {
+          playerID: myPlayerID,
+          nickname,
+          avatar
+        }
+      },
+      table: {
+        ...lobby.table,
+        seatings: [
+          ...Object.values(lobby.table.seatings),
+          myPlayerID
+        ]
+      }
     })
   }
 

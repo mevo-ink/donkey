@@ -3,11 +3,11 @@ import {
   createContext
 } from 'react'
 
-// import { maxBy } from 'lodash'
+import { maxBy } from 'lodash'
 
-// import onPlayCard from 'context/utils/onPlayCard'
-// import canPlaySuite from 'context/utils/canPlaySuite'
-// import bot from 'context/utils/bot'
+import onPlayCard from 'context/utils/onPlayCard'
+import canPlaySuite from 'context/utils/canPlaySuite'
+import bot from 'context/utils/bot'
 
 import database from 'utils/firebase'
 import rotate from 'utils/rotate'
@@ -66,6 +66,10 @@ export const useLobby = () => {
     return lobby.settings.host.playerID === myPlayerID
   }
 
+  lobby.isPlayerHost = (playerID) => {
+    return lobby.settings.host.playerID === playerID
+  }
+
   lobby.getHost = () => {
     return lobby.players[lobby.settings.host.playerID]
   }
@@ -74,13 +78,17 @@ export const useLobby = () => {
     return !lobby.settings.host.lastOnline
   }
 
+  lobby.isPlayerOnline = (playerID) => {
+    return !lobby.players[playerID].lastOnline
+  }
+
   lobby.findNewHost = () => {
     const currentHostID = lobby.getHost()
     return lobby.getAllPlayers().find(({ playerID, lastOnline }) => playerID !== currentHostID && !lastOnline)
   }
 
   lobby.setNewHost = async (playerID) => {
-    await database().ref(`${lobby.name}/settings/host`).update({
+    await database().ref(`${lobby.settings.name}/settings/host`).update({
       host: playerID,
       lastOnline: null
     })
@@ -92,8 +100,21 @@ export const useLobby = () => {
     // Firebase sets player's lastOnline on disconnect - but if the player leaves the room and on quick refresh,
     // the player will be added again by the usePlayerDisconnect hook with just the lastOnline value.
     // We simply ignore players who don't have a nickname set (aka; they only have lastOnline)
-    return Object.values(lobby.players)
+    return lobby.getPlayerSeatings()
+      .map(playerID => lobby.players[playerID])
       .filter(({ nickname }) => nickname)
+  }
+
+  lobby.getAllPlayersWithCards = () => {
+    return lobby.getAllPlayers().filter(({ playerID }) => lobby.doesPlayerHaveCards(playerID))
+  }
+
+  lobby.countAllPlayersWithCards = () => {
+    return lobby.getAllPlayersWithCards().length
+  }
+
+  lobby.doesPlayerHaveCards = (playerID) => {
+    return lobby.getAllCards().some(card => card.playerID === playerID && card.holder === 'PLAYER')
   }
 
   lobby.countAllPlayers = () => {
@@ -126,10 +147,10 @@ export const useLobby = () => {
     return playerIDs
   }
 
-  lobby.getPlayerPositions = (playerID) => {
+  lobby.getPlayerPositions = (playerID, normalized = false) => {
     // find playerID's idx from seatings
-    const seatingsWRTMyself = lobby.getSeatingsWRTMyself()
-    const playerIDIdx = seatingsWRTMyself.findIndex(ID => ID === playerID)
+    const seatings = normalized ? lobby.getPlayerSeatings() : lobby.getSeatingsWRTMyself()
+    const playerIDIdx = seatings.findIndex(ID => ID === playerID)
     const allPlayerSeatings = assignedSeats[lobby.countAllPlayers()]
     const playerSeatingPositionIdx = allPlayerSeatings[playerIDIdx]
     const [avatarPos, cardPos, dealingPos] = positions[playerSeatingPositionIdx]
@@ -141,8 +162,10 @@ export const useLobby = () => {
     const playerID = lobby.getPlayerSeatings()[playerIndex]
     await database().ref(`${lobby.settings.name}/table/cards/${card.cardID}`).set({
       ...card,
-      playerID
+      playerID,
+      holder: 'PLAYER'
     })
+    await database().ref(`${lobby.settings.name}/table/lastDealtPlayer`).set(playerID)
     if (card.cardID === '14-of-spades') {
       // set the turn to the player who got Ace of Spades
       await database().ref(`${lobby.settings.name}/table`).update({
@@ -157,16 +180,32 @@ export const useLobby = () => {
     return Object.values(lobby.table.cards || {})
   }
 
+  lobby.countAllCards = () => {
+    return Object.values(lobby.table.cards || {}).length
+  }
+
   lobby.getPlayerCards = (playerID) => {
     return lobby.getAllCards().filter(card => card.playerID === playerID)
   }
 
+  lobby.getMyCards = () => {
+    return lobby.getAllCards().filter(card => card.playerID === myPlayerID)
+  }
+
   lobby.countPlayerCards = (playerID) => {
-    return lobby.getAllCards().filter(card => card.playerID === playerID)
+    return lobby.getPlayerCards().length
   }
 
   lobby.hasDiscard = () => {
     return !lobby.table.gotCut && lobby.getAllCards().some(({ playerID }) => !playerID)
+  }
+
+  lobby.getTableCards = () => {
+    return lobby.getAllCards().filter(({ holder }) => holder === 'TABLE')
+  }
+
+  lobby.countTableCards = () => {
+    return lobby.getTableCards().length
   }
 
   // game
@@ -178,23 +217,108 @@ export const useLobby = () => {
   }
 
   lobby.startGame = async () => {
-    await database().ref(`${lobby.settings.name}/table/state`).set('GAME')
+    await database().ref(`${lobby.settings.name}/table`).update({
+      state: 'GAME',
+      lastDealtPlayer: null
+    })
   }
 
   lobby.setMyNickname = (nickname) => {
     database().ref(`${lobby.settings.name}/players/${myPlayerID}/nickname`).set(nickname)
   }
 
-  lobby.getPlayerCardFromCurrentTurn = (playerID) => {
+  lobby.getPlayerCardFromTableCards = (playerID) => {
     return lobby.getAllCards()
-      .find(card => card.state === 'TURN' && card.playerID === playerID)
+      .find(card => card.holder === 'TABLE' && card.playerID === playerID)
   }
 
-  // lobby.isEndGame = () => {
-  //   const playersWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table.cards || {}).some(card => card.playerID === playerID))
-  //   const playersInPile = Object.values(lobby.pile || {}).map(({ playerID }) => playerID)
-  //   return [...new Set([...playersWithCards, ...playersInPile])].length === 1
-  // }
+  lobby.addCardToTable = async (card) => {
+    await database().ref(`${lobby.settings.name}/table/cards/${card.cardID}`).update({
+      holder: 'TABLE'
+    })
+  }
+
+  lobby.isTableCardsFull = () => {
+    return lobby.countAllPlayersWithCards() === lobby.countTableCards()
+  }
+
+  lobby.changeTurn = async (playerID) => {
+    await database().ref(`${lobby.settings.name}/table`).update({
+      turn: playerID,
+      time: 0
+    })
+  }
+
+  lobby.getHighestPlayerIDFromTableCardsExcludingPlayer = (cuttedPlayerID) => {
+    const card = maxBy(lobby.getTableCards(), (card) => card.playerID === cuttedPlayerID ? 0 : card.number) || {}
+    return card.playerID
+  }
+
+  lobby.setCutAnimation = async (playerID, card) => {
+    await database().ref(`${lobby.settings.name}/table/gotCut`).set({ playerID, card })
+  }
+
+  lobby.removeCutAnimation = async (playerID, card) => {
+    await database().ref(`${lobby.settings.name}/table/gotCut`).set(null)
+  }
+
+  lobby.discard = async () => {
+    for (const tableCard of lobby.getTableCards()) {
+      await database().ref(`${lobby.settings.name}/table/cards/${tableCard.cardID}`).update({
+        holder: 'DISCARD'
+      })
+    }
+  }
+
+  lobby.setDiscardAnimation = async () => {
+    await database().ref(`${lobby.settings.name}/table/tableCardsFull`).set(true)
+  }
+
+  lobby.removeDiscardAnimation = async () => {
+    await database().ref(`${lobby.settings.name}/table/tableCardsFull`).set(null)
+  }
+
+  lobby.isEndGame = () => {
+    return lobby.countAllPlayersWithCards() === 1
+  }
+
+  lobby.setEndGame = async () => {
+    await database().ref(`${lobby.settings.name}`).update({
+      state: 'ENDGAME',
+      donkey: lobby.getAllPlayersWithCards()[0]
+    })
+  }
+
+  lobby.moveTableCardsToPlayer = async (playerID) => {
+    for (const tableCard of lobby.getTableCards()) {
+      await database().ref(`${lobby.settings.name}/table/cards/${tableCard.cardID}`).update({
+        playerID,
+        holder: 'PLAYER'
+      })
+    }
+  }
+
+  lobby.getHighestPlayerIDFromTableCards = () => {
+    const card = maxBy(lobby.getTableCards(), 'number') || {}
+    return card.playerID
+  }
+
+  lobby.incrementTime = async () => {
+    await database().ref(`${lobby.settings.name}/table/time`).set(lobby.table.time + 1)
+  }
+
+  lobby.playCard = (card) => {
+    onPlayCard(card, lobby)
+  }
+
+  lobby.canPlaySuite = (suite) => {
+    return canPlaySuite(suite, lobby)
+  }
+
+  lobby.bot = () => {
+    bot(lobby)
+  }
+
 
   // lobby.getPlayerIDsWithCards = () => {
   //   const playersIDsWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table?.cards || {}).some(card => card.playerID === playerID))
@@ -203,7 +327,7 @@ export const useLobby = () => {
   // }
 
   // lobby.getPlayers = () => {
-  //   const playerIDsWithCards = lobby.getPlayerIDsWithCards()
+  //   const playerIDsWithCards = lob.getPlayerIDsWithCards()
   //   return Object.values(lobby.players || {}).map(player => ({ ...player, hasCards: playerIDsWithCards.includes(player.playerID) }))
   // }
 
@@ -237,10 +361,7 @@ export const useLobby = () => {
   //   return card.playerID
   // }
 
-  // lobby.getHighestPlayerIDFromPileExcludingPlayer = (cuttedPlayerID) => {
-  //   const card = maxBy(Object.values(lobby.table.pile), (card) => card.playerID === cuttedPlayerID ? 0 : card.number) || {}
-  //   return card.playerID
-  // }
+
 
   // lobby.addCardToTablePile = (card) => {
   //   if (!lobby.table.pile) lobby.table.pile = {}
@@ -274,31 +395,16 @@ export const useLobby = () => {
   //   }
   // }
 
-  // lobby.changeTurn = (playerID) => {
-  //   lobby.table.turn = playerID
-  //   lobby.table.time = 0
-  // }
 
-  // lobby.getMyCards = () => {
-  //   return Object.values(lobby.table?.cards || {})
-  //     .filter(({ playerID }) => playerID === myPlayerID)
-  // }
 
   // lobby.getHost = () => {
   //   return lobby.players[lobby.host]
   // }
 
-  // lobby.playCard = (card) => {
-  //   onPlayCard(card, lobby)
-  // }
 
-  // lobby.canPlaySuite = (suite) => {
-  //   return canPlaySuite(suite, lobby)
-  // }
 
-  // lobby.bot = () => {
-  //   bot(lobby)
-  // }
+
+
 
   // lobby.setPlayerPositions = (playerID, positions) => {
   //   lobby.players[playerID].positions = positions

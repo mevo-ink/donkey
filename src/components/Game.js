@@ -4,7 +4,7 @@ import { Grid } from '@chakra-ui/react'
 
 import LobbyInfo from 'components/Lobby/LobbyInfo'
 import Table from 'components/Table'
-import PlayerHand from 'components/Player/PlayerHand'
+import MyHand from 'components/Player/MyHand'
 
 export default function Game () {
   const lobby = useLobby()
@@ -17,7 +17,7 @@ export default function Game () {
     >
       <LobbyInfo />
       <Table />
-      {lobby.table.state !== 'PREGAME' && <PlayerHand />}
+      {lobby.table.state !== 'PREGAME' && <MyHand />}
     </Grid>
   )
 }

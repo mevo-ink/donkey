@@ -4,7 +4,7 @@ import { Flex } from '@chakra-ui/react'
 
 import HourGlass from 'components/Player/HourGlass'
 import Nickname from 'components/Player/Nickname'
-import CurrentCard from 'components/Player/CurrentCard'
+import TableCard from 'components/Player/TableCard'
 import Avatar from 'components/Player/Avatar'
 
 import { motion } from 'framer-motion'
@@ -28,9 +28,9 @@ export default function Players () {
           animate={{ scale: 1, transition: { delay: 0.8, duration: 0.5 } }}
         >
           {lobby.table.state !== 'PREGAME' && (
-            <CurrentCard playerID={player.playerID} position={cardPos} />
+            <TableCard playerID={player.playerID} position={cardPos} />
           )}
-          {lobby.table.state === 'GAME' && !lobby.gotCut && !lobby.pileFull && (
+          {lobby.table.state === 'GAME' && !lobby.gotCut && !lobby.tableCardsFull && (
             <HourGlass playerID={player.playerID} position={avatarPos} />
           )}
           <Avatar player={player} position={avatarPos} />

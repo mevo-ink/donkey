@@ -16,12 +16,14 @@ export default function DealingAnimation () {
 
   const lobby = useLobby()
 
-  const cards = getCards()
+  const allCardsCount = lobby.countAllCards()
 
   useEffect(() => {
     (async () => {
-      if (lobby.table.state === 'DEALING') {
+      // only the host deals
+      if (lobby.amIHost() && lobby.table.state === 'DEALING') {
         let playerIndex = 0
+        const cards = getCards()
         while (cards.length > 0) {
           const playerIDs = lobby.getPlayerSeatings()
           const dealtPlayerID = playerIDs[playerIndex]
@@ -36,6 +38,17 @@ export default function DealingAnimation () {
       }
     })() // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    (async () => {
+      if (!lobby.amIHost() && lobby.table.state === 'DEALING' && lobby.table.lastDealtPlayer) {
+        const dealtPlayerID = lobby.table.lastDealtPlayer
+        const { dealingPos: { x, y } } = dealtPlayerID ? lobby.getPlayerPositions(dealtPlayerID, true) : {}
+        await controls.start({ opacity: [0, 1, 0], x, y, transition: { duration: 0.3 } })
+        await controls.start({ opacity: 0, x: 0, y: 0 })
+      }
+    })() // eslint-disable-next-line
+  }, [allCardsCount])
 
   return (
     <MotionImage

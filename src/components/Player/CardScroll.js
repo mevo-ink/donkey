@@ -66,7 +66,7 @@ export default function CardScroll ({ children, handCards }) {
         justifyContent='center'
         alignItems='center'
         transition='all 0.4s ease-in-out'
-        h={{ mobile: '40px', ipad: '120px' }}
+        h={{ mobile: '40px', ipad: '40px' }}
         mt='-10px'
         zIndex='1'
         borderRadius='50%'

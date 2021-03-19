@@ -1,4 +1,4 @@
-const randomCardPicker = function (array) {
+const randomCardPicker = (array) => {
   return array[array.length * Math.random() << 0]
 }
 
@@ -7,16 +7,17 @@ const Bot = (lobby) => {
   // select a random playable card from current player's stack
   const myCards = lobby.getPlayerCards(lobby.table.turn)
 
+  const tableCards = lobby.getTableCards()
   let randomCard
-  if (lobby.table.pile) {
+  if (tableCards.length > 0) {
     randomCard = myCards
-      .find(card => card.suite === lobby.getPileCards()[0].suite)
-    // player don't have a suitable card, CUT with a random card
+      .find(card => card.suite === tableCards[0].suite)
+    // player doesn't have a suitable card, CUT with a random card
     if (!randomCard) {
       randomCard = randomCardPicker(myCards)
     }
   } else {
-    // choose a random card if there is no card the table
+    // choose a random card if there is no card on the table
     randomCard = randomCardPicker(myCards)
   }
   // call onPlayCard(card)

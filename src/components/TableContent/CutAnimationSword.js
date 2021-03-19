@@ -34,12 +34,12 @@ export default function CutAnimationSword () {
         // change turn
         lobby.changeTurn(lobby.gotCut.playerID)
         // update firebase
-        database().ref(`${lobby.name}/table`).set(lobby.table)
-        database().ref(`${lobby.name}/gotCut`).set(null)
+        database().ref(`${lobby.settings.name}/table`).set(lobby.table)
+        database().ref(`${lobby.settings.name}/gotCut`).set(null)
         // check for winning condition
         if (lobby.isEndGame()) {
           lobby.emptyDiscard()
-          database().ref(`${lobby.name}`).update({
+          database().ref(`${lobby.settings.name}`).update({
             state: 'ENDGAME',
             donkey: lobby.getPlayerIDsWithCards()[0]
           })
