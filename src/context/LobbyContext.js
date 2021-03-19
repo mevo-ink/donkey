@@ -80,15 +80,27 @@ export const useLobby = () => {
     return !lobby.settings.host.lastOnline
   }
 
+  lobby.findNewHost = () => {
+    const currentHostID = lobby.getHost()
+    return lobby.getAllPlayers().find(({ playerID, lastOnline }) => playerID !== currentHostID && !lastOnline)
+  }
+
+  lobby.setNewHost = async (playerID) => {
+    await database().ref(`${lobby.name}/settings/host`).update({
+      host: playerID,
+      lastOnline: null
+    })
+  }
+
   lobby.hasDiscard = () => {
     return !lobby.table.gotCut && lobby.getAllCards().some(({ playerID }) => !playerID)
   }
 
   lobby.getAllPlayers = () => {
     // we check if the player has a nickname to avoid getting players not in room.
-    // Firebase sets player's lastOnline on disconnect - but if the player leaves the room and on quick refresh
-    // the player will be added again by the usePlayerDisconnect hook with just lastOnline value.
-    // We simply ignore players who does not have a nickname set (aka; they only have lastOnline)
+    // Firebase sets player's lastOnline on disconnect - but if the player leaves the room and on quick refresh,
+    // the player will be added again by the usePlayerDisconnect hook with just the lastOnline value.
+    // We simply ignore players who don't have a nickname set (aka; they only have lastOnline)
     return Object.values(lobby.players)
       .filter(({ nickname }) => nickname)
   }

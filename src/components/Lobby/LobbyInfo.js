@@ -36,8 +36,7 @@ export default function LobbyInfo () {
         <Text fontSize='xs'>
           Lobby Name:
         </Text>
-        {isHostAndPreGame && <ShareLobby />}
-        {!isHostAndPreGame && <Text fontSize='lg' mt='2px'> {`${lobby.settings.name}`} </Text>}
+        <ShareLobby />
       </MotionBox>
       <MotionBox
         mr='16px'

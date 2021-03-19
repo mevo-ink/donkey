@@ -6,22 +6,15 @@ import { Text, Flex } from '@chakra-ui/react'
 
 import LoadingInline from 'components/LoadingInline'
 
-import database from 'utils/firebase'
-
 export default function LobbyHostOffline () {
   const lobby = useLobby()
 
-  const players = lobby.getAllPlayers()
-
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const timeout = setTimeout(async () => {
       // choose a random online player - excluding the current GAME host
-      const newHost = players.find(({ playerID, lastOnline }) => playerID !== lobby.host && !lastOnline)
-      if (newHost) {
-        database().ref(`${lobby.name}`).update({
-          host: newHost.playerID,
-          lastOnline: null
-        })
+      const playerID = lobby.findNewHost()
+      if (playerID) {
+        await lobby.setNewHost(playerID)
       }
     }, 5000)
     return () => {
