@@ -10,12 +10,13 @@ import {
 // import bot from 'context/utils/bot'
 
 import database from 'utils/firebase'
+import rotate from 'utils/rotate'
 
 const myPlayerID = window.localStorage.getItem('playerID')
 
 export const LobbyContext = createContext()
 
-const seatings = {
+const assignedSeats = {
   1: [0],
   2: [0, 6],
   3: [0, 3, 9],
@@ -37,7 +38,6 @@ const positions = [
   [{ left: '-22.75px', bottom: '204px' }, { left: '35px', top: '190px' }, { x: -115, y: -0 }],
   [{ left: '-22.75px', bottom: '293px' }, { left: '35px', top: '120px' }, { x: -115, y: -100 }],
   [{ left: '0px', bottom: '383px' }, { left: '40px', top: '50px' }, { x: -90, y: -185 }],
-
   [{ top: '-23.5px' }, { top: '18.5px' }, { x: 0, y: -230 }],
   [{ right: '0px', bottom: '383px' }, { right: '40px', top: '50px' }, { x: 90, y: -185 }],
   [{ right: '-22.75px', bottom: '293px' }, { right: '35px', top: '120px' }, { x: 115, y: -100 }],
@@ -45,13 +45,6 @@ const positions = [
   [{ right: '-22.75px', bottom: '115px' }, { right: '35px', top: '260px' }, { x: 115, y: 100 }],
   [{ right: '0px', bottom: '25px' }, { right: '40px', top: '330px' }, { x: 90, y: 185 }]
 ]
-
-const rotate = (array, times) => {
-  while (times--) {
-    const temp = array.shift()
-    array.push(temp)
-  }
-}
 
 export const LobbyProvider = ({ value, children }) => {
   return (
@@ -68,6 +61,7 @@ export const useLobby = () => {
     return { table: { state: 'NOT_READY' } }
   }
 
+  // host
   lobby.amIHost = () => {
     return lobby.settings.host.playerID === myPlayerID
   }
@@ -92,10 +86,7 @@ export const useLobby = () => {
     })
   }
 
-  lobby.hasDiscard = () => {
-    return !lobby.table.gotCut && lobby.getAllCards().some(({ playerID }) => !playerID)
-  }
-
+  // players
   lobby.getAllPlayers = () => {
     // we check if the player has a nickname to avoid getting players not in room.
     // Firebase sets player's lastOnline on disconnect - but if the player leaves the room and on quick refresh,
@@ -109,27 +100,16 @@ export const useLobby = () => {
     return Object.keys(lobby.table.seatings).length
   }
 
-  lobby.getAllCards = () => {
-    return Object.values(lobby.table.cards || {})
+  lobby.getPlayer = (playerID) => {
+    return lobby.players[playerID]
   }
 
-  lobby.getPlayerCards = (playerID) => {
-    return lobby.getAllCards().filter(card => card.playerID === playerID)
-  }
-
-  lobby.countPlayerCards = (playerID) => {
-    return lobby.getAllCards().filter(card => card.playerID === playerID)
+  lobby.getMyself = () => {
+    return lobby.players[myPlayerID]
   }
 
   lobby.setMaxPlayers = async (count) => {
     await database().ref(`${lobby.settings.name}/settings/maxPlayers`).set(count)
-  }
-
-  lobby.startDealing = async () => {
-    await database().ref(`${lobby.settings.name}/table`).update({
-      state: 'DEALING',
-      maxPlayers: lobby.getAllPlayers().length
-    })
   }
 
   lobby.getPlayerSeatings = () => {
@@ -148,11 +128,11 @@ export const useLobby = () => {
 
   lobby.getPlayerPositions = (playerID) => {
     // find playerID's idx from seatings
-    const allPlayerPositions = seatings[lobby.countAllPlayers()]
     const seatingsWRTMyself = lobby.getSeatingsWRTMyself()
     const playerIDIdx = seatingsWRTMyself.findIndex(ID => ID === playerID)
-    const playerPositionIdx = allPlayerPositions[playerIDIdx]
-    const [avatarPos, cardPos, dealingPos] = positions[playerPositionIdx]
+    const allPlayerSeatings = assignedSeats[lobby.countAllPlayers()]
+    const playerSeatingPositionIdx = allPlayerSeatings[playerIDIdx]
+    const [avatarPos, cardPos, dealingPos] = positions[playerSeatingPositionIdx]
     return { avatarPos, cardPos, dealingPos }
   }
 
@@ -172,16 +152,33 @@ export const useLobby = () => {
     }
   }
 
+  // cards
+  lobby.getAllCards = () => {
+    return Object.values(lobby.table.cards || {})
+  }
+
+  lobby.getPlayerCards = (playerID) => {
+    return lobby.getAllCards().filter(card => card.playerID === playerID)
+  }
+
+  lobby.countPlayerCards = (playerID) => {
+    return lobby.getAllCards().filter(card => card.playerID === playerID)
+  }
+
+  lobby.hasDiscard = () => {
+    return !lobby.table.gotCut && lobby.getAllCards().some(({ playerID }) => !playerID)
+  }
+
+  // game
+  lobby.startDealing = async () => {
+    await database().ref(`${lobby.settings.name}/table`).update({
+      state: 'DEALING',
+      maxPlayers: lobby.getAllPlayers().length
+    })
+  }
+
   lobby.startGame = async () => {
     await database().ref(`${lobby.settings.name}/table/state`).set('GAME')
-  }
-
-  lobby.getPlayer = (playerID) => {
-    return lobby.players[playerID]
-  }
-
-  lobby.getMyself = () => {
-    return lobby.players[myPlayerID]
   }
 
   lobby.setMyNickname = (nickname) => {
