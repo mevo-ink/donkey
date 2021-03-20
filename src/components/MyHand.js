@@ -13,7 +13,7 @@ import CardsScroll from 'components/MyHand/CardsScroll'
 export default function MyHand () {
   const lobby = useLobby()
 
-  const myCards = lobby.getMyHand()
+  const myCards = lobby.getMyCards()
 
   const myCardsRef = useRef()
 
