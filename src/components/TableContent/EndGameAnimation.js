@@ -76,40 +76,36 @@ export default function EndGameAnimation () {
       >
         {donkeyPlayer.nickname} is The Donkey!
       </Text>
-      {lobby.getMyself().playerID === lobby.host && (
+      {lobby.amIHost() && (
         <Flex w='100%' justifyContent='space-between'>
           {[{
             name: 'Restart',
             color: 'linear-gradient(180deg, #6BE8FF 0%, #349CB6 100%)',
-            path: 'restart'
+            onClick: handleRestartGame
           }, {
             name: 'Go Home',
             color: 'linear-gradient(180deg, #FE9696 0%, #E76C6C 100%)',
-            path: '/'
+            onClick: () => { window.location.href = '/' }
           }
-          ].map((button, idx) => (
+          ].map(({ name, color, onClick }) => (
             <Button
-              key={idx}
+              key={name}
               w='50px'
               h='25px'
               fontSize='15px'
               lineHeight='15px'
               fontWeight='bold'
-              bg={button.color}
-              _active={{ bg: button.color }}
-              _hover={{ bg: button.color }}
+              bg={color}
+              _active={{ bg: color }}
+              _hover={{ bg: color }}
               boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
               borderRadius='25px'
               cursor='pointer'
               m='20px 10px'
               zIndex='5'
-              onClick={() => {
-                if (button.path === '/') {
-                  window.location.href = button.path
-                } else { handleRestartGame() }
-              }}
+              onClick={onClick}
             >
-              {button.name}
+              {name}
             </Button>
           ))}
         </Flex>
