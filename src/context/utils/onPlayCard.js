@@ -25,7 +25,7 @@ const onPlayCard = async (playedCard, lobby) => {
     // update the db to show cut animation
     await lobby.setCutAnimation(gotCutPlayerID, playedCard)
   } else {
-    if (lobby.countAllPlayersWithCards() === lobby.countTableCards() + 1) {
+    if (lobby.isTableCardsFull()) {
       // update the db to show discard pile
       await lobby.setDiscardAnimation()
     } else {

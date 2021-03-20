@@ -88,8 +88,12 @@ export const useLobby = () => {
   }
 
   lobby.setNewHost = async (playerID) => {
+    lobby.settings.host = {
+      playerID,
+      lastOnline: null
+    }
     await database().ref(`${lobby.settings.name}/settings/host`).update({
-      host: playerID,
+      playerID,
       lastOnline: null
     })
   }
@@ -133,7 +137,7 @@ export const useLobby = () => {
   }
 
   lobby.countAllPlayers = () => {
-    return Object.keys(lobby.table.seatings).length
+    return lobby.getAllPlayers().length
   }
 
   lobby.getPlayer = (playerID) => {
@@ -145,6 +149,7 @@ export const useLobby = () => {
   }
 
   lobby.setMaxPlayers = async (count) => {
+    lobby.settings.maxPlayers = count
     await database().ref(`${lobby.settings.name}/settings/maxPlayers`).set(count)
   }
 
@@ -175,7 +180,14 @@ export const useLobby = () => {
   lobby.dealPlayerCard = async (playerIndex, card) => {
     // deal the card to the player sitting at playerIndex position
     const playerID = lobby.getPlayerSeatings()[playerIndex]
+    lobby.table.lastDealtPlayer = playerID
     await database().ref(`${lobby.settings.name}/table/lastDealtPlayer`).set(playerID)
+    if (!lobby.table.cards) lobby.table.cards = {}
+    lobby.table.cards[card.cardID] = {
+      ...card,
+      playerID,
+      holder: 'PLAYER'
+    }
     await database().ref(`${lobby.settings.name}/table/cards/${card.cardID}`).set({
       ...card,
       playerID,
@@ -183,6 +195,8 @@ export const useLobby = () => {
     })
     if (card.cardID === '14-of-spades') {
       // set the turn to the player who got Ace of Spades
+      lobby.table.turn = playerID
+      lobby.table.time = 0
       await database().ref(`${lobby.settings.name}/table`).update({
         turn: playerID,
         time: 0
@@ -225,13 +239,16 @@ export const useLobby = () => {
 
   // game
   lobby.startDealing = async () => {
-    await database().ref(`${lobby.settings.name}/table`).update({
-      state: 'DEALING',
-      maxPlayers: lobby.getAllPlayers().length
-    })
+    const allPlayersCount = lobby.countAllPlayers()
+    lobby.settings.maxPlayers = allPlayersCount
+    await lobby.setMaxPlayers(allPlayersCount)
+    lobby.table.state = 'DEALING'
+    await database().ref(`${lobby.settings.name}/table/state`).set('DEALING')
   }
 
   lobby.startGame = async () => {
+    lobby.table.state = 'GAME'
+    lobby.table.lastDealtPlayer = null
     await database().ref(`${lobby.settings.name}/table`).update({
       state: 'GAME',
       lastDealtPlayer: null
@@ -239,6 +256,7 @@ export const useLobby = () => {
   }
 
   lobby.setMyNickname = (nickname) => {
+    lobby.players[myPlayerID].nickname = nickname
     database().ref(`${lobby.settings.name}/players/${myPlayerID}/nickname`).set(nickname)
   }
 
@@ -248,6 +266,7 @@ export const useLobby = () => {
   }
 
   lobby.addCardToTable = async (card) => {
+    lobby.table.cards[card.cardID].holder = 'TABLE'
     await database().ref(`${lobby.settings.name}/table/cards/${card.cardID}`).update({
       holder: 'TABLE'
     })
@@ -258,6 +277,8 @@ export const useLobby = () => {
   }
 
   lobby.changeTurn = async (playerID) => {
+    lobby.table.turn = playerID
+    lobby.table.time = 0
     await database().ref(`${lobby.settings.name}/table`).update({
       turn: playerID,
       time: 0
@@ -270,15 +291,18 @@ export const useLobby = () => {
   }
 
   lobby.setCutAnimation = async (playerID, card) => {
+    lobby.table.gotCut = { playerID, card }
     await database().ref(`${lobby.settings.name}/table/gotCut`).set({ playerID, card })
   }
 
   lobby.removeCutAnimation = async (playerID, card) => {
+    lobby.table.gotCut = null
     await database().ref(`${lobby.settings.name}/table/gotCut`).set(null)
   }
 
   lobby.discard = async () => {
     for (const tableCard of lobby.getTableCards()) {
+      lobby.table.cards[tableCard.cardID].holder = 'DISCARD'
       await database().ref(`${lobby.settings.name}/table/cards/${tableCard.cardID}`).update({
         holder: 'DISCARD'
       })
@@ -286,10 +310,12 @@ export const useLobby = () => {
   }
 
   lobby.setDiscardAnimation = async () => {
+    lobby.table.tableCardsFull = true
     await database().ref(`${lobby.settings.name}/table/tableCardsFull`).set(true)
   }
 
   lobby.removeDiscardAnimation = async () => {
+    lobby.table.tableCardsFull = null
     await database().ref(`${lobby.settings.name}/table/tableCardsFull`).set(null)
   }
 
@@ -298,14 +324,19 @@ export const useLobby = () => {
   }
 
   lobby.setEndGame = async () => {
+    const donkey = lobby.getAllPlayersWithCards()[0].playerID
+    lobby.table.state = 'ENDGAME'
+    lobby.table.donkey = donkey
     await database().ref(`${lobby.settings.name}/table`).update({
       state: 'ENDGAME',
-      donkey: lobby.getAllPlayersWithCards()[0].playerID
+      donkey
     })
   }
 
   lobby.moveTableCardsToPlayer = async (playerID) => {
     for (const tableCard of lobby.getTableCards()) {
+      lobby.table.cards[tableCard.cardID].playerID = playerID
+      lobby.table.cards[tableCard.cardID].holder = 'PLAYER'
       await database().ref(`${lobby.settings.name}/table/cards/${tableCard.cardID}`).update({
         playerID,
         holder: 'PLAYER'
@@ -319,7 +350,8 @@ export const useLobby = () => {
   }
 
   lobby.incrementTime = async () => {
-    await database().ref(`${lobby.settings.name}/table/time`).set(lobby.table.time + 1)
+    lobby.table.time = lobby.table.time + 1
+    await database().ref(`${lobby.settings.name}/table/time`).set(lobby.table.time)
   }
 
   lobby.playCard = (card) => {
@@ -335,15 +367,17 @@ export const useLobby = () => {
   }
 
   lobby.onDiscardAnimationEnd = async () => {
-    // change turn
-    await lobby.changeTurn(lobby.getHighestPlayerIDFromTableCards())
-    // discard
-    await lobby.discard()
-    // stop discard animation
-    await lobby.removeDiscardAnimation()
-    // check for winning condition
-    if (lobby.isEndGame()) {
-      await lobby.setEndGame()
+    if (lobby.amIHost()) {
+      // change turn
+      await lobby.changeTurn(lobby.getHighestPlayerIDFromTableCards())
+      // discard
+      await lobby.discard()
+      // stop discard animation
+      await lobby.removeDiscardAnimation()
+      // check for winning condition
+      if (lobby.isEndGame()) {
+        await lobby.setEndGame()
+      }
     }
   }
 

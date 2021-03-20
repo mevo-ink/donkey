@@ -18,32 +18,30 @@ export default function DiscardPileAnimation () {
 
   useEffect(() => {
     (async () => {
-      if (lobby.amIHost()) {
-        // perform flip animation
-        await Promise.all([
-          flipControls.start({
-            rotateY: -180,
-            opacity: 0,
-            transition: { delay: 1, duration: 2 }
-          }),
-          discardControls.start({
-            rotateY: 0,
-            opacity: 1,
-            transition: { delay: 1, duration: 2 }
-          })
-        ])
-        // perform discard animation
-        await discardControls.start({
-          top: '190px',
-          bottom: '190px',
-          left: '87.5px',
-          right: '87.5px',
-          scale: [1, 0.7],
-          transition: { duration: 3 }
+      // perform flip animation
+      await Promise.all([
+        flipControls.start({
+          rotateY: -180,
+          opacity: 0,
+          transition: { delay: 1, duration: 2 }
+        }),
+        discardControls.start({
+          rotateY: 0,
+          opacity: 1,
+          transition: { delay: 1, duration: 2 }
         })
-        // update state
-        await lobby.onDiscardAnimationEnd()
-      }
+      ])
+      // perform discard animation
+      await discardControls.start({
+        top: '190px',
+        bottom: '190px',
+        left: '87.5px',
+        right: '87.5px',
+        scale: [1, 0.7],
+        transition: { duration: 3 }
+      })
+      // update state
+      await lobby.onDiscardAnimationEnd()
     })()
     // eslint-disable-next-line
   }, [])
