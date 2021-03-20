@@ -14,6 +14,7 @@ export default function EndGameAnimation () {
   const handleRestartGame = () => {
     database().ref(`${lobby.settings.name}/table`).update({
       donkey: null,
+      cards: null,
       state: 'PREGAME'
     })
   }

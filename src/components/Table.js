@@ -78,6 +78,7 @@ export default function Table () {
 
 /*
   TODO LIST:
+  - UPDATE LOCAL LOBBY BEFORE SENDING FIREBASE UPDATE
   - SHOW 1 2 3 BADGES
   - Fix discard pile animation  -FLIP AND GO
   - Discard animation - Should come only from remaining players seats
