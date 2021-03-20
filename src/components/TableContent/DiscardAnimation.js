@@ -19,20 +19,20 @@ export default function DiscardPileAnimation () {
   useEffect(() => {
     (async () => {
       if (lobby.amIHost()) {
-        // flip animation
+        // perform flip animation
         await Promise.all([
           flipControls.start({
             rotateY: -180,
             opacity: 0,
-            transition: { duration: 2 }
+            transition: { delay: 1, duration: 2 }
           }),
           discardControls.start({
             rotateY: 0,
             opacity: 1,
-            transition: { duration: 2 }
+            transition: { delay: 1, duration: 2 }
           })
         ])
-        // discard animation
+        // perform discard animation
         await discardControls.start({
           top: '190px',
           bottom: '190px',
@@ -41,16 +41,8 @@ export default function DiscardPileAnimation () {
           scale: [1, 0.7],
           transition: { duration: 3 }
         })
-        // change turn
-        await lobby.changeTurn(lobby.getHighestPlayerIDFromTableCards())
-        // discard
-        await lobby.discard()
-        // stop discard animation
-        await lobby.removeDiscardAnimation()
-        // check for winning condition
-        if (lobby.isEndGame()) {
-          await lobby.setEndGame()
-        }
+        // update state
+        await lobby.onDiscardAnimationEnd()
       }
     })()
     // eslint-disable-next-line

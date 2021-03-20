@@ -25,20 +25,10 @@ export default function CutAnimationSword () {
 
   useEffect(() => {
     setTimeout(async () => {
-      if (lobby.amIHost()) {
-        // move existing table cards to the player who got cut
-        await lobby.moveTableCardsToPlayer(gutCutPlayerID)
-        // change turn
-        await lobby.changeTurn(gutCutPlayerID)
-        // update firebase
-        await lobby.removeCutAnimation()
-        // check for winning condition
-        if (lobby.isEndGame()) {
-          await lobby.setEndGame()
-        }
-      }
+      await lobby.onCutAnimationEnd()
     }, 8000) // eslint-disable-next-line
   }, [])
+
   return (
     <MotionFlex
       width='90%'

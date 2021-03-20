@@ -1,8 +1,6 @@
 import { useLobby } from 'context/LobbyContext'
 
-import { Flex, Image, useBreakpointValue } from '@chakra-ui/react'
-
-import cardBack from 'images/cardBack.png'
+import { Flex, useBreakpointValue } from '@chakra-ui/react'
 
 import Players from 'components/Players'
 import CutAnimation from 'components/TableContent/CutAnimation'
@@ -11,11 +9,12 @@ import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
 import DealingAnimation from 'components/TableContent/DealingAnimation'
 import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
 import EndGameAnimation from 'components/TableContent/EndGameAnimation'
+import DiscardPile from 'components/TableContent/DiscardPile'
 import DiscardAnimation from 'components/TableContent/DiscardAnimation'
 
 import { motion } from 'framer-motion'
+
 const MotionFlex = motion(Flex)
-const MotionImage = motion(Image)
 
 export default function Table () {
   const lobby = useLobby()
@@ -53,19 +52,11 @@ export default function Table () {
           alignItems='center'
           position='relative'
         >
-          {lobby.hasDiscard() &&
-            <MotionImage
-              src={cardBack}
-              width='30px'
-              objectFit='contain'
-              zIndex='5'
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
-            />}
           {!lobby.isHostOnline() && <LobbyHostOffline />}
           {lobby.isHostOnline() && lobby.table.state === 'PREGAME' && lobby.amIHost() && <PreLobbyHost />}
           {lobby.isHostOnline() && lobby.table.state === 'PREGAME' && !lobby.amIHost() && <PreLobbyGuest />}
           {lobby.isHostOnline() && lobby.table.state === 'DEALING' && <DealingAnimation />}
+          {lobby.isHostOnline() && lobby.table.state === 'GAME' && lobby.hasDiscard() && <DiscardPile />}
           {lobby.isHostOnline() && lobby.table.tableCardsFull && !lobby.gotCut && <DiscardAnimation />}
           {lobby.isHostOnline() && lobby.table.gotCut && <CutAnimation />}
           {lobby.isHostOnline() && lobby.table.donkey && <EndGameAnimation />}
@@ -80,8 +71,6 @@ export default function Table () {
   TODO LIST:
   - UPDATE LOCAL LOBBY BEFORE SENDING FIREBASE UPDATE
   - SHOW 1 2 3 BADGES
-  - Fix discard pile animation  -FLIP AND GO
-  - Discard animation - Should come only from remaining players seats
-  - CUT TEXT - I CUT <nickname>
+  - REFACTOR CUT ANIMATION WITH MOTION CONTROLS
   - Optimize images
 */

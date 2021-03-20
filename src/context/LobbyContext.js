@@ -334,5 +334,34 @@ export const useLobby = () => {
     bot(lobby)
   }
 
+  lobby.onDiscardAnimationEnd = async () => {
+    // change turn
+    await lobby.changeTurn(lobby.getHighestPlayerIDFromTableCards())
+    // discard
+    await lobby.discard()
+    // stop discard animation
+    await lobby.removeDiscardAnimation()
+    // check for winning condition
+    if (lobby.isEndGame()) {
+      await lobby.setEndGame()
+    }
+  }
+
+  lobby.onCutAnimationEnd = async () => {
+    if (lobby.amIHost()) {
+      const gutCutPlayerID = lobby.table.gotCut.playerID
+      // move existing table cards to the player who got cut
+      await lobby.moveTableCardsToPlayer(gutCutPlayerID)
+      // change turn
+      await lobby.changeTurn(gutCutPlayerID)
+      // update firebase
+      await lobby.removeCutAnimation()
+      // check for winning condition
+      if (lobby.isEndGame()) {
+        await lobby.setEndGame()
+      }
+    }
+  }
+
   return lobby
 }
