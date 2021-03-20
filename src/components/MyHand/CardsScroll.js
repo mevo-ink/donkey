@@ -30,7 +30,7 @@ export default function CardsScroll ({ children, myCardsRef }) {
   return (
     <Flex
       width='100vw'
-      h={{ mobile: '75px', ipad: '120px' }}
+      h={{ base: '75px', ipad: '120px' }}
       alignItems='center'
       position='absolute'
       bottom='0px'
@@ -47,7 +47,7 @@ export default function CardsScroll ({ children, myCardsRef }) {
         justifyContent='center'
         alignItems='center'
         transition='all 0.4s ease-in-out'
-        h={{ mobile: '40px', ipad: '120px' }}
+        h={{ base: '40px', ipad: '120px' }}
         mt='-10px'
         zIndex='1'
         borderRadius='50%'
@@ -66,7 +66,7 @@ export default function CardsScroll ({ children, myCardsRef }) {
         justifyContent='center'
         alignItems='center'
         transition='all 0.4s ease-in-out'
-        h={{ mobile: '40px', ipad: '40px' }}
+        h={{ base: '40px', ipad: '40px' }}
         mt='-10px'
         zIndex='1'
         borderRadius='50%'

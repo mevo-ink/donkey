@@ -1,6 +1,6 @@
 import { useLobby } from 'context/LobbyContext'
 
-import { Flex, Image } from '@chakra-ui/react'
+import { Flex, Image, useBreakpointValue } from '@chakra-ui/react'
 
 import cardBack from 'images/cardBack.png'
 
@@ -20,6 +20,8 @@ const MotionImage = motion(Image)
 export default function Table () {
   const lobby = useLobby()
 
+  const scale = useBreakpointValue({ base: 0.6, iphone5: 0.7, iphone6: 0.9, iphone8: 1, ipad: 1.5 })
+
   return (
     <MotionFlex
       width='242px'
@@ -30,12 +32,9 @@ export default function Table () {
       boxShadow='0px 5px 6px 5px rgba(0, 0, 0, 0.25)'
       borderRadius='200px'
       position='relative'
-      sx={{
-        zoom: { iphone5: 0.7, iphone6: 0.9, iphone8: 1, ipad: 1.5 }
-      }}
       mt='-50px'
       initial={{ scale: 0 }}
-      animate={{ scale: 1, transition: { duration: 0.5 } }}
+      animate={{ scale, transition: { duration: 0.5 } }}
     >
       <Flex
         width='215px'

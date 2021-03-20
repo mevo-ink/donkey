@@ -21,7 +21,7 @@ export default function MyHand () {
     <CardsScroll myCardsRef={myCardsRef}>
       <Flex
         w='100%'
-        h={{ mobile: '100px', ipad: '110px' }}
+        h={{ base: '100px', ipad: '110px' }}
         wrap='wrap'
         position='absolute'
         bottom={0}
@@ -48,7 +48,7 @@ export default function MyHand () {
               <Box
                 key={card.cardID}
                 transition='0.3s ease-out'
-                marginRight={{ mobile: '-32px', ipad: '-22px' }}
+                marginRight={{ base: '-32px', ipad: '-22px' }}
                 marginTop='20px'
                 width='53px'
                 objectFit='contain'
@@ -58,7 +58,7 @@ export default function MyHand () {
                   key={card.cardID}
                   src={card.url}
                   alt={`${card.number} of ${card.suite}`}
-                  width={{ mobile: '50px', ipad: '80px' }}
+                  width={{ base: '50px', ipad: '80px' }}
                   maxW='1000px'
                   filter='drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))'
                   onClick={() => lobby.playCard(card)}
