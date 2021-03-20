@@ -4,7 +4,7 @@ import { Button, Flex } from '@chakra-ui/react'
 
 import { BsFillCaretRightFill, BsFillCaretLeftFill } from 'react-icons/bs'
 
-export default function CardScroll ({ children, handCards }) {
+export default function CardsScroll ({ children, myCardsRef }) {
   const buttonLeft = useRef()
   const buttonRight = useRef()
 
@@ -55,7 +55,7 @@ export default function CardScroll ({ children, handCards }) {
         backgroundColor='rgba(0, 0, 0, 0.8)'
         position='absolute'
         left='0'
-        onClick={() => sideScroll(handCards.current, 'left', 1, 100, 1)}
+        onClick={() => sideScroll(myCardsRef.current, 'left', 1, 100, 1)}
       >
         <BsFillCaretLeftFill />
       </Button>
@@ -76,7 +76,7 @@ export default function CardScroll ({ children, handCards }) {
         position='absolute'
         right='0'
         textAlign='center'
-        onClick={() => sideScroll(handCards.current, 'right', 1, 100, 1)}
+        onClick={() => sideScroll(myCardsRef.current, 'right', 1, 100, 1)}
       >
         <BsFillCaretRightFill />
       </Button>

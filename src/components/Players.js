@@ -2,10 +2,10 @@ import { useLobby } from 'context/LobbyContext'
 
 import { Flex } from '@chakra-ui/react'
 
+import Avatar from 'components/Player/Avatar'
 import HourGlass from 'components/Player/HourGlass'
 import Nickname from 'components/Player/Nickname'
 import TableCard from 'components/Player/TableCard'
-import Avatar from 'components/Player/Avatar'
 
 import { motion } from 'framer-motion'
 const MotionFlex = motion(Flex)

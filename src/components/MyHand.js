@@ -8,17 +8,17 @@ import {
   Image
 } from '@chakra-ui/react'
 
-import CardScroll from 'components/Player/CardScroll'
+import CardsScroll from 'components/MyHand/CardsScroll'
 
 export default function MyHand () {
   const lobby = useLobby()
 
-  const myCards = lobby.getMyCards()
+  const myCards = lobby.getMyHand()
 
-  const handCards = useRef()
+  const myCardsRef = useRef()
 
   return (
-    <CardScroll handCards={handCards}>
+    <CardsScroll myCardsRef={myCardsRef}>
       <Flex
         w='100%'
         h={{ mobile: '100px', ipad: '110px' }}
@@ -36,7 +36,7 @@ export default function MyHand () {
             scrollbarWidth: 'none'
           }
         }}
-        ref={handCards}
+        ref={myCardsRef}
       >
         <Flex
           width='100%'
@@ -68,6 +68,6 @@ export default function MyHand () {
           })}
         </Flex>
       </Flex>
-    </CardScroll>
+    </CardsScroll>
   )
 }
