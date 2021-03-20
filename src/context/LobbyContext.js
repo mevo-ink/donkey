@@ -212,7 +212,7 @@ export const useLobby = () => {
   }
 
   lobby.hasDiscard = () => {
-    return !lobby.table.gotCut && lobby.getAllCards().some(({ playerID }) => !playerID)
+    return !lobby.table.gotCut && lobby.getAllCards().some(({ holder }) => holder === 'DISCARD')
   }
 
   lobby.getTableCards = () => {
