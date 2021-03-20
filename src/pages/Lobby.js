@@ -74,30 +74,3 @@ export default function LobbyManager ({ name }) {
     </LobbyProvider>
   )
 }
-
-/*
-  settings:
-    - host
-      - playerID
-      - lastOnline
-    - maxPlayers
-    - name
-    - timeLimit
-  players:
-    []:
-      - playerID
-      - nickname
-      - avatar
-  table:
-    - seatings [playerID, playerID, ...]
-    - state (PREGame, DEALING, Game, ENDGame)
-    - donkey (playerID)
-    - turn (playerID)
-    - cards:
-      []:
-        - cardID
-        - suite
-        - number
-        - playerID
-        - holder (PLAYER or TABLE or DISCARD)
-*/

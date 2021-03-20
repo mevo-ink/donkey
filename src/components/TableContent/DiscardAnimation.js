@@ -38,7 +38,7 @@ export default function DiscardPileAnimation () {
     }, 2000) // eslint-disable-next-line
   }, [])
 
-  return <h1>ANIMATING</h1>
+  return <h1>DISCARDING</h1>
   // return (
   //   cardPositions.map((pos, idx) => {
   //     return (

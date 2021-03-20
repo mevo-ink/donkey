@@ -79,12 +79,9 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - BIG BUG - cards mudiya next player set aaavuthilla
   - SHOW 1 2 3 BADGES
   - Fix discard pile animation  -FLIP AND GO
   - Discard animation - Should come only from remaining players seats
-  - CUT TEXT - BUBBLE _ I CUT (player)
-  - BUGs:
-    - Old lobbies are still showing on first Find GAME click
+  - CUT TEXT - I CUT <nickname>
   - Optimize images
 */
