@@ -19,9 +19,6 @@ export default function CurrentCard ({ playerID, position }) {
       src={lobby.getPlayerCardFromTableCards(playerID)?.url}
       position='absolute'
       {...position}
-      // initial={{ x: 0, y: 0, scale: 0 }}
-      // animate={{ ...position, scale: 1, transition: { duration: 1 } }}
-      // exit={{ scale: 0, transition: { duration: 1 } }}
     />
   )
 }
