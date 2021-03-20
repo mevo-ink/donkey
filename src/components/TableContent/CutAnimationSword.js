@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 
-import database from 'utils/firebase'
-
 import { useLobby } from 'context/LobbyContext'
 
 import {
@@ -21,33 +19,26 @@ const MotionImage = motion(Image)
 export default function CutAnimationSword () {
   const lobby = useLobby()
 
-  const doCutPlayer = lobby.getPlayer(lobby.table.turn)
-  const gotCuttedPlayer = lobby.getPlayer(lobby.gotCut.playerID)
+  const cutPlayer = lobby.getPlayer(lobby.table.turn)
+  const gutCutPlayerID = lobby.table.gotCut.playerID
+  const gotCutPlayer = lobby.getPlayer(gutCutPlayerID)
 
   useEffect(() => {
-    setTimeout(() => {
-      if (lobby.getMyself().playerID === lobby.host) {
-        // move existing pile cards to the player who got cut
-        lobby.movePileCardsToPlayer(lobby.gotCut.playerID)
-        // add cut card to got cut player's hand
-        lobby.addCardToPlayer(lobby.gotCut.card, lobby.gotCut.playerID)
+    setTimeout(async () => {
+      if (lobby.amIHost()) {
+        // move existing table cards to the player who got cut
+        await lobby.moveTableCardsToPlayer(gutCutPlayerID)
         // change turn
-        lobby.changeTurn(lobby.gotCut.playerID)
+        await lobby.changeTurn(gutCutPlayerID)
         // update firebase
-        database().ref(`${lobby.settings.name}/table`).set(lobby.table)
-        database().ref(`${lobby.settings.name}/gotCut`).set(null)
+        await lobby.removeCutAnimation()
         // check for winning condition
         if (lobby.isEndGame()) {
-          lobby.emptyDiscard()
-          database().ref(`${lobby.settings.name}`).update({
-            state: 'ENDGAME',
-            donkey: lobby.getPlayerIDsWithCards()[0]
-          })
+          await lobby.setEndGame()
         }
       }
-    }, 5000) // eslint-disable-next-line
+    }, 8000) // eslint-disable-next-line
   }, [])
-
   return (
     <MotionFlex
       width='90%'
@@ -82,7 +73,7 @@ export default function CutAnimationSword () {
           // transition={{ delay: 1.5, duration: 0.3 }}
         />
         <MotionImage
-          src={doCutPlayer.avatar}
+          src={cutPlayer.avatar}
           width='50px'
           objectFit='contain'
           borderRadius='100%'
@@ -104,7 +95,7 @@ export default function CutAnimationSword () {
           animate={{ opacity: 1, transition: { delay: 1.5, duration: 0.3 } }}
         />
         <MotionImage
-          src={gotCuttedPlayer.avatar}
+          src={gotCutPlayer.avatar}
           width='50px'
           objectFit='contain'
           borderRadius='100%'

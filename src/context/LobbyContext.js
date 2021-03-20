@@ -298,8 +298,10 @@ export const useLobby = () => {
   }
 
   lobby.setEndGame = async () => {
-    await database().ref(`${lobby.settings.name}/table/state`).set('ENDGAME')
-    await database().ref(`${lobby.settings.name}/donkey`).set(lobby.getAllPlayersWithCards()[0].playerID)
+    await database().ref(`${lobby.settings.name}/table`).update({
+      state: 'ENDGAME',
+      donkey: lobby.getAllPlayersWithCards()[0].playerID
+    })
   }
 
   lobby.moveTableCardsToPlayer = async (playerID) => {

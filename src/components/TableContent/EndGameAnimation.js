@@ -9,14 +9,12 @@ import donkeyTemplate from 'images/endgameDonkey.png'
 export default function EndGameAnimation () {
   const lobby = useLobby()
 
-  const donkeyPlayer = lobby.players[lobby.donkey]
+  const donkeyPlayer = lobby.players[lobby.table.donkey]
 
   const handleRestartGame = () => {
-    database().ref(`${lobby.settings.name}`).update({
+    database().ref(`${lobby.settings.name}/table`).update({
       donkey: null,
-      state: 'PREGAME',
-      tableCardsFull: null,
-      table: null
+      state: 'PREGAME'
     })
   }
 

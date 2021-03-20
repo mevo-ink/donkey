@@ -69,7 +69,7 @@ export default function Table () {
           {lobby.isHostOnline() && lobby.table.state === 'DEALING' && <DealingAnimation />}
           {lobby.isHostOnline() && lobby.table.tableCardsFull && !lobby.gotCut && <DiscardAnimation />}
           {lobby.isHostOnline() && lobby.table.gotCut && <CutAnimation />}
-          {lobby.isHostOnline() && lobby.donkey && <EndGameAnimation />}
+          {lobby.isHostOnline() && lobby.table.donkey && <EndGameAnimation />}
         </Flex>
         <Players />
       </Flex>
