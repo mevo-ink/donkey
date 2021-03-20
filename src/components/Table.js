@@ -69,6 +69,7 @@ export default function Table () {
 
 /*
   TODO LIST:
+  - BUG: Fix My hand cards scroll
   - SHOW 1 2 3 BADGES
   -  CUT ANIMATION
     - REFACTOR CUT ANIMATION WITH MOTION CONTROLS
