@@ -1,5 +1,5 @@
 const randomCardPicker = (array) => {
-  return array[array.length * Math.random() << 0]
+  return array[Math.floor(Math.random() * array.length)]
 }
 
 const Bot = (lobby) => {
@@ -10,8 +10,7 @@ const Bot = (lobby) => {
   const tableCards = lobby.getTableCards()
   let randomCard
   if (tableCards.length > 0) {
-    randomCard = myCards
-      .find(card => card.suite === tableCards[0].suite)
+    randomCard = myCards.find(card => card.suite === tableCards[0].suite)
     // player doesn't have a suitable card, CUT with a random card
     if (!randomCard) {
       randomCard = randomCardPicker(myCards)

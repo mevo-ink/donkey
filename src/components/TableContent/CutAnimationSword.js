@@ -29,7 +29,7 @@ export default function CutAnimationSword () {
       if (lobby.getMyself().playerID === lobby.host) {
         // move existing pile cards to the player who got cut
         lobby.movePileCardsToPlayer(lobby.gotCut.playerID)
-        // add cut card to got cutted player's hand
+        // add cut card to got cut player's hand
         lobby.addCardToPlayer(lobby.gotCut.card, lobby.gotCut.playerID)
         // change turn
         lobby.changeTurn(lobby.gotCut.playerID)

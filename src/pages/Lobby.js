@@ -45,7 +45,9 @@ export default function LobbyManager ({ name }) {
 
   if (error) return <Error error={error} />
 
-  if (!lobby) return <LobbyNotFound name={name} />
+  if (!lobby || !lobby.settings.host.playerID) {
+    return <LobbyNotFound name={name} />
+  }
 
   // check if the current player is in the lobby
   const isCurrentPlayerInLobby = lobby.players[myPlayerID]?.nickname

@@ -28,7 +28,7 @@ export default function DealingAnimation () {
           const playerIDs = lobby.getPlayerSeatings()
           const dealtPlayerID = playerIDs[playerIndex]
           const card = cards.pop()
-          lobby.amIHost() && await lobby.dealPlayerCard(playerIndex, card)
+          lobby.amIHost() && lobby.dealPlayerCard(playerIndex, card)
           const { dealingPos: { x, y } } = dealtPlayerID ? lobby.getPlayerPositions(dealtPlayerID) : {}
           await controls.start({ opacity: [0, 1, 0], x, y, transition: { duration: 0.3 } })
           await controls.start({ opacity: 0, x: 0, y: 0 })
@@ -43,7 +43,7 @@ export default function DealingAnimation () {
     (async () => {
       if (!lobby.amIHost() && lobby.table.state === 'DEALING' && lobby.table.lastDealtPlayer) {
         const dealtPlayerID = lobby.table.lastDealtPlayer
-        const { dealingPos: { x, y } } = dealtPlayerID ? lobby.getPlayerPositions(dealtPlayerID, true) : {}
+        const { dealingPos: { x, y } } = dealtPlayerID ? lobby.getPlayerPositions(dealtPlayerID) : {}
         await controls.start({ opacity: [0, 1, 0], x, y, transition: { duration: 0.3 } })
         await controls.start({ opacity: 0, x: 0, y: 0 })
       }

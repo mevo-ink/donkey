@@ -106,15 +106,30 @@ export const useLobby = () => {
   }
 
   lobby.getAllPlayersWithCards = () => {
-    return lobby.getAllPlayers().filter(({ playerID }) => lobby.doesPlayerHaveCards(playerID))
+    return lobby.getAllPlayers().filter(lobby.doesPlayerHaveCards)
+  }
+
+  lobby.getNextPlayerIDWithCards = () => {
+    const allPlayers = lobby.getAllPlayers()
+    const currentPlayerIndex = allPlayers.findIndex(player => player.playerID === lobby.table.turn)
+    let nextPlayerIndexIncrement = 1
+    const nextPlayerIndex = (currentPlayerIndex + nextPlayerIndexIncrement) % allPlayers.length
+    let nextPlayer = allPlayers[nextPlayerIndex]
+    while (!lobby.doesPlayerHaveCards(nextPlayer)) {
+      // keep finding the next player with cards
+      nextPlayerIndexIncrement += 1
+      const nextPlayerIndex = (currentPlayerIndex + nextPlayerIndexIncrement) % allPlayers.length
+      nextPlayer = allPlayers[nextPlayerIndex]
+    }
+    return nextPlayer.playerID
   }
 
   lobby.countAllPlayersWithCards = () => {
     return lobby.getAllPlayersWithCards().length
   }
 
-  lobby.doesPlayerHaveCards = (playerID) => {
-    return lobby.getAllCards().some(card => card.playerID === playerID && card.holder === 'PLAYER')
+  lobby.doesPlayerHaveCards = (player) => {
+    return lobby.getAllCards().some(card => card.playerID === player.playerID && card.holder === 'PLAYER')
   }
 
   lobby.countAllPlayers = () => {
@@ -147,9 +162,9 @@ export const useLobby = () => {
     return playerIDs
   }
 
-  lobby.getPlayerPositions = (playerID, normalized = false) => {
+  lobby.getPlayerPositions = (playerID) => {
     // find playerID's idx from seatings
-    const seatings = normalized ? lobby.getPlayerSeatings() : lobby.getSeatingsWRTMyself()
+    const seatings = lobby.getSeatingsWRTMyself()
     const playerIDIdx = seatings.findIndex(ID => ID === playerID)
     const allPlayerSeatings = assignedSeats[lobby.countAllPlayers()]
     const playerSeatingPositionIdx = allPlayerSeatings[playerIDIdx]
@@ -160,12 +175,12 @@ export const useLobby = () => {
   lobby.dealPlayerCard = async (playerIndex, card) => {
     // deal the card to the player sitting at playerIndex position
     const playerID = lobby.getPlayerSeatings()[playerIndex]
+    await database().ref(`${lobby.settings.name}/table/lastDealtPlayer`).set(playerID)
     await database().ref(`${lobby.settings.name}/table/cards/${card.cardID}`).set({
       ...card,
       playerID,
       holder: 'PLAYER'
     })
-    await database().ref(`${lobby.settings.name}/table/lastDealtPlayer`).set(playerID)
     if (card.cardID === '14-of-spades') {
       // set the turn to the player who got Ace of Spades
       await database().ref(`${lobby.settings.name}/table`).update({
@@ -181,19 +196,19 @@ export const useLobby = () => {
   }
 
   lobby.countAllCards = () => {
-    return Object.values(lobby.table.cards || {}).length
+    return lobby.getAllCards().length
   }
 
   lobby.getPlayerCards = (playerID) => {
-    return lobby.getAllCards().filter(card => card.playerID === playerID)
+    return lobby.getAllCards().filter(card => card.playerID === playerID && card.holder === 'PLAYER')
   }
 
   lobby.getMyCards = () => {
-    return lobby.getAllCards().filter(card => card.playerID === myPlayerID)
+    return lobby.getAllCards().filter(card => card.playerID === myPlayerID && card.holder === 'PLAYER')
   }
 
   lobby.countPlayerCards = (playerID) => {
-    return lobby.getPlayerCards().length
+    return lobby.getPlayerCards(playerID).length
   }
 
   lobby.hasDiscard = () => {
@@ -249,8 +264,8 @@ export const useLobby = () => {
     })
   }
 
-  lobby.getHighestPlayerIDFromTableCardsExcludingPlayer = (cuttedPlayerID) => {
-    const card = maxBy(lobby.getTableCards(), (card) => card.playerID === cuttedPlayerID ? 0 : card.number) || {}
+  lobby.getHighestPlayerIDFromTableCardsExcludingPlayer = (cutPlayerID) => {
+    const card = maxBy(lobby.getTableCards(), (card) => card.playerID === cutPlayerID ? 0 : card.number) || {}
     return card.playerID
   }
 
@@ -284,8 +299,11 @@ export const useLobby = () => {
 
   lobby.setEndGame = async () => {
     await database().ref(`${lobby.settings.name}`).update({
-      state: 'ENDGAME',
-      donkey: lobby.getAllPlayersWithCards()[0]
+      table: {
+        ...lobby.table,
+        state: 'ENDGAME'
+      },
+      donkey: lobby.getAllPlayersWithCards()[0].playerID
     })
   }
 
@@ -318,132 +336,6 @@ export const useLobby = () => {
   lobby.bot = () => {
     bot(lobby)
   }
-
-
-  // lobby.getPlayerIDsWithCards = () => {
-  //   const playersIDsWithCards = Object.keys(lobby.players).filter(playerID => Object.values(lobby.table?.cards || {}).some(card => card.playerID === playerID))
-  //   const playerIDsInPile = Object.values(lobby.pile || {}).map(({ playerID }) => playerID)
-  //   return [...new Set([...playersIDsWithCards, ...playerIDsInPile])]
-  // }
-
-  // lobby.getPlayers = () => {
-  //   const playerIDsWithCards = lob.getPlayerIDsWithCards()
-  //   return Object.values(lobby.players || {}).map(player => ({ ...player, hasCards: playerIDsWithCards.includes(player.playerID) }))
-  // }
-
-  // lobby.getPlayerAtIdx = (idx) => {
-  //   return Object.values(lobby.players || {})[idx]
-  // }
-
-  // lobby.getNextPlayerInTurn = () => {
-  //   return Object.keys(lobby.players)[0]
-  // }
-
-  // lobby.getPileCards = () => {
-  //   return Object.values(lobby.table.pile || {})
-  // }
-
-  // lobby.isPileFull = () => {
-  //   return Object.values(lobby.table.pile || {}).length === lobby.getPlayerIDsWithCards().length
-  // }
-
-  // lobby.emptyDiscard = () => {
-  //   lobby.table.discard = null
-  // }
-
-  // lobby.discardPile = () => {
-  //   lobby.table.discard = { ...lobby.table.discard, ...lobby.table.pile }
-  //   lobby.table.pile = null
-  // }
-
-  // lobby.getHighestPlayerIDFromPile = () => {
-  //   const card = maxBy(Object.values(lobby.table.pile || {}), 'number') || {}
-  //   return card.playerID
-  // }
-
-
-
-  // lobby.addCardToTablePile = (card) => {
-  //   if (!lobby.table.pile) lobby.table.pile = {}
-  //   lobby.table.pile[card.cardID] = { ...card }
-  // }
-
-  // lobby.movePileCardsToPlayer = (playerID) => {
-  //   for (const card of Object.values(lobby.table.pile)) {
-  //     lobby.table.cards[card.cardID] = {
-  //       ...lobby.table.cards[card.cardID],
-  //       playerID
-  //     }
-  //   }
-  //   lobby.table.pile = null
-  // }
-
-  // lobby.addCardToPlayer = (card, playerID) => {
-  //   lobby.table.cards = {
-  //     ...lobby.table.cards,
-  //     [card.cardID]: {
-  //       ...lobby.table.cards[card.cardID],
-  //       playerID
-  //     }
-  //   }
-  // }
-
-  // lobby.removeCardFromPlayer = (card) => {
-  //   lobby.table.cards[card.cardID] = {
-  //     ...lobby.table.cards[card.cardID],
-  //     playerID: null
-  //   }
-  // }
-
-
-
-  // lobby.getHost = () => {
-  //   return lobby.players[lobby.host]
-  // }
-
-
-
-
-
-
-  // lobby.setPlayerPositions = (playerID, positions) => {
-  //   lobby.players[playerID].positions = positions
-  // }
-
-  // lobby.getSeatingPositions = () => {
-  //   const seatings = {
-  //     1: [0],
-  //     2: [0, 6],
-  //     3: [0, 3, 9],
-  //     4: [0, 3, 6, 9],
-  //     5: [0, 3, 6, 8, 10],
-  //     6: [0, 2, 4, 6, 8, 10],
-  //     7: [0, 2, 4, 6, 8, 9, 10],
-  //     8: [0, 2, 3, 4, 6, 8, 9, 10],
-  //     9: [0, 1, 2, 3, 4, 6, 8, 9, 10],
-  //     10: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10],
-  //     11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  //     12: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-  //   }[lobby.getPlayers().length]
-
-  //   const seatings = [
-  //     [{ bottom: '-23.5px' }, { top: '361.5px' }, { x: 0, y: 230 }],
-  //     [{ left: '0px', bottom: '25px' }, { left: '40px', top: '330px' }, { x: -90, y: 185 }],
-  //     [{ left: '-22.75px', bottom: '115px' }, { left: '35px', top: '260px' }, { x: -115, y: 100 }],
-  //     [{ left: '-22.75px', bottom: '204px' }, { left: '35px', top: '190px' }, { x: -115, y: -0 }],
-  //     [{ left: '-22.75px', bottom: '293px' }, { left: '35px', top: '120px' }, { x: -115, y: -100 }],
-  //     [{ left: '0px', bottom: '383px' }, { left: '40px', top: '50px' }, { x: -90, y: -185 }],
-
-  //     [{ top: '-23.5px' }, { top: '18.5px' }, { x: 0, y: -230 }],
-  //     [{ right: '0px', bottom: '383px' }, { right: '40px', top: '50px' }, { x: 90, y: -185 }],
-  //     [{ right: '-22.75px', bottom: '293px' }, { right: '35px', top: '120px' }, { x: 115, y: -100 }],
-  //     [{ right: '-22.75px', bottom: '204px' }, { right: '35px', top: '190px' }, { x: 115, y: -0 }],
-  //     [{ right: '-22.75px', bottom: '115px' }, { right: '35px', top: '260px' }, { x: 115, y: 100 }],
-  //     [{ right: '0px', bottom: '25px' }, { right: '40px', top: '330px' }, { x: 90, y: 185 }]
-  //   ]
-
-  //   return seatings.filter((_, idx) => arrangements.includes(idx)).map((pos, idx) => ([...pos, lobby.getPlayerAtIdx(idx)]))
-  // }
 
   return lobby
 }

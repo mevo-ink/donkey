@@ -31,6 +31,7 @@ export default function FindLobbies () {
   useEffect(() => {
     database().ref().on('value', async (snapshot) => {
       const lobbies = Object.values(snapshot.val() || {})
+        .filter(lobby => lobby.settings.host.playerID)
       setLobbies(lobbies)
       setIsLoading(false)
     }, setError)

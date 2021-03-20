@@ -5,7 +5,7 @@ const onPlayCard = async (playedCard, lobby) => {
   // disable if currently showing cut animation
   if (lobby.table.gotCut) return false
 
-  // disable if currently showing pile full animation
+  // disable if currently showing tableCardsFull animation
   if (lobby.table.tableCardsFull) return false
 
   // disable if it is not current user's turn
@@ -16,24 +16,21 @@ const onPlayCard = async (playedCard, lobby) => {
 
   if (!canPlay) return false
 
-  // add card to table pile
+  // add card to table cards
   await lobby.addCardToTable(playedCard)
 
   if (canPlay === 'CUT') {
-    // getting max card from pile excluding cutted player (current player)
-    const gotCuttedPlayerID = lobby.getHighestPlayerIDFromTableCardsExcludingPlayer(playedCard.playerID)
+    // getting max card from table cards excluding got cut player (current player)
+    const gotCutPlayerID = lobby.getHighestPlayerIDFromTableCardsExcludingPlayer(playedCard.playerID)
     // update the db to show cut animation
-    await lobby.setCutAnimation(gotCuttedPlayerID, playedCard)
+    await lobby.setCutAnimation(gotCutPlayerID, playedCard)
   } else {
-    if (lobby.isTableCardsFull()) {
+    if (lobby.countAllPlayersWithCards() === lobby.countTableCards() + 1) {
       // update the db to show discard pile
       await lobby.setDiscardAnimation()
     } else {
       // change turn
-      const playerIDsWithCards = lobby.getAllPlayersWithCards().map(({ playerID }) => playerID)
-      const currentPlayerIndex = playerIDsWithCards.findIndex(playerID => playerID === playedCard.playerID)
-      const nextPlayerIndex = (currentPlayerIndex + 1) % playerIDsWithCards.length
-      const nextPlayerID = playerIDsWithCards[nextPlayerIndex]
+      const nextPlayerID = lobby.getNextPlayerIDWithCards()
       await lobby.changeTurn(nextPlayerID)
       // check for winning condition
       // we skip winning check if this turn was cut because we check winning condition after cut animation
