@@ -3,8 +3,8 @@ import { useLobby } from 'context/LobbyContext'
 import { Flex } from '@chakra-ui/react'
 
 import Avatar from 'components/Player/Avatar'
-import HourGlass from 'components/Player/HourGlass'
 import Nickname from 'components/Player/Nickname'
+import HourGlass from 'components/Player/HourGlass'
 import TableCard from 'components/Player/TableCard'
 
 import { motion } from 'framer-motion'
@@ -33,8 +33,12 @@ export default function Players () {
           {lobby.table.state === 'GAME' && !lobby.gotCut && !lobby.tableCardsFull && (
             <HourGlass playerID={player.playerID} position={avatarPos} />
           )}
-          <Avatar player={player} position={avatarPos} />
-          <Nickname playerID={player.playerID} position={avatarPos} />
+          {!lobby.table.gotCut && (
+            <>
+              <Avatar player={player} position={avatarPos} />
+              <Nickname playerID={player.playerID} position={avatarPos} />
+            </>
+          )}
         </MotionFlex>
       )
     })

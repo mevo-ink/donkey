@@ -83,7 +83,7 @@ export const useLobby = () => {
   }
 
   lobby.findNewHost = () => {
-    const currentHostID = lobby.getHost()
+    const currentHostID = lobby.getHost().playerID
     return lobby.getAllPlayers().find(({ playerID, lastOnline }) => playerID !== currentHostID && !lastOnline)
   }
 

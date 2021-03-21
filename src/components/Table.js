@@ -73,6 +73,7 @@ export default function Table () {
     - Poor image quality on chrome because using scale
   - SHOW 1 2 3 BADGES
   -  CUT ANIMATION
+    - SCALE GOT CUT AND CUT PLAYER WHEN ANIMATING
     - REFACTOR CUT ANIMATION WITH MOTION CONTROLS
   - Optimize images
 */

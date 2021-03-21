@@ -12,7 +12,7 @@ export default function LobbyHostOffline () {
   useEffect(() => {
     const timeout = setTimeout(async () => {
       // choose a random online player - excluding the current GAME host
-      const playerID = lobby.findNewHost()
+      const playerID = lobby.findNewHost().playerID
       if (playerID) {
         await lobby.setNewHost(playerID)
       }

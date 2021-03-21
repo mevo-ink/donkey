@@ -2,11 +2,15 @@ import { Image } from '@chakra-ui/react'
 
 import botImage from 'images/bot.png'
 
-export default function Avatar ({ player, position }) {
+import { motion } from 'framer-motion'
+
+const MotionImage = motion(Image)
+
+export default function Avatar ({ player, position, ...rest }) {
   return (
     <>
       {player.lastOnline && (
-        <Image
+        <MotionImage
           width='32px'
           maxW='unset'
           objectFit='contain'
@@ -14,10 +18,11 @@ export default function Avatar ({ player, position }) {
           borderRadius='50%'
           position='absolute'
           {...position}
+          {...rest}
         />
       )}
       {!player.lastOnline && (
-        <Image
+        <MotionImage
           src={player.avatar}
           w='32px'
           h='31px'
@@ -25,6 +30,7 @@ export default function Avatar ({ player, position }) {
           opacity={player.lastOnline ? '0' : '1'}
           position='absolute'
           {...position}
+          {...rest}
         />
       )}
     </>
