@@ -36,6 +36,7 @@ export default function useServiceWorker () {
         render: () => (
           <Box p={3} textAlign='center' borderRadius='xl' bg='white'>
             <Text fontWeight='bold' mb={2}>A new version has been released</Text>
+            <Text fontWeight='bold' fontSize='sm' my={2}>Version {require('../../package.json').version}</Text>
             <Button colorScheme='teal' size='lg' onClick={updateServiceWorker}>Update</Button>
           </Box>
         ),
