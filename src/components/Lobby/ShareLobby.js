@@ -11,14 +11,13 @@ export default function ShareLobby () {
 
   const toast = useToast()
 
-  const { onCopy } = useClipboard(`${window.location}`)
+  const { onCopy } = useClipboard(window.location.href)
 
   const onShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'Donkey',
-        text: lobby.settings.name,
-        url: `${window.location.href}lobbies/${lobby.settings.name}`
+        title: `Donkey - ${lobby.settings.name}`,
+        url: window.location.href
       })
         .then(() => console.log('Successful share'))
         .catch((error) => console.log('Error sharing', error))
