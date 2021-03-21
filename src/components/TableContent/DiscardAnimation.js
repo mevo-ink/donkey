@@ -22,12 +22,10 @@ export default function DiscardPileAnimation () {
       await Promise.all([
         flipControls.start({
           rotateY: -180,
-          opacity: 0,
           transition: { delay: 0.5, duration: 0.8 }
         }),
         discardControls.start({
           rotateY: 0,
-          opacity: 1,
           transition: { delay: 0.5, duration: 0.8 }
         })
       ])
@@ -38,7 +36,7 @@ export default function DiscardPileAnimation () {
         left: '87.5px',
         right: '87.5px',
         scale: [1, 0.5],
-        transition: { duration: 1.5 }
+        transition: { duration: 1 }
       })
       // update state
       await lobby.onDiscardAnimationEnd()
@@ -57,7 +55,11 @@ export default function DiscardPileAnimation () {
             width='40px'
             objectFit='contain'
             position='absolute'
-            initial={{ ...cardPos, rotateY: -180, opacity: 0 }}
+            sx={{
+              webkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden'
+            }}
+            initial={{ ...cardPos, rotateY: -180 }}
             animate={discardControls}
           />
           <MotionImage
@@ -65,7 +67,11 @@ export default function DiscardPileAnimation () {
             width='40px'
             objectFit='contain'
             position='absolute'
-            initial={{ ...cardPos, rotateY: 0 }}
+            sx={{
+              webkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden'
+            }}
+            initial={{ ...cardPos }}
             animate={flipControls}
           />
         </Fragment>
