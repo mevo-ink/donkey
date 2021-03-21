@@ -47,6 +47,7 @@ export default function PreLobbyHost () {
         borderRadius='25px'
         _active={{ bg: '' }}
         _hover={{ bg: '' }}
+        isDisabled={playersCount < 2}
         onClick={onStartGame}
       >
         Start Game
