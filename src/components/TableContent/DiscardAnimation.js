@@ -22,11 +22,11 @@ export default function DiscardPileAnimation () {
       await Promise.all([
         flipControls.start({
           rotateY: -180,
-          transition: { delay: 0.5, duration: 0.8 }
+          transition: { delay: 1, duration: 0.8 }
         }),
         discardControls.start({
           rotateY: 0,
-          transition: { delay: 0.5, duration: 0.8 }
+          transition: { delay: 1, duration: 0.8 }
         })
       ])
       // perform discard animation
