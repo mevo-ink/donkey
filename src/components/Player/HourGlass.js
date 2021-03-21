@@ -16,11 +16,11 @@ export default function HourGlass ({ playerID, position }) {
           if (!lobby.isPlayerOnline(lobby.table.turn) && lobby.table.time > 2) {
             // play bot after 2 secs delay if player is offline
             clearInterval(timer.current)
-            lobby.bot()
+            // lobby.bot()
           } else if (lobby.table.time >= lobby.settings.timeLimit) {
             // player ran out of time; make bot play a card
             clearInterval(timer.current)
-            lobby.bot()
+            // lobby.bot()
           } else {
             lobby.incrementTime()
           }

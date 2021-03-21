@@ -61,6 +61,7 @@ export default function MyHand () {
                   width={{ base: '50px', ipad: '80px' }}
                   maxW='1000px'
                   filter='drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))'
+                  cursor='pointer'
                   onClick={() => lobby.playCard(card)}
                 />
               </Box>

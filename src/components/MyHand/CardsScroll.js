@@ -32,9 +32,9 @@ export default function CardsScroll ({ children, myCardsRef }) {
       width='100vw'
       h={{ base: '75px', ipad: '120px' }}
       alignItems='center'
+      justifyContent='center'
       position='absolute'
       bottom='0px'
-      cursor='pointer'
       color='white'
       outline='none'
       border='none'
@@ -44,17 +44,16 @@ export default function CardsScroll ({ children, myCardsRef }) {
         ref={buttonLeft}
         display='none'
         as={Flex}
-        justifyContent='center'
-        alignItems='center'
-        transition='all 0.4s ease-in-out'
-        h={{ base: '40px', ipad: '120px' }}
-        mt='-10px'
         zIndex='1'
         borderRadius='50%'
         p='0px'
+        mt={{ ipad: '35px' }}
         backgroundColor='rgba(0, 0, 0, 0.8)'
         position='absolute'
-        left='0'
+        left='1'
+        cursor='pointer'
+        _active={{ bg: '' }}
+        _hover={{ bg: '' }}
         onClick={() => sideScroll(myCardsRef.current, 'left', 1, 100, 1)}
       >
         <BsFillCaretLeftFill />
@@ -63,19 +62,17 @@ export default function CardsScroll ({ children, myCardsRef }) {
       <Button
         ref={buttonRight}
         as={Flex}
-        justifyContent='center'
-        alignItems='center'
-        transition='all 0.4s ease-in-out'
-        h={{ base: '40px', ipad: '40px' }}
-        mt='-10px'
+        h='40px'
         zIndex='1'
         borderRadius='50%'
         p='0px'
-        ml='10px'
+        mt={{ ipad: '35px' }}
         backgroundColor='rgba(0, 0, 0, 0.8)'
         position='absolute'
-        right='0'
-        textAlign='center'
+        right='1'
+        cursor='pointer'
+        _active={{ bg: '' }}
+        _hover={{ bg: '' }}
         onClick={() => sideScroll(myCardsRef.current, 'right', 1, 100, 1)}
       >
         <BsFillCaretRightFill />

@@ -23,12 +23,12 @@ export default function DiscardPileAnimation () {
         flipControls.start({
           rotateY: -180,
           opacity: 0,
-          transition: { delay: 1, duration: 2 }
+          transition: { delay: 0.5, duration: 0.8 }
         }),
         discardControls.start({
           rotateY: 0,
           opacity: 1,
-          transition: { delay: 1, duration: 2 }
+          transition: { delay: 0.5, duration: 0.8 }
         })
       ])
       // perform discard animation
@@ -37,8 +37,8 @@ export default function DiscardPileAnimation () {
         bottom: '190px',
         left: '87.5px',
         right: '87.5px',
-        scale: [1, 0.7],
-        transition: { duration: 3 }
+        scale: [1, 0.5],
+        transition: { duration: 1.5 }
       })
       // update state
       await lobby.onDiscardAnimationEnd()
