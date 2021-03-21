@@ -10,6 +10,8 @@ import {
 
 import CardsScroll from 'components/MyHand/CardsScroll'
 
+import hideScrollBar from 'utils/hideScrollbar'
+
 export default function MyHand () {
   const lobby = useLobby()
 
@@ -22,26 +24,21 @@ export default function MyHand () {
       <Flex
         w='100%'
         h={{ base: '100px', ipad: '110px' }}
-        wrap='wrap'
+        // wrap='wrap'
         position='absolute'
         bottom={0}
         overflowX='scroll'
         overflowY='hidden'
-        sx={{
-          '::-webkit-scrollbar': {
-            display: 'none'
-          },
-          /* Works on Firefox */
-          '&': {
-            scrollbarWidth: 'none'
-          }
-        }}
+        // justifyContent='center'
+        sx={hideScrollBar}
         ref={myCardsRef}
       >
         <Flex
           width='100%'
-          position='absolute'
+          // justifyContent='center'
+          // position='absolute'
           justifyContent='center'
+          // mx='auto'
         >
           {myCards.map((card, idx) => {
             return (

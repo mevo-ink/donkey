@@ -3,7 +3,7 @@ import { useLobby } from 'context/LobbyContext'
 import { Flex, useBreakpointValue } from '@chakra-ui/react'
 
 import Players from 'components/Players'
-import CutAnimation from 'components/TableContent/CutAnimation'
+import DiscardCutAnimation from 'components/TableContent/DiscardCutAnimation'
 import PreLobbyHost from 'components/TableContent/PreLobbyHost'
 import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
 import DealingAnimation from 'components/TableContent/DealingAnimation'
@@ -58,7 +58,7 @@ export default function Table () {
           {lobby.isHostOnline() && lobby.table.state === 'DEALING' && <DealingAnimation />}
           {lobby.isHostOnline() && lobby.table.state === 'GAME' && lobby.hasDiscard() && <DiscardPile />}
           {lobby.isHostOnline() && lobby.table.tableCardsFull && !lobby.gotCut && <DiscardAnimation />}
-          {lobby.isHostOnline() && lobby.table.gotCut && <CutAnimation />}
+          {lobby.isHostOnline() && lobby.table.gotCut && <DiscardCutAnimation />}
           {lobby.isHostOnline() && lobby.table.donkey && <EndGameAnimation />}
         </Flex>
         <Players />
@@ -70,11 +70,9 @@ export default function Table () {
 /*
   TODO LIST:
   - BUG
-    - Fix My hand cards (Fixed?)
     - Poor image quality on chrome because using scale
   - SHOW 1 2 3 BADGES
   -  CUT ANIMATION
     - REFACTOR CUT ANIMATION WITH MOTION CONTROLS
-    - MAKE TABLE CARDS TRANSITION TO GOT CUT PLAYER's TABLE CARD
   - Optimize images
 */

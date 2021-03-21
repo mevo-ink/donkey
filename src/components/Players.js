@@ -27,7 +27,7 @@ export default function Players () {
           initial={{ scale: 0 }}
           animate={{ scale: 1, transition: { delay: 0.8, duration: 0.5 } }}
         >
-          {lobby.table.state === 'GAME' && !lobby.table.tableCardsFull && (
+          {lobby.table.state === 'GAME' && !lobby.table.tableCardsFull && !lobby.table.gotCut && (
             <TableCard playerID={player.playerID} position={cardPos} />
           )}
           {lobby.table.state === 'GAME' && !lobby.gotCut && !lobby.tableCardsFull && (

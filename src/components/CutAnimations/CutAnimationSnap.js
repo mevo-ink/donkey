@@ -10,7 +10,7 @@ import thanosSnap from 'images/thanosSnap.gif'
 import { motion } from 'framer-motion'
 const MotionImage = motion(Image)
 
-export default function CutAnimationSnap () {
+export default function CutAnimationSnap ({ onFinish }) {
   const lobby = useLobby()
 
   const cutPlayerPos = lobby.getPlayerPositions(lobby.table.turn)
@@ -20,7 +20,8 @@ export default function CutAnimationSnap () {
 
   useEffect(() => {
     setTimeout(async () => {
-      await lobby.onCutAnimationEnd()
+      onFinish()
+      // await lobby.onCutAnimationEnd()
     }, 8000) // eslint-disable-next-line
   }, [])
 

@@ -16,7 +16,7 @@ const MotionBox = motion(Box)
 const MotionFlex = motion(Flex)
 const MotionImage = motion(Image)
 
-export default function CutAnimationSword () {
+export default function CutAnimationSword ({ onFinish }) {
   const lobby = useLobby()
 
   const cutPlayer = lobby.getPlayer(lobby.table.turn)
@@ -25,7 +25,7 @@ export default function CutAnimationSword () {
 
   useEffect(() => {
     setTimeout(async () => {
-      await lobby.onCutAnimationEnd()
+      onFinish()
     }, 8000) // eslint-disable-next-line
   }, [])
 

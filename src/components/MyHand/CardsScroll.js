@@ -1,24 +1,62 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
-import { Button, Flex } from '@chakra-ui/react'
+import useCurrentWidth from 'hooks/useCurrentWidth'
 
-import { BsFillCaretRightFill, BsFillCaretLeftFill } from 'react-icons/bs'
+import {
+  Flex,
+  IconButton
+} from '@chakra-ui/react'
+
+import {
+  BsFillCaretRightFill,
+  BsFillCaretLeftFill
+} from 'react-icons/bs'
+
+const ScrollButton = ({ btnRef, onClick, icon: Icon, ...rest }) => {
+  return (
+    <IconButton
+      ref={btnRef}
+      onClick={onClick}
+      icon={<Icon />}
+      as={Flex}
+      zIndex='1'
+      borderRadius='50%'
+      p='0px'
+      h='40px'
+      mt={{ ipad: '35px' }}
+      backgroundColor='rgba(0, 0, 0, 0.8)'
+      position='absolute'
+      cursor='pointer'
+      _active={{ bg: '' }}
+      _hover={{ bg: '' }}
+      {...rest}
+    />
+  )
+}
 
 export default function CardsScroll ({ children, myCardsRef }) {
-  const buttonLeft = useRef()
-  const buttonRight = useRef()
+  const leftScrollBtnRef = useRef()
+  const rightScrollBtnRef = useRef()
+
+  const [showScroll, setShowScroll] = useState(false)
+
+  const width = useCurrentWidth()
+
+  useEffect(() => {
+    setShowScroll(myCardsRef.current.scrollWidth > width) // eslint-disable-next-line
+  }, [myCardsRef.current, width])
 
   function sideScroll (element, direction, speed, distance, step) {
     let scrollAmount = 0
     const slideTimer = setInterval(function () {
       if (direction === 'left') {
         element.scrollLeft -= step
-        buttonLeft.current.style.display = 'none'
-        buttonRight.current.style.display = 'flex'
+        leftScrollBtnRef.current.style.display = 'none'
+        rightScrollBtnRef.current.style.display = 'flex'
       } else {
         element.scrollLeft += step
-        buttonRight.current.style.display = 'none'
-        buttonLeft.current.style.display = 'flex'
+        rightScrollBtnRef.current.style.display = 'none'
+        leftScrollBtnRef.current.style.display = 'flex'
       }
       scrollAmount += step
       if (scrollAmount >= distance) {
@@ -29,7 +67,7 @@ export default function CardsScroll ({ children, myCardsRef }) {
 
   return (
     <Flex
-      width='100vw'
+      width='100%'
       h={{ base: '75px', ipad: '120px' }}
       alignItems='center'
       justifyContent='center'
@@ -40,43 +78,24 @@ export default function CardsScroll ({ children, myCardsRef }) {
       border='none'
       fontSize='20px'
     >
-      <Button
-        ref={buttonLeft}
-        display='none'
-        as={Flex}
-        zIndex='1'
-        borderRadius='50%'
-        p='0px'
-        mt={{ ipad: '35px' }}
-        backgroundColor='rgba(0, 0, 0, 0.8)'
-        position='absolute'
-        left='1'
-        cursor='pointer'
-        _active={{ bg: '' }}
-        _hover={{ bg: '' }}
-        onClick={() => sideScroll(myCardsRef.current, 'left', 1, 100, 1)}
-      >
-        <BsFillCaretLeftFill />
-      </Button>
+      {showScroll && (
+        <ScrollButton
+          btnRef={leftScrollBtnRef}
+          onClick={() => sideScroll(myCardsRef.current, 'left', 1, 100, 1)}
+          icon={BsFillCaretLeftFill}
+          left={1}
+          display='none'
+        />
+      )}
       {children}
-      <Button
-        ref={buttonRight}
-        as={Flex}
-        h='40px'
-        zIndex='1'
-        borderRadius='50%'
-        p='0px'
-        mt={{ ipad: '35px' }}
-        backgroundColor='rgba(0, 0, 0, 0.8)'
-        position='absolute'
-        right='1'
-        cursor='pointer'
-        _active={{ bg: '' }}
-        _hover={{ bg: '' }}
-        onClick={() => sideScroll(myCardsRef.current, 'right', 1, 100, 1)}
-      >
-        <BsFillCaretRightFill />
-      </Button>
+      {showScroll && (
+        <ScrollButton
+          btnRef={rightScrollBtnRef}
+          onClick={() => sideScroll(myCardsRef.current, 'right', 1, 100, 1)}
+          icon={BsFillCaretRightFill}
+          right={1}
+        />
+      )}
     </Flex>
   )
 }

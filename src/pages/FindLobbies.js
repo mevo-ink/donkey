@@ -2,6 +2,8 @@ import { useRef, useEffect, useState } from 'react'
 
 import { useTitle } from 'hookrouter'
 
+import database from 'utils/firebase'
+
 import {
   Box,
   Text,
@@ -11,12 +13,10 @@ import {
 } from '@chakra-ui/react'
 
 import Error from 'components/Error'
-
+import Loading from 'components/Loading'
 import LobbyInfo from 'components/FindLobbies/LobbyInfo'
 
-import Loading from 'components/Loading'
-
-import database from 'utils/firebase'
+import hideScrollBar from 'utils/hideScrollbar'
 
 export default function FindLobbies () {
   useTitle('Find Lobbies')
@@ -64,16 +64,7 @@ export default function FindLobbies () {
         spacing={4}
         height='395px'
         overflowY='scroll'
-        sx={{
-          /* Works on Chrome, Edge, and Safari */
-          '::-webkit-scrollbar': {
-            display: 'none'
-          },
-          /* Works on Firefox */
-          '&': {
-            scrollbarWidth: 'none'
-          }
-        }}
+        sx={hideScrollBar}
       >
         {lobbies.map(lobby => <LobbyInfo key={lobby.settings.name} lobby={lobby} />)}
         {lobbies.length === 0 && <Text fontSize='lg'>No active lobbies</Text>}
