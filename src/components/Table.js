@@ -69,7 +69,9 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - BUG: Fix My hand cards scroll
+  - BUG
+    - Fix My hand cards (Fixed?)
+    - Poor image quality on chrome because using scale
   - SHOW 1 2 3 BADGES
   -  CUT ANIMATION
     - REFACTOR CUT ANIMATION WITH MOTION CONTROLS
