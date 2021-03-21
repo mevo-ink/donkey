@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 import { useLobby } from 'context/LobbyContext'
 
@@ -17,13 +17,20 @@ export default function Nickname ({ playerID, position }) {
 
   const inputRef = useRef()
 
-  const [value, setValue] = useState(lobby.getPlayer(playerID).nickname)
+  const defaultValue = lobby.getPlayer(playerID).nickname
+  const [value, setValue] = useState(defaultValue)
 
   const [isEditing, setIsEditing] = useState(false)
 
   const onEdit = () => {
     setIsEditing(true)
   }
+
+  useEffect(() => {
+    if (value) {
+      inputRef.current.value = lobby.getPlayer(playerID).nickname
+    } // eslint-disable-next-line
+  }, [defaultValue])
 
   const onChange = (e) => {
     // disallow white spaces
@@ -44,7 +51,7 @@ export default function Nickname ({ playerID, position }) {
     }
   }
 
-  const remainingCards = lobby.countPlayerCards(playerID)
+  const remainingCardsCount = lobby.countPlayerCards(playerID)
 
   return (
     <MotionBox
@@ -85,7 +92,7 @@ export default function Nickname ({ playerID, position }) {
           isDisabled={playerID !== lobby.getMyself().playerID}
           _disabled={{ bg: '' }}
         />
-        {['DEALING', 'GAME', 'ENDGAME'].includes(lobby.table.state) && remainingCards !== 0 && !isEditing && (
+        {['DEALING', 'GAME', 'ENDGAME'].includes(lobby.table.state) && remainingCardsCount !== 0 && !isEditing && (
           <InputRightAddon
             height='18px'
             width='17px'
@@ -100,7 +107,7 @@ export default function Nickname ({ playerID, position }) {
             animate={{ opacity: 1, x: 0, transition: { duration: 0.3 } }}
           >
             <Box textAlign='center' w='17px'>
-              {remainingCards}
+              {remainingCardsCount}
             </Box>
           </InputRightAddon>
         )}
