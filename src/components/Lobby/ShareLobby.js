@@ -14,12 +14,22 @@ export default function ShareLobby () {
   const { onCopy } = useClipboard(`${window.location}`)
 
   const onShare = () => {
-    toast({
-      title: 'Lobby Invite Has Been Copied!',
-      status: 'success',
-      duration: 3000
-    })
-    onCopy()
+    if (navigator.share) {
+      navigator.share({
+        title: 'Donkey',
+        text: lobby.settings.name,
+        url: `${window.location.href}lobbies/${lobby.settings.name}`
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error))
+    } else {
+      onCopy()
+      toast({
+        title: 'Lobby Invite Has Been Copied!',
+        status: 'success',
+        duration: 3000
+      })
+    }
   }
 
   return (
