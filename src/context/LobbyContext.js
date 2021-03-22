@@ -383,6 +383,8 @@ export const useLobby = () => {
 
   lobby.onCutAnimationEnd = async () => {
     if (lobby.amIHost()) {
+      // change turn
+      await lobby.changeTurn(lobby.table.gotCut.playerID)
       // move existing table cards to the player who got cut
       const gutCutPlayerID = lobby.table.gotCut.playerID
       await lobby.moveTableCardsToPlayer(gutCutPlayerID)

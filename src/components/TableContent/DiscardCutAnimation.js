@@ -18,8 +18,6 @@ export default function DiscardCutAnimation () {
   const controls = useAnimation()
   const nextPlayerControls = useAnimation()
 
-  const gutCutPlayerID = lobby.table.gotCut.playerID
-
   const onFinish = async () => {
     const { avatarPos } = lobby.getPlayerPositions(lobby.table.gotCut.playerID)
     await controls.start({
@@ -33,8 +31,6 @@ export default function DiscardCutAnimation () {
       opacity: 1,
       transition: { duration: 1 }
     })
-    // change turn
-    await lobby.changeTurn(gutCutPlayerID)
     // update state
     await lobby.onCutAnimationEnd()
   }

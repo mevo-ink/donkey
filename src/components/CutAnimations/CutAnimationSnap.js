@@ -27,32 +27,22 @@ export default function CutAnimationSnap ({ onFinish }) {
 
   useEffect(() => {
     (async () => {
-      gauntletControls.start({
+      await gauntletControls.start({
         opacity: 1,
         scale: 3.5,
-        transition: { delay: 1.2, duration: 0.4 }
+        transition: { delay: 0.5, duration: 2 }
       })
-      await Promise.all([
-        cutPlayerControls.start({
-          scale: 3,
-          transition: { duration: 1 }
-        }),
-        gotCutPlayerControls.start({
-          scale: 3,
-          transition: { duration: 1 }
-        })
-      ])
       await gotCutPlayerControls.start({
         opacity: 0,
         transition: { duration: 3 }
       })
-      cutPlayerControls.start({
-        scale: 1.5,
-        transition: { duration: 1 }
-      })
-      gauntletControls.start({
+      await gauntletControls.start({
         scale: 1.5,
         opacity: 0,
+        transition: { duration: 1 }
+      })
+      gotCutPlayerControls.start({
+        opacity: 1,
         transition: { duration: 1 }
       })
       onFinish()

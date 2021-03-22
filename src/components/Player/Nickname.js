@@ -61,7 +61,7 @@ export default function Nickname ({ playerID, position }) {
       top={`${parseInt(position.top) - 26}px`}
       bottom={`${parseInt(position.bottom) - 23}px`}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { delay: 2, duration: 0.8 } }}
+      animate={{ opacity: 1, transition: { delay: 1, duration: 0.8 } }}
     >
       <InputGroup alignItems='center'>
         <Input
