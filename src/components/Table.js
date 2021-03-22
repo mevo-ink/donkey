@@ -69,10 +69,11 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - BUG
+  - add listener to make site responsive and add zoom to chrome & scale firefox
+  - BUG:
+    - 2 players situation: when a player put his last card, its discarding, without letting second player to play
+    - DiscardCutAnimation is working only on player who is cutting
     - Poor image quality on chrome because using scale
   - SHOW 1 2 3 BADGES
-  -  CUT ANIMATION
-    - REFACTOR CUT ANIMATION WITH MOTION CONTROLS
   - Optimize images
 */

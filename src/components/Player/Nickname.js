@@ -53,15 +53,17 @@ export default function Nickname ({ playerID, position }) {
 
   const remainingCardsCount = lobby.countPlayerCards(playerID)
 
+  const showCardNum = ['DEALING', 'GAME', 'ENDGAME'].includes(lobby.table.state) && remainingCardsCount !== 0 && !isEditing
+
   return (
     <MotionBox
       position='absolute'
-      left={`${parseInt(position.left) - (['PREGAME', 'ENDGAME'].includes(lobby.table.state) ? 10 : 20)}px`}
-      right={`${parseInt(position.right) - (['PREGAME', 'ENDGAME'].includes(lobby.table.state) ? 10 : 20)}px`}
+      left={`${parseInt(position.left) - (showCardNum ? 10 : 20)}px`}
+      right={`${parseInt(position.right) - (showCardNum ? 10 : 20)}px`}
       top={`${parseInt(position.top) - 26}px`}
       bottom={`${parseInt(position.bottom) - 23}px`}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { delay: 1, duration: 0.8 } }}
+      animate={{ opacity: 1, transition: { delay: 1.5, duration: 0.8 } }}
     >
       <InputGroup alignItems='center'>
         <Input
@@ -92,7 +94,7 @@ export default function Nickname ({ playerID, position }) {
           isDisabled={playerID !== lobby.getMyself().playerID}
           _disabled={{ bg: '' }}
         />
-        {['DEALING', 'GAME', 'ENDGAME'].includes(lobby.table.state) && remainingCardsCount !== 0 && !isEditing && (
+        {showCardNum && (
           <InputRightAddon
             height='18px'
             width='17px'

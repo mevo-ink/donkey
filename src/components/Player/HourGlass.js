@@ -67,7 +67,7 @@ export default function HourGlass ({ playerID, position }) {
       size='33px'
       mb='-2px'
       zIndex='5'
-      thickness='10px'
+      thickness='8px'
     />
   )
 }

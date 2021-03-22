@@ -27,23 +27,26 @@ export default function CutAnimationSnap ({ onFinish }) {
 
   useEffect(() => {
     (async () => {
+      gotCutPlayerControls.start({
+        scale: 1.5,
+        transition: { delay: 0.5, duration: 0.5 }
+      })
+      cutPlayerControls.start({
+        scale: 1.5,
+        transition: { delay: 0.5, duration: 0.5 }
+      })
       await gauntletControls.start({
         opacity: 1,
-        scale: 3.5,
-        transition: { delay: 0.5, duration: 2 }
+        y: 0,
+        transition: { delay: 1.8, duration: 1 }
+      })
+      await gauntletControls.start({
+        opacity: 0,
+        transition: { delay: 0.5, duration: 0.5 }
       })
       await gotCutPlayerControls.start({
         opacity: 0,
-        transition: { duration: 3 }
-      })
-      await gauntletControls.start({
-        scale: 1.5,
-        opacity: 0,
-        transition: { duration: 1 }
-      })
-      gotCutPlayerControls.start({
-        opacity: 1,
-        transition: { duration: 1 }
+        transition: { delay: 0.3, duration: 1.5 }
       })
       onFinish()
     })() // eslint-disable-next-line
@@ -57,8 +60,8 @@ export default function CutAnimationSnap ({ onFinish }) {
         objectFit='contain'
         position='absolute'
         zIndex='10'
+        initial={{ ...cutPlayerPos, opacity: 0, x: -20, y: -18, scale: 2 }}
         animate={gauntletControls}
-        initial={{ ...cutPlayerPos, opacity: 0, x: -30, y: 8 }}
       />
       <Avatar
         player={cutPlayer}

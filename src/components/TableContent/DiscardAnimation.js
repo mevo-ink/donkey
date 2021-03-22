@@ -6,7 +6,7 @@ import { Image } from '@chakra-ui/react'
 
 import cardBack from 'images/cardBack.png'
 
-import NextPlayerIndicator from 'components/Player/NextPlayerIndicator'
+// import NextPlayerIndicator from 'components/Player/NextPlayerIndicator'
 
 import { motion, useAnimation } from 'framer-motion'
 
@@ -61,7 +61,7 @@ export default function DiscardPileAnimation () {
 
   return (
     <>
-      <NextPlayerIndicator controls={nextPlayerControls} />
+      {/* <NextPlayerIndicator controls={nextPlayerControls} /> */}
       {lobby.getTableCards().map(tableCard => {
         const { cardPos } = lobby.getPlayerPositions(tableCard.playerID)
         return (
