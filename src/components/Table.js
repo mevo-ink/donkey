@@ -75,5 +75,6 @@ export default function Table () {
   -  CUT ANIMATION
     - SCALE GOT CUT AND CUT PLAYER WHEN ANIMATING
     - REFACTOR CUT ANIMATION WITH MOTION CONTROLS
+    - TODO: Surface back players before showing next player indicator
   - Optimize images
 */
