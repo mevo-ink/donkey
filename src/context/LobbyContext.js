@@ -383,12 +383,12 @@ export const useLobby = () => {
 
   lobby.onCutAnimationEnd = async () => {
     if (lobby.amIHost()) {
-      const gutCutPlayerID = lobby.table.gotCut.playerID
       // move existing table cards to the player who got cut
+      const gutCutPlayerID = lobby.table.gotCut.playerID
       await lobby.moveTableCardsToPlayer(gutCutPlayerID)
       // change turn
       await lobby.changeTurn(gutCutPlayerID)
-      // update firebase
+      // stop discard cut animation
       await lobby.removeCutAnimation()
       // check for winning condition
       if (lobby.isEndGame()) {

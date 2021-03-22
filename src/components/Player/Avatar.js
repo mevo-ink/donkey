@@ -17,6 +17,7 @@ export default function Avatar ({ player, position, ...rest }) {
           src={botImage}
           borderRadius='50%'
           position='absolute'
+          zIndex='1'
           {...position}
           {...rest}
         />
@@ -29,6 +30,7 @@ export default function Avatar ({ player, position, ...rest }) {
           borderRadius='50%'
           opacity={player.lastOnline ? '0' : '1'}
           position='absolute'
+          zIndex='1'
           {...position}
           {...rest}
         />

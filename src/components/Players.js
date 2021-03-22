@@ -30,7 +30,7 @@ export default function Players () {
           {lobby.table.state === 'GAME' && !lobby.table.tableCardsFull && !lobby.table.gotCut && (
             <TableCard playerID={player.playerID} position={cardPos} />
           )}
-          {lobby.table.state === 'GAME' && !lobby.gotCut && !lobby.tableCardsFull && (
+          {lobby.table.state === 'GAME' && !lobby.table.gotCut && !lobby.table.tableCardsFull && (
             <HourGlass playerID={player.playerID} position={avatarPos} />
           )}
           {!lobby.table.gotCut && (

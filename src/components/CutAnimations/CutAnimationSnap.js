@@ -10,32 +10,12 @@ import thanosSnap from 'images/thanosSnap.gif'
 
 import { motion, useAnimation } from 'framer-motion'
 
-const DustCanvas = motion('canvas')
-
-const variants = {
-  visible: {
-    opacity: 1,
-    transition: { duration: 2000 },
-    filter: 'blur(0)',
-    y: 0,
-    x: 0,
-    rotate: 0
-  },
-  hidden: {
-    opacity: 0,
-    y: (props) => props.y,
-    x: (props) => props.x,
-    rotate: (props) => props.rotate,
-    transition: { duration: 2000 },
-    filter: 'blur(2px)'
-  }
-}
-
 const MotionImage = motion(Image)
 
 export default function CutAnimationSnap ({ onFinish }) {
   const lobby = useLobby()
 
+  const gauntletControls = useAnimation()
   const cutPlayerControls = useAnimation()
   const gotCutPlayerControls = useAnimation()
 
@@ -47,6 +27,11 @@ export default function CutAnimationSnap ({ onFinish }) {
 
   useEffect(() => {
     (async () => {
+      gauntletControls.start({
+        opacity: 1,
+        scale: 3.5,
+        transition: { delay: 1.2, duration: 0.4 }
+      })
       await Promise.all([
         cutPlayerControls.start({
           scale: 3,
@@ -57,8 +42,20 @@ export default function CutAnimationSnap ({ onFinish }) {
           transition: { duration: 1 }
         })
       ])
-      // onFinish()
-      // await lobby.onCutAnimationEnd()
+      await gotCutPlayerControls.start({
+        opacity: 0,
+        transition: { duration: 3 }
+      })
+      cutPlayerControls.start({
+        scale: 1.5,
+        transition: { duration: 1 }
+      })
+      gauntletControls.start({
+        scale: 1.5,
+        opacity: 0,
+        transition: { duration: 1 }
+      })
+      onFinish()
     })() // eslint-disable-next-line
   }, [])
 
@@ -66,22 +63,23 @@ export default function CutAnimationSnap ({ onFinish }) {
     <>
       <MotionImage
         src={thanosSnap}
-        width='16px'
+        width='12px'
         objectFit='contain'
         position='absolute'
         zIndex='10'
-        initial={{ ...cutPlayerPos, opacity: 0, x: -15, y: 8 }}
-        animate={{ opacity: 1, transition: { delay: 0.8, duration: 0.4 } }}
+        animate={gauntletControls}
+        initial={{ ...cutPlayerPos, opacity: 0, x: -30, y: 8 }}
       />
-
-      <Avatar player={cutPlayer} position={cutPlayerPos} animate={cutPlayerControls} />
-      <DustCanvas
-        variants={variants}
-        initial='visible'
-        animate='hidden'
-      >
-        <Avatar player={gotCutPlayer} position={gotCutPlayerPos} animate={gotCutPlayerControls} />
-      </DustCanvas>
+      <Avatar
+        player={cutPlayer}
+        position={cutPlayerPos}
+        animate={cutPlayerControls}
+      />
+      <Avatar
+        player={gotCutPlayer}
+        position={gotCutPlayerPos}
+        animate={gotCutPlayerControls}
+      />
     </>
   )
 }

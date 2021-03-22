@@ -52,7 +52,7 @@ export default function HourGlass ({ playerID, position }) {
     lobby.table.tableCardsFull
   ])
 
-  let value = lobby.table.time / lobby.settings.timeLimit * 100
+  let value = 100 - (lobby.table.time / lobby.settings.timeLimit * 100)
   if (playerID !== lobby.table.turn) value = 0
   if (lobby.table.gotCut) value = 0
   if (lobby.table.tableCardsFull) value = 0
@@ -60,8 +60,8 @@ export default function HourGlass ({ playerID, position }) {
   return (
     <CircularProgress
       value={value}
-      color={lobby.table.time > 15 ? 'red' : lobby.table.time > 10 ? 'orange' : 'lime'}
       trackColor='transparent'
+      color={value > 60 ? 'lime' : value > 30 ? 'orange' : 'red'}
       position='absolute'
       {...position}
       size='33px'
