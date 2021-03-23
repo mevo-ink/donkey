@@ -23,7 +23,8 @@ export default function DiscardCutAnimation () {
     console.log(avatarPos)
     await controls.start({
       ...avatarPos,
-      scale: [1, 0.2],
+      scale: [1, 0],
+      opacity: [1, 0],
       transition: { duration: 0.8 }
     })
     // show next turn animation
