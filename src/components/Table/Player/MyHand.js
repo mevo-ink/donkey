@@ -8,7 +8,7 @@ import {
   Image
 } from '@chakra-ui/react'
 
-import CardsScroll from 'components/MyHand/CardsScroll'
+import CardsScroll from 'components/Table/Player/MyHand/CardsScroll'
 
 import hideScrollBar from 'utils/hideScrollbar'
 

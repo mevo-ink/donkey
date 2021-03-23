@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 
 const MotionImage = motion(Image)
 
-export default function Avatar ({ player, ...rest }) {
+export default function Avatar ({ player }) {
   return (
     <>
       {player.lastOnline && (
@@ -18,7 +18,6 @@ export default function Avatar ({ player, ...rest }) {
           borderRadius='50%'
           position='absolute'
           zIndex='1'
-          {...rest}
         />
       )}
       {!player.lastOnline && (
@@ -30,7 +29,6 @@ export default function Avatar ({ player, ...rest }) {
           opacity={player.lastOnline ? '0' : '1'}
           position='absolute'
           zIndex='1'
-          {...rest}
         />
       )}
     </>

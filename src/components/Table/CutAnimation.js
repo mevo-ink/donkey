@@ -1,4 +1,4 @@
-import CutAnimationSnap from 'components/CutAnimations/CutAnimationSnap'
+import CutAnimationSnap from 'components/Table/CutAnimations/CutAnimationSnap'
 // import CutAnimationSword from 'components/CutAnimations/CutAnimationSword'
 
 // const animations = [

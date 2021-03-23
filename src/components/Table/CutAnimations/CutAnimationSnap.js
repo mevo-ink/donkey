@@ -4,8 +4,6 @@ import { useLobby } from 'context/LobbyContext'
 
 import { Image } from '@chakra-ui/react'
 
-import Avatar from 'components/Player/Avatar'
-
 import thanosSnap from 'images/thanosSnap.gif'
 
 import { motion, useAnimation } from 'framer-motion'
@@ -16,14 +14,9 @@ export default function CutAnimationSnap ({ onFinish }) {
   const lobby = useLobby()
 
   const gauntletControls = useAnimation()
-  const cutPlayerControls = useAnimation()
   const gotCutPlayerControls = useAnimation()
 
-  const cutPlayer = lobby.getPlayer(lobby.table.turn)
   const { avatarPos: cutPlayerPos } = lobby.getPlayerPositions(lobby.table.turn)
-
-  const gotCutPlayer = lobby.getPlayer(lobby.table.gotCut.playerID)
-  const { avatarPos: gotCutPlayerPos } = lobby.getPlayerPositions(lobby.table.gotCut.playerID)
 
   useEffect(() => {
     (async () => {
@@ -62,20 +55,6 @@ export default function CutAnimationSnap ({ onFinish }) {
         zIndex='10'
         initial={{ ...cutPlayerPos, opacity: 0, x: -10, y: -18 }}
         animate={gauntletControls}
-      />
-      <Avatar
-        position='absolute'
-        zIndex='10'
-        player={cutPlayer}
-        {...cutPlayerPos}
-        animate={cutPlayerControls}
-      />
-      <Avatar
-        position='absolute'
-        zIndex='10'
-        player={gotCutPlayer}
-        {...gotCutPlayerPos}
-        animate={gotCutPlayerControls}
       />
     </>
   )

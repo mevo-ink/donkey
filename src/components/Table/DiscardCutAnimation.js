@@ -6,7 +6,7 @@ import { useLobby } from 'context/LobbyContext'
 
 import { Image } from '@chakra-ui/react'
 
-import CutAnimation from 'components/TableContent/CutAnimation'
+import CutAnimation from 'components/Table/CutAnimation'
 
 // import NextPlayerIndicator from 'components/Player/NextPlayerIndicator'
 

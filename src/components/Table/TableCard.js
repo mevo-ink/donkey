@@ -18,6 +18,7 @@ export default function CurrentCard ({ playerID, cardPos }) {
       src={lobby.getPlayerCardFromTableCards(playerID)?.url}
       position='absolute'
       zIndex='1'
+      opacity={lobby.table.tableCardsFull || lobby.table.gotCut ? '0' : '1'}
       {...cardPos}
     />
   )

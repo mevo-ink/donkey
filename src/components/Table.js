@@ -1,16 +1,19 @@
+import { Fragment } from 'react'
+
 import { useLobby } from 'context/LobbyContext'
 
 import { Flex, useBreakpointValue } from '@chakra-ui/react'
 
-import Players from 'components/Players'
-import DiscardCutAnimation from 'components/TableContent/DiscardCutAnimation'
-import PreLobbyHost from 'components/TableContent/PreLobbyHost'
-import PreLobbyGuest from 'components/TableContent/PreLobbyGuest'
-import DealingAnimation from 'components/TableContent/DealingAnimation'
-import LobbyHostOffline from 'components/TableContent/LobbyHostOffline'
-import EndGameAnimation from 'components/TableContent/EndGameAnimation'
-import DiscardPile from 'components/TableContent/DiscardPile'
-import DiscardAnimation from 'components/TableContent/DiscardAnimation'
+import Player from 'components/Table/Player'
+import TableCard from 'components/Table/TableCard'
+import DiscardCutAnimation from 'components/Table/DiscardCutAnimation'
+import PreLobbyHost from 'components/Table/PreLobbyHost'
+import PreLobbyGuest from 'components/Table/PreLobbyGuest'
+import DealingAnimation from 'components/Table/DealingAnimation'
+import LobbyHostOffline from 'components/Table/LobbyHostOffline'
+import EndGameAnimation from 'components/Table/EndGameAnimation'
+import DiscardPile from 'components/Table/DiscardPile'
+import DiscardAnimation from 'components/Table/DiscardAnimation'
 
 import { motion } from 'framer-motion'
 
@@ -61,7 +64,15 @@ export default function Table () {
           {lobby.isHostOnline() && lobby.table.gotCut && <DiscardCutAnimation />}
           {lobby.isHostOnline() && lobby.table.donkey && <EndGameAnimation />}
         </Flex>
-        <Players />
+        {lobby.getAllPlayers().map(player => {
+          const { avatarPos, cardPos } = lobby.getPlayerPositions(player.playerID)
+          return (
+            <Fragment key={player.playerID}>
+              <TableCard key={player.playerID} playerID={player.playerID} cardPos={cardPos} />
+              <Player player={player} avatarPos={avatarPos} />
+            </Fragment>
+          )
+        })}
       </Flex>
     </MotionFlex>
   )
@@ -71,9 +82,7 @@ export default function Table () {
   TODO LIST:
   - add listener to make site responsive and add zoom to chrome & scale firefox
   - BUG:
-    - 2 players situation: when a player put his last card, its discarding, without letting second player to play
     - Poor image quality on chrome because using scale
-    - fix players exit animation (refactor coordinates in LobbyContext)
   - SHOW 1 2 3 BADGES
   - Optimize images
 */
