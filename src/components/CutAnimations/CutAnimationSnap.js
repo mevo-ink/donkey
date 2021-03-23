@@ -27,17 +27,9 @@ export default function CutAnimationSnap ({ onFinish }) {
 
   useEffect(() => {
     (async () => {
-      gotCutPlayerControls.start({
-        scale: 1.5,
-        transition: { delay: 0.5, duration: 0.5 }
-      })
-      cutPlayerControls.start({
-        scale: 1.5,
-        transition: { delay: 0.5, duration: 0.5 }
-      })
       await gauntletControls.start({
         opacity: 1,
-        y: 0,
+        y: 5,
         transition: { delay: 1.8, duration: 1 }
       })
       await gauntletControls.start({
@@ -46,7 +38,15 @@ export default function CutAnimationSnap ({ onFinish }) {
       })
       await gotCutPlayerControls.start({
         opacity: 0,
-        transition: { delay: 0.3, duration: 1.5 }
+        transition: { delay: 0.3, duration: 2.5 }
+      })
+      await gotCutPlayerControls.start({
+        scale: 0
+      })
+      await gotCutPlayerControls.start({
+        scale: 1,
+        opacity: 1,
+        transition: { duration: 0.3 }
       })
       onFinish()
     })() // eslint-disable-next-line
@@ -56,21 +56,25 @@ export default function CutAnimationSnap ({ onFinish }) {
     <>
       <MotionImage
         src={thanosSnap}
-        width='12px'
+        width='20px'
         objectFit='contain'
         position='absolute'
         zIndex='10'
-        initial={{ ...cutPlayerPos, opacity: 0, x: -20, y: -18, scale: 2 }}
+        initial={{ ...cutPlayerPos, opacity: 0, x: -10, y: -18 }}
         animate={gauntletControls}
       />
       <Avatar
+        position='absolute'
+        zIndex='10'
         player={cutPlayer}
-        position={cutPlayerPos}
+        {...cutPlayerPos}
         animate={cutPlayerControls}
       />
       <Avatar
+        position='absolute'
+        zIndex='10'
         player={gotCutPlayer}
-        position={gotCutPlayerPos}
+        {...gotCutPlayerPos}
         animate={gotCutPlayerControls}
       />
     </>

@@ -7,7 +7,7 @@ import Nickname from 'components/Player/Nickname'
 import HourGlass from 'components/Player/HourGlass'
 import TableCard from 'components/Player/TableCard'
 
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
 
 export default function Players () {
@@ -17,27 +17,33 @@ export default function Players () {
     lobby.getAllPlayers().map(player => {
       const { avatarPos, cardPos } = lobby.getPlayerPositions(player.playerID)
       return (
-        <MotionFlex
-          key={player.playerID}
-          justifyContent='center'
-          alignItems='center'
-          position='absolute'
-          w='100%'
-          h='100%'
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, transition: { delay: 0.8, duration: 0.5 } }}
-        >
-          {lobby.table.state === 'GAME' && !lobby.table.tableCardsFull && !lobby.table.gotCut && (
-            <TableCard playerID={player.playerID} position={cardPos} />
-          )}
-          {!lobby.table.gotCut && <Nickname playerID={player.playerID} position={avatarPos} />}
-          {lobby.table.state === 'GAME' && !lobby.table.gotCut && !lobby.table.tableCardsFull && (
-            <HourGlass playerID={player.playerID} position={avatarPos} />
-          )}
+        <AnimatePresence key={player.playerID}>
           {!lobby.table.gotCut && (
-            <Avatar player={player} position={avatarPos} />
+            <>
+              <MotionFlex
+                justifyContent='center'
+                alignItems='center'
+                position='absolute'
+                zIndex='5'
+                w='32px'
+                h='32px'
+                {...avatarPos}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1, transition: { delay: 0.8, duration: 0.5 } }}
+                exit={{ scale: 0, transition: { duration: 0.5 } }}
+              >
+                {!lobby.table.gotCut && <Nickname playerID={player.playerID} isTop={avatarPos.top === '-23.5px'} />}
+                {lobby.table.state === 'GAME' && !lobby.table.tableCardsFull && (
+                  <HourGlass playerID={player.playerID} />
+                )}
+                <Avatar player={player} />
+              </MotionFlex>
+              {lobby.table.state === 'GAME' && !lobby.table.tableCardsFull && (
+                <TableCard playerID={player.playerID} cardPos={cardPos} />
+              )}
+            </>
           )}
-        </MotionFlex>
+        </AnimatePresence>
       )
     })
   )

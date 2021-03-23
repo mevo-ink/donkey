@@ -12,7 +12,7 @@ import {
 import { motion } from 'framer-motion'
 const MotionBox = motion(Box)
 
-export default function Nickname ({ playerID, position }) {
+export default function Nickname ({ playerID, isTop }) {
   const lobby = useLobby()
 
   const inputRef = useRef()
@@ -58,9 +58,7 @@ export default function Nickname ({ playerID, position }) {
   return (
     <MotionBox
       position='absolute'
-      left={`${parseInt(position.left) - (!showCardNum ? 10 : 20)}px`}
-      right={`${parseInt(position.right) - (!showCardNum ? 10 : 20)}px`}
-      top={position.top === '-23.5px' ? `${parseInt(position.top) - 26}px` : `${parseInt(position.top) + 33}px`}
+      top={isTop ? '-26px' : '32px'}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 1.5, duration: 0.8 } }}
     >

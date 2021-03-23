@@ -32,19 +32,19 @@ const assignedSeats = {
 }
 
 const positions = [
-  [{ left: '91.5px', top: '432px' }, { top: '361.5px' }, { x: 0, y: 230 }],
-  [{ left: '-3px', top: '383px' }, { left: '40px', top: '330px' }, { x: -90, y: 185 }],
-  [{ left: '-22.75px', top: '293px' }, { left: '35px', top: '260px' }, { x: -115, y: 100 }],
-  [{ left: '-22.75px', top: '204px' }, { left: '35px', top: '190px' }, { x: -115, y: -0 }],
-  [{ left: '-22.75px', top: '115px' }, { left: '35px', top: '120px' }, { x: -115, y: -100 }],
-  [{ left: '-3px', top: '25px' }, { left: '40px', top: '50px' }, { x: -90, y: -185 }],
+  [{ left: '91.5px', top: '432px' }, { top: '365px' }, { x: 0, y: 230 }],
+  [{ left: '-3px', top: '383px' }, { left: '33px', top: '340px' }, { x: -90, y: 185 }],
+  [{ left: '-22.75px', top: '293px' }, { left: '30px', top: '265px' }, { x: -115, y: 100 }],
+  [{ left: '-22.75px', top: '204px' }, { left: '30px' }, { x: -115, y: -0 }],
+  [{ left: '-22.75px', top: '115px' }, { left: '30px', top: '115px' }, { x: -115, y: -100 }],
+  [{ left: '-3px', top: '25px' }, { left: '33px', top: '40px' }, { x: -90, y: -185 }],
 
-  [{ left: '91.5px', top: '-23.5px' }, { top: '18.5px' }, { x: 0, y: -230 }],
-  [{ left: '186px', top: '25px' }, { right: '40px', top: '50px' }, { x: 90, y: -185 }],
-  [{ left: '205.75px', top: '115px' }, { right: '35px', top: '120px' }, { x: 115, y: -100 }],
-  [{ left: '205.75px', top: '204px' }, { right: '35px', top: '190px' }, { x: 115, y: -0 }],
-  [{ left: '205.75px', top: '293px' }, { right: '35px', top: '260px' }, { x: 115, y: 100 }],
-  [{ left: '186px', top: '383px' }, { right: '40px', top: '330px' }, { x: 90, y: 185 }]
+  [{ left: '91.5px', top: '-23.5px' }, { top: '15px' }, { x: 0, y: -230 }],
+  [{ left: '186px', top: '25px' }, { left: '142px', top: '40px' }, { x: 90, y: -185 }],
+  [{ left: '205.75px', top: '115px' }, { left: '145px', top: '115px' }, { x: 115, y: -100 }],
+  [{ left: '205.75px', top: '204px' }, { left: '145px' }, { x: 115, y: -0 }],
+  [{ left: '205.75px', top: '293px' }, { left: '145px', top: '265px' }, { x: 115, y: 100 }],
+  [{ left: '186px', top: '383px' }, { left: '142px', top: '340px' }, { x: 90, y: 185 }]
 ]
 
 export const LobbyProvider = ({ value, children }) => {

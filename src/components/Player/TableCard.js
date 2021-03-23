@@ -8,9 +8,8 @@ import {
 
 const MotionImage = motion(Image)
 
-export default function CurrentCard ({ playerID, position }) {
+export default function CurrentCard ({ playerID, cardPos }) {
   const lobby = useLobby()
-
   return (
     <MotionImage
       width='40px'
@@ -18,7 +17,8 @@ export default function CurrentCard ({ playerID, position }) {
       objectFit='contain'
       src={lobby.getPlayerCardFromTableCards(playerID)?.url}
       position='absolute'
-      {...position}
+      zIndex='1'
+      {...cardPos}
     />
   )
 }

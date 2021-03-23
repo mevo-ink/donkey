@@ -20,7 +20,7 @@ export default function DiscardCutAnimation () {
 
   const onFinish = async () => {
     const { avatarPos } = lobby.getPlayerPositions(lobby.table.gotCut.playerID)
-    console.log(avatarPos)
+
     await controls.start({
       ...avatarPos,
       scale: [1, 0],
@@ -50,7 +50,7 @@ export default function DiscardCutAnimation () {
           webkitBackfaceVisibility: 'hidden',
           backfaceVisibility: 'hidden'
         }}
-        initial={{ ...cardPos }}
+        {...cardPos}
         animate={controls}
       />
     )

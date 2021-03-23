@@ -14,7 +14,7 @@ export default function DiscardPile () {
       objectFit='contain'
       zIndex='5'
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5 } }}
+      animate={{ opacity: 1, transition: { duration: 0.8 } }}
     />
   )
 }

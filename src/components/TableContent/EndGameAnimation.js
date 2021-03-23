@@ -6,6 +6,9 @@ import { Image, Text, Box, Flex, Button } from '@chakra-ui/react'
 
 import donkeyTemplate from 'images/endgameDonkey.png'
 
+import { motion } from 'framer-motion'
+const MotionBox = motion(Box)
+
 export default function EndGameAnimation () {
   const lobby = useLobby()
 
@@ -20,7 +23,10 @@ export default function EndGameAnimation () {
   }
 
   return (
-    <Box>
+    <MotionBox
+      initial={{ scale: 0, rotate: 360 }}
+      animate={{ scale: 1, rotate: 0, transition: { duration: 0.5 } }}
+    >
       <Box position='relative' h='25px'>
         <Flex
           width='130px'
@@ -111,6 +117,6 @@ export default function EndGameAnimation () {
           ))}
         </Flex>
       )}
-    </Box>
+    </MotionBox>
   )
 }

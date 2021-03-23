@@ -4,7 +4,7 @@ import { useLobby } from 'context/LobbyContext'
 
 import { CircularProgress } from '@chakra-ui/react'
 
-export default function HourGlass ({ playerID, position }) {
+export default function HourGlass ({ playerID }) {
   const timer = useRef()
 
   const lobby = useLobby()
@@ -63,7 +63,6 @@ export default function HourGlass ({ playerID, position }) {
       trackColor='transparent'
       color={value > 60 ? 'lime' : value > 30 ? 'orange' : 'red'}
       position='absolute'
-      {...position}
       size='33px'
       mb='-2px'
       zIndex='5'
