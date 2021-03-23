@@ -367,8 +367,42 @@ export const useLobby = () => {
     bot(lobby)
   }
 
+  lobby.isPlayerAtPodiumPosition = (playerID, position) => {
+    // position = 'first', 'second', 'third'
+    let isInPosition = false
+    if (lobby.table.podium) {
+      isInPosition = Object.values(lobby.table.podium[position]).includes(playerID)
+    }
+    return isInPosition
+  }
+
+  lobby.getPlayerIDsForPodium = () => {
+    return lobby.getTableCards().filter(({ playerID }) => !lobby.doesPlayerHaveCards({ playerID })).map(({ playerID }) => playerID)
+  }
+
+  lobby.addPlayersToPodium = async () => {
+    const playerIDs = lobby.getPlayerIDsForPodium()
+    if (!lobby.table.podium) lobby.table.podium = {}
+    if (!lobby.table.podium.first) {
+      lobby.table.podium.first = [playerIDs]
+      await database().ref(`${lobby.settings.name}/table/podium/first`).set(playerIDs)
+    } else {
+      if (!lobby.table.podium.second) {
+        lobby.table.podium.second = [playerIDs]
+        await database().ref(`${lobby.settings.name}/table/podium/second`).set(playerIDs)
+      } else {
+        if (!lobby.table.podium.third) {
+          lobby.table.podium.third = [playerIDs]
+          await database().ref(`${lobby.settings.name}/table/podium/third`).set(playerIDs)
+        }
+      }
+    }
+  }
+
   lobby.onDiscardAnimationEnd = async () => {
     if (lobby.amIHost()) {
+      // check if current player has finished cards
+      await lobby.addPlayersToPodium()
       // change turn
       await lobby.changeTurn(lobby.getHighestPlayerIDFromTableCards())
       // discard
@@ -384,6 +418,8 @@ export const useLobby = () => {
 
   lobby.onCutAnimationEnd = async () => {
     if (lobby.amIHost()) {
+      // check if current player has finished cards
+      await lobby.addPlayersToPodium()
       // change turn
       await lobby.changeTurn(lobby.table.gotCut.playerID)
       // move existing table cards to the player who got cut

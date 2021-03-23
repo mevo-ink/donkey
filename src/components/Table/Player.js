@@ -34,6 +34,7 @@ export default function Player ({ player, avatarPos }) {
           <HourGlass playerID={player.playerID} />
         )}
         <Avatar player={player} />
+        {lobby.isPlayerAtPodiumPosition(player.playerID, 'first') && <h1>WINNERRRR</h1>}
       </MotionFlex>
     </AnimatePresence>
   )

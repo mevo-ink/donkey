@@ -80,9 +80,8 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - add listener to make site responsive and add zoom to chrome & scale firefox
-  - BUG:
-    - Poor image quality on chrome because using scale
-  - SHOW 1 2 3 BADGES
+  - STYLE PWA FORCE INSTALL DIALOG
+  - SHOW 1 2 3 BADGES - add state
   - Optimize images
+  - Zoom & Scale
 */
