@@ -80,7 +80,6 @@ export default function Table () {
 
 /*
   TODO LIST:
-  - STYLE PWA FORCE INSTALL DIALOG
   - SHOW 1 2 3 BADGES - add state
   - Optimize images
   - Zoom & Scale

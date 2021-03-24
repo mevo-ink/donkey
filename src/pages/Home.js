@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 
 export default function Home () {
-  useTitle('Kazhudai')
+  useTitle('Donkey')
 
   useEffect(() => {
     // clean the url

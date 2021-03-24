@@ -42,7 +42,7 @@ export default function Background ({ children, noText }) {
               lineHeight='48px'
               mt='23px'
             >
-              Kazhudai
+              Donkey
             </Text>
             <Text
               fontSize='14px'
