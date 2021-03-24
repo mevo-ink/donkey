@@ -67,7 +67,7 @@ export default function Nickname ({ playerID, isTop }) {
           ref={inputRef}
           value={value}
           width='9ch'
-          height='18px'
+          height='20px'
           minWidth='0px'
           minHeight='0px'
           display='grid'
@@ -89,10 +89,7 @@ export default function Nickname ({ playerID, isTop }) {
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           isDisabled={playerID !== lobby.getMyself().playerID}
-          _disabled={{
-            bg: 'linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)',
-            color: 'black'
-          }}
+          _disabled={{ opacity: '1' }}
         />
         {showCardNum && (
           <InputRightAddon
