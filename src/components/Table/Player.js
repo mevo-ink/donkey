@@ -5,9 +5,9 @@ import { Flex } from '@chakra-ui/react'
 import Avatar from 'components/Table/Player/Avatar'
 import Nickname from 'components/Table/Player/Nickname'
 import HourGlass from 'components/Table/Player/HourGlass'
+import Podium from 'components/Table/Player/Podium'
 
 import { AnimatePresence, motion } from 'framer-motion'
-
 const MotionFlex = motion(Flex)
 
 export default function Player ({ player, avatarPos }) {
@@ -34,7 +34,9 @@ export default function Player ({ player, avatarPos }) {
           <HourGlass playerID={player.playerID} />
         )}
         <Avatar player={player} />
-        {lobby.isPlayerAtPodiumPosition(player.playerID, 'first') && <h1>WINNERRRR</h1>}
+        {['first', 'second', 'third'].map(pos => (
+          lobby.isPlayerAtPodiumPosition(player.playerID, pos) && <Podium position={pos} />
+        ))}
       </MotionFlex>
     </AnimatePresence>
   )

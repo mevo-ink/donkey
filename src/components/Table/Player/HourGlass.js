@@ -13,7 +13,7 @@ export default function HourGlass ({ playerID }) {
     if (lobby.amIHost() && lobby.table.state === 'GAME' && lobby.table.turn === playerID) {
       timer.current = setInterval(() => {
         if (lobby.isHostOnline()) {
-          if (!lobby.isPlayerOnline(lobby.table.turn) && lobby.table.time > 2) {
+          if (!lobby.isPlayerOnline(lobby.table.turn) && lobby.table.time > 1) {
             // play bot after 2 secs delay if player is offline
             clearInterval(timer.current)
             lobby.bot()

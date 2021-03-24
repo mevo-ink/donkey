@@ -77,10 +77,3 @@ export default function Table () {
     </MotionFlex>
   )
 }
-
-/*
-  TODO LIST:
-  - SHOW 1 2 3 BADGES - add state
-  - Optimize images
-  - Zoom & Scale
-*/
