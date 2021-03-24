@@ -12,7 +12,7 @@ export default function Loading ({ marginTop }) {
   return (
     <Grid
       w='100vw'
-      h='100vh'
+      h='100%'
       placeItems='center'
     >
       <MotionImage

@@ -13,13 +13,13 @@ let theme = extendTheme({
   styles: {
     global: {
       html: {
-        background: 'linear-gradient(180deg, rgba(54, 60, 105, 1) 0%, #222646 100%)',
+        background: 'linear-gradient(180deg, rgba(54, 60, 105, 1) 100%, #222646 100%)',
         width: '100vw',
         height: '-webkit-fill-available',
         overflow: 'hidden'
       },
       body: {
-        background: 'linear-gradient(180deg, rgba(54, 60, 105, 1) 0%, #222646 100%)',
+        background: 'linear-gradient(180deg, rgba(54, 60, 105, 1) 100%, #222646 100%)',
         width: '100vw',
         height: '75vh',
         minHeight: '-webkit-fill-available',
