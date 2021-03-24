@@ -40,6 +40,7 @@ export default function MaxPlayersPopover ({ children }) {
               p='0px 5px'
               _active={{ bg: '' }}
               _hover={{ bg: '' }}
+              isDisabled={playersCount === 12}
             >
               {`${playersCount} / ${lobby.settings.maxPlayers}`}
             </Button>
