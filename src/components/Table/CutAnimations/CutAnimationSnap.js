@@ -14,7 +14,6 @@ export default function CutAnimationSnap ({ onFinish }) {
   const lobby = useLobby()
 
   const gauntletControls = useAnimation()
-  const gotCutPlayerControls = useAnimation()
 
   const { avatarPos: cutPlayerPos } = lobby.getPlayerPositions(lobby.table.turn)
 
@@ -23,39 +22,25 @@ export default function CutAnimationSnap ({ onFinish }) {
       await gauntletControls.start({
         opacity: 1,
         y: 5,
-        transition: { delay: 1.8, duration: 1 }
+        transition: { delay: 1.5, duration: 1 }
       })
       await gauntletControls.start({
         opacity: 0,
         transition: { delay: 0.5, duration: 0.5 }
       })
-      await gotCutPlayerControls.start({
-        opacity: 0,
-        transition: { delay: 0.3, duration: 2.5 }
-      })
-      await gotCutPlayerControls.start({
-        scale: 0
-      })
-      await gotCutPlayerControls.start({
-        scale: 1,
-        opacity: 1,
-        transition: { duration: 0.3 }
-      })
-      onFinish()
+      lobby.endSnapAnimation()
     })() // eslint-disable-next-line
   }, [])
 
   return (
-    <>
-      <MotionImage
-        src={thanosSnap}
-        width='20px'
-        objectFit='contain'
-        position='absolute'
-        zIndex='10'
-        initial={{ ...cutPlayerPos, opacity: 0, x: -10, y: -18 }}
-        animate={gauntletControls}
-      />
-    </>
+    <MotionImage
+      src={thanosSnap}
+      width='20px'
+      objectFit='contain'
+      position='absolute'
+      zIndex='10'
+      initial={{ ...cutPlayerPos, opacity: 0, x: -10, y: -18 }}
+      animate={gauntletControls}
+    />
   )
 }

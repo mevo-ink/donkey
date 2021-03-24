@@ -436,5 +436,29 @@ export const useLobby = () => {
     }
   }
 
+  lobby.endCutAnimation = async () => {
+    lobby.table.gotCut.hasEnded = null
+    lobby.table.hasSnapAnimationEnded = null
+    lobby.table.shouldBringBackAllPlayers = null
+    await database().ref(`${lobby.settings.name}/table`).update({
+      gotCut: {
+        ...lobby.table.gotCut,
+        hasEnded: true
+      },
+      hasSnapAnimationEnded: null,
+      shouldBringBackAllPlayers: null
+    })
+  }
+
+  lobby.endSnapAnimation = async () => {
+    lobby.table.hasSnapAnimationEnded = true
+    await database().ref(`${lobby.settings.name}/table/hasSnapAnimationEnded`).set(true)
+  }
+
+  lobby.setShouldBringBackAllPlayers = async () => {
+    lobby.table.shouldBringBackAllPlayers = true
+    await database().ref(`${lobby.settings.name}/table/shouldBringBackAllPlayers`).set(true)
+  }
+
   return lobby
 }

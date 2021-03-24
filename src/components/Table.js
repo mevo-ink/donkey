@@ -6,6 +6,7 @@ import { Flex, useBreakpointValue } from '@chakra-ui/react'
 
 import Player from 'components/Table/Player'
 import TableCard from 'components/Table/TableCard'
+import CutAnimation from 'components/Table/CutAnimation'
 import DiscardCutAnimation from 'components/Table/DiscardCutAnimation'
 import PreLobbyHost from 'components/Table/PreLobbyHost'
 import PreLobbyGuest from 'components/Table/PreLobbyGuest'
@@ -61,6 +62,7 @@ export default function Table () {
           {lobby.isHostOnline() && lobby.table.state === 'DEALING' && <DealingAnimation />}
           {lobby.isHostOnline() && lobby.table.state === 'GAME' && lobby.hasDiscard() && <DiscardPile />}
           {lobby.isHostOnline() && lobby.table.tableCardsFull && !lobby.gotCut && <DiscardAnimation />}
+          {lobby.isHostOnline() && lobby.table.gotCut && !lobby.table.hasSnapAnimationEnded && <CutAnimation />}
           {lobby.isHostOnline() && lobby.table.gotCut && <DiscardCutAnimation />}
           {lobby.isHostOnline() && lobby.table.donkey && <EndGameAnimation />}
         </Flex>
