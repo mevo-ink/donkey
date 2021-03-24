@@ -25,7 +25,7 @@ export default function Podium ({ position, isTop }) {
   if (position === 'second') {
     return (
       <MotionImage
-        src={bronze}
+        src={silver}
         zIndex='1'
         width='20px'
         objectFit='contain'
@@ -39,7 +39,7 @@ export default function Podium ({ position, isTop }) {
   if (position === 'third') {
     return (
       <MotionImage
-        src={silver}
+        src={bronze}
         zIndex='1'
         width='20px'
         objectFit='contain'
