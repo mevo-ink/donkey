@@ -77,8 +77,23 @@ export default function FindLobbies () {
         </Box>
       )}
       <Box width='100%' textAlign='center' mt={2}>
-        <Button colorScheme='purple' onClick={() => { window.location.href = '/' }}>
-          Go Back
+        <Button
+          mt={8}
+          color='black'
+          zIndex='1'
+          width='100px'
+          height='40px'
+          fontSize='22px'
+          lineHeight='22px'
+          fontWeight='bold'
+          borderRadius='25px'
+          bg='linear-gradient(180deg, #A75BE3 0%, #5D177E 100%)'
+          boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
+          _active={{ bg: '' }}
+          _hover={{ bg: '' }}
+          onClick={() => { window.location.href = '/' }}
+        >
+          Go Home
         </Button>
       </Box>
     </Box>

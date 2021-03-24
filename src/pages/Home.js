@@ -36,8 +36,8 @@ export default function Home () {
           w='50vw'
           h='51px'
           maxWidth='340px'
-          fontSize='20px'
-          lineHeight='20px'
+          fontSize='24px'
+          lineHeight='24px'
           fontWeight='bold'
           bg={button.color}
           _active={{ bg: button.color }}
