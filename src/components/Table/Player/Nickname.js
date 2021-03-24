@@ -93,7 +93,7 @@ export default function Nickname ({ playerID, isTop }) {
         />
         {showCardNum && (
           <InputRightAddon
-            height='18px'
+            height='20px'
             width='17px'
             color='black'
             fontSize='16px'
