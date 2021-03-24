@@ -18,7 +18,7 @@ import { generateSlug } from 'random-word-slugs'
 import database from 'utils/firebase'
 
 export default function CreateLobby () {
-  useTitle('Create GAME')
+  useTitle('Create Lobby')
 
   const [isLoading, setIsLoading] = useState(false)
 

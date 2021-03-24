@@ -16,7 +16,7 @@ export default function Background ({ children, noText }) {
   return (
     <Grid
       w='100%'
-      h='100vh'
+      h='100%'
       placeItems='center'
       position='relative'
       fontFamily='Amatic SC, cursive'
