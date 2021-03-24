@@ -1,5 +1,6 @@
 import { useLobby } from 'context/LobbyContext'
 
+import shuffle from 'utils/shuffle'
 import database from 'utils/firebase'
 
 import { Image, Text, Box, Flex, Button } from '@chakra-ui/react'
@@ -15,10 +16,14 @@ export default function EndGameAnimation () {
   const donkeyPlayer = lobby.players[lobby.table.donkey]
 
   const handleRestartGame = () => {
+    const newSeatings = [...lobby.table.seatings]
+    shuffle(newSeatings)
     database().ref(`${lobby.settings.name}/table`).update({
       donkey: null,
       cards: null,
-      state: 'PREGAME'
+      state: 'PREGAME',
+      podium: null,
+      seatings: newSeatings
     })
   }
 

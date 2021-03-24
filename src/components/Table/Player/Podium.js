@@ -16,8 +16,8 @@ export default function Podium ({ position, isTop }) {
         width='20px'
         objectFit='contain'
         position='absolute'
-        top={isTop ? '-24px' : '33px'}
-        left='25px'
+        top={isTop ? '-25px' : '33px'}
+        left='28px'
         animate={{ scale: [0, 1], transition: { delay: 2, duration: 0.5 } }}
       />
     )
@@ -30,8 +30,8 @@ export default function Podium ({ position, isTop }) {
         width='20px'
         objectFit='contain'
         position='absolute'
-        top={isTop ? '-24px' : '33px'}
-        left='25px'
+        top={isTop ? '-25px' : '33px'}
+        left='28px'
         animate={{ scale: [0, 1], opacity: [0, 1], transition: { delay: 2, duration: 0.5 } }}
       />
     )
@@ -44,8 +44,8 @@ export default function Podium ({ position, isTop }) {
         width='20px'
         objectFit='contain'
         position='absolute'
-        top={isTop ? '-24px' : '33px'}
-        left='25px'
+        top={isTop ? '-25px' : '33px'}
+        left='28px'
         animate={{ scale: [0, 1], transition: { delay: 2, duration: 0.5 } }}
       />
     )

@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { useEffect } from 'react'
 
 import { motion, useAnimation } from 'framer-motion'
 
@@ -6,38 +6,30 @@ import { useLobby } from 'context/LobbyContext'
 
 import { Image } from '@chakra-ui/react'
 
-import CutAnimation from 'components/Table/CutAnimation'
-
-// import NextPlayerIndicator from 'components/Player/NextPlayerIndicator'
-
 const MotionImage = motion(Image)
 
 export default function DiscardCutAnimation () {
   const lobby = useLobby()
 
   const controls = useAnimation()
-  // const nextPlayerControls = useAnimation()
 
-  const onFinish = async () => {
-    const { avatarPos } = lobby.getPlayerPositions(lobby.table.gotCut.playerID)
+  useEffect(() => {
+    (async () => {
+      if (lobby.table.gotCut.hasEnded) {
+        const { avatarPos } = lobby.getPlayerPositions(lobby.table.gotCut.playerID)
+        await controls.start({
+          ...avatarPos,
+          scale: [1, 0],
+          opacity: [1, 0],
+          transition: { duration: 0.8 }
+        })
+        // update state
+        await lobby.onCutAnimationEnd()
+      }
+    })() // eslint-disable-next-line
+  }, [lobby.table.gotCut.hasEnded])
 
-    await controls.start({
-      ...avatarPos,
-      scale: [1, 0],
-      opacity: [1, 0],
-      transition: { duration: 0.8 }
-    })
-    // show next turn animation
-    // await nextPlayerControls.start({
-    //   ...avatarPos,
-    //   opacity: 1,
-    //   transition: { duration: 1 }
-    // })
-    // update state
-    await lobby.onCutAnimationEnd()
-  }
-
-  const TableCards = lobby.getTableCards().map(tableCard => {
+  return lobby.getTableCards().map(tableCard => {
     const { cardPos } = lobby.getPlayerPositions(tableCard.playerID)
     return (
       <MotionImage
@@ -55,12 +47,4 @@ export default function DiscardCutAnimation () {
       />
     )
   })
-
-  return (
-    <>
-      {/* <NextPlayerIndicator controls={nextPlayerControls} /> */}
-      <CutAnimation onFinish={onFinish} />
-      {TableCards}
-    </>
-  )
 }
