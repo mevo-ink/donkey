@@ -370,7 +370,7 @@ export const useLobby = () => {
   lobby.isPlayerAtPodiumPosition = (playerID, position) => {
     // position = 'first', 'second', 'third'
     let isInPosition = false
-    if (lobby.table.podium && lobby.table.podium.position) {
+    if (lobby.table.podium && lobby.table.podium[position]) {
       isInPosition = Object.values(lobby.table.podium[position]).includes(playerID)
     }
     return isInPosition

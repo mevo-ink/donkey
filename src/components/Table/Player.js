@@ -10,7 +10,7 @@ import Podium from 'components/Table/Player/Podium'
 import { AnimatePresence, motion } from 'framer-motion'
 const MotionFlex = motion(Flex)
 
-export default function Player ({ player, avatarPos }) {
+export default function Player ({ player, avatarPos, isTop }) {
   const lobby = useLobby()
 
   const showPlayer = (lobby.table.gotCut && (player.playerID === lobby.table.gotCut.playerID || player.playerID === lobby.table.gotCut.card.playerID)) || !lobby.table.gotCut
@@ -35,7 +35,7 @@ export default function Player ({ player, avatarPos }) {
         )}
         <Avatar player={player} />
         {['first', 'second', 'third'].map(pos => (
-          lobby.isPlayerAtPodiumPosition(player.playerID, pos) && <Podium position={pos} />
+          lobby.isPlayerAtPodiumPosition(player.playerID, pos) && <Podium key={pos} position={pos} isTop={avatarPos.top === '-23.5px'} />
         ))}
       </MotionFlex>
     </AnimatePresence>

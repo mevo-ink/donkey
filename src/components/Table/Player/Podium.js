@@ -7,7 +7,7 @@ import silver from 'images/silver.png'
 import { motion } from 'framer-motion'
 const MotionImage = motion(Image)
 
-export default function Podium ({ position }) {
+export default function Podium ({ position, isTop }) {
   if (position === 'first') {
     return (
       <MotionImage
@@ -16,7 +16,7 @@ export default function Podium ({ position }) {
         width='20px'
         objectFit='contain'
         position='absolute'
-        top='33px'
+        top={isTop ? '-24px' : '33px'}
         left='25px'
         animate={{ scale: [0, 1], transition: { delay: 2, duration: 0.5 } }}
       />
@@ -30,7 +30,7 @@ export default function Podium ({ position }) {
         width='20px'
         objectFit='contain'
         position='absolute'
-        top='33px'
+        top={isTop ? '-24px' : '33px'}
         left='25px'
         animate={{ scale: [0, 1], opacity: [0, 1], transition: { delay: 2, duration: 0.5 } }}
       />
@@ -44,7 +44,7 @@ export default function Podium ({ position }) {
         width='20px'
         objectFit='contain'
         position='absolute'
-        top='33px'
+        top={isTop ? '-24px' : '33px'}
         left='25px'
         animate={{ scale: [0, 1], transition: { delay: 2, duration: 0.5 } }}
       />
