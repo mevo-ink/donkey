@@ -80,7 +80,7 @@ export default function Nickname ({ playerID, isTop }) {
           fontWeight='bold'
           textAlign='center'
           m='3px'
-          mb={isEditing ? '60px' : 0}
+          mt={isEditing ? '-80px' : ''}
           p='0px 3px'
           _active={{ bg: '' }}
           _hover={{ bg: '' }}
@@ -101,9 +101,6 @@ export default function Nickname ({ playerID, isTop }) {
             p='0px'
             borderRadius='25px'
             bg='linear-gradient(180deg, #E3E3E3 0%, #C2C2C2 100%)'
-            mt='3px'
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0, transition: { duration: 0.3 } }}
           >
             <Box textAlign='center' w='17px'>
               {remainingCardsCount}

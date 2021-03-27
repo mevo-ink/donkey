@@ -12,25 +12,32 @@ import {
   BsFillCaretLeftFill
 } from 'react-icons/bs'
 
+import { motion, AnimatePresence } from 'framer-motion'
+const MotionIconButton = motion(IconButton)
+
 const ScrollButton = ({ btnRef, onClick, icon: Icon, ...rest }) => {
   return (
-    <IconButton
-      ref={btnRef}
-      onClick={onClick}
-      icon={<Icon />}
-      as={Flex}
-      zIndex='1'
-      borderRadius='50%'
-      p='0px'
-      h='40px'
-      mt={{ ipad: '35px' }}
-      backgroundColor='rgba(0, 0, 0, 0.8)'
-      position='absolute'
-      cursor='pointer'
-      _active={{ bg: '' }}
-      _hover={{ bg: '' }}
-      {...rest}
-    />
+    <AnimatePresence>
+      <MotionIconButton
+        ref={btnRef}
+        onClick={onClick}
+        icon={<Icon />}
+        as={Flex}
+        zIndex='1'
+        borderRadius='50%'
+        p='0px'
+        // mt='20px'
+        backgroundColor='rgba(0, 0, 0, 0.8)'
+        position='absolute'
+        cursor='pointer'
+        _active={{ bg: '' }}
+        _hover={{ bg: '' }}
+        {...rest}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { duration: 0.3 } }}
+        exit={{ scale: 0, transition: { duration: 0.3 } }}
+      />
+    </AnimatePresence>
   )
 }
 
@@ -67,15 +74,11 @@ export default function CardsScroll ({ children, myCardsRef }) {
 
   return (
     <Flex
-      width='100%'
-      h={{ base: '75px', ipad: '120px' }}
+      width='100vw'
       alignItems='center'
       justifyContent='center'
       position='absolute'
       bottom='0px'
-      color='white'
-      outline='none'
-      border='none'
       fontSize='20px'
     >
       {showScroll && (

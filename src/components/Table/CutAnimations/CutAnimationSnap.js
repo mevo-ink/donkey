@@ -21,12 +21,12 @@ export default function CutAnimationSnap ({ onFinish }) {
     (async () => {
       await gauntletControls.start({
         opacity: 1,
-        y: 5,
-        transition: { delay: 1.5, duration: 1 }
+        y: -10,
+        transition: { delay: 2, duration: 1 }
       })
       await gauntletControls.start({
         opacity: 0,
-        transition: { delay: 0.5, duration: 0.5 }
+        transition: { delay: 1, duration: 0.5 }
       })
       lobby.endSnapAnimation()
     })() // eslint-disable-next-line
@@ -35,11 +35,11 @@ export default function CutAnimationSnap ({ onFinish }) {
   return (
     <MotionImage
       src={thanosSnap}
-      width='20px'
+      width='30px'
       objectFit='contain'
       position='absolute'
       zIndex='10'
-      initial={{ ...cutPlayerPos, opacity: 0, x: -10, y: -18 }}
+      initial={{ ...cutPlayerPos, opacity: 0, x: -20, y: -18 }}
       animate={gauntletControls}
     />
   )
