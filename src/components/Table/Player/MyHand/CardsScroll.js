@@ -26,7 +26,6 @@ const ScrollButton = ({ btnRef, onClick, icon: Icon, ...rest }) => {
         zIndex='1'
         borderRadius='50%'
         p='0px'
-        // mt='20px'
         backgroundColor='rgba(0, 0, 0, 0.8)'
         position='absolute'
         cursor='pointer'
