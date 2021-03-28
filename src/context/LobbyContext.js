@@ -292,17 +292,13 @@ export const useLobby = () => {
   }
 
   lobby.setCutAnimation = async (playerID, card) => {
-    if (lobby.getMyself().playerID === lobby.settings.host.playerID) {
-      lobby.table.gotCut = { playerID, card }
-      await database().ref(`${lobby.settings.name}/table/gotCut`).set({ playerID, card })
-    }
+    lobby.table.gotCut = { playerID, card }
+    await database().ref(`${lobby.settings.name}/table/gotCut`).set({ playerID, card })
   }
 
-  lobby.removeCutAnimation = async () => {
-    if (lobby.getMyself().playerID === lobby.settings.host.playerID) {
-      lobby.table.gotCut = null
-      await database().ref(`${lobby.settings.name}/table/gotCut`).set(null)
-    }
+  lobby.removeCutAnimation = async (playerID, card) => {
+    lobby.table.gotCut = null
+    await database().ref(`${lobby.settings.name}/table/gotCut`).set(null)
   }
 
   lobby.discard = async () => {
