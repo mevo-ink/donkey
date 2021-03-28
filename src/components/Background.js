@@ -1,4 +1,5 @@
 import { useLobby } from 'context/LobbyContext'
+import { version } from '../../package.json'
 
 import {
   Grid,
@@ -55,6 +56,15 @@ export default function Background ({ children, noText }) {
         )}
       </Grid>
       {children}
+      <Text
+        position='absolute'
+        bottom='0px'
+        right='5px'
+        opacity='0.20'
+        fontWeight='bold'
+      >
+        {version}
+      </Text>
     </Grid>
   )
 }

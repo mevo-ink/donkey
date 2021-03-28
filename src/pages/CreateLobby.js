@@ -72,6 +72,7 @@ export default function CreateLobby () {
         w='87px'
         h='87px'
         borderRadius='25px'
+        background='rgba(255, 255, 255, 0.5)'
         boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
       />
       <Nickname nickname={nickname} onSubmit={setNickname} />

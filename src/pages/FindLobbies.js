@@ -62,7 +62,7 @@ export default function FindLobbies () {
       <VStack
         ref={containerRef}
         spacing={4}
-        height='395px'
+        height='350px'
         overflowY='scroll'
         sx={hideScrollBar}
       >
