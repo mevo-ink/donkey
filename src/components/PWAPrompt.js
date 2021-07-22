@@ -119,7 +119,7 @@ export default function PWAPrompt () {
                 Install
               </Button>
               <Button
-                onClick={onClose}
+                onClick={() => setPromptInstall(null)}
                 mt={8}
                 color='black'
                 width='100px'
