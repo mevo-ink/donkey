@@ -82,7 +82,7 @@ export default function PWAPrompt () {
           <Box
             zIndex='1'
             mt='225px'
-            ml='30px'
+            mx='30px'
             fontFamily='Amatic SC, cursive'
             color='white'
           >
@@ -101,22 +101,40 @@ export default function PWAPrompt () {
             >
               A Card Game For Donkeys
             </Text>
-            <Button
-              onClick={onClick}
-              mt={8}
-              color='black'
-              width='100px'
-              height='40px'
-              fontSize='20px'
-              lineHeight='20px'
-              borderRadius='25px'
-              boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
-              bg='linear-gradient(180deg, #45DB54 0%, #197027 100%)'
-              _active={{ bg: '' }}
-              _hover={{ bg: '' }}
-            >
-              Install
-            </Button>
+            <Flex W='100%' justifyContent='space-between'>
+              <Button
+                onClick={onClick}
+                mt={8}
+                color='black'
+                width='100px'
+                height='40px'
+                fontSize='20px'
+                lineHeight='20px'
+                borderRadius='25px'
+                boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
+                bg='linear-gradient(180deg, #45DB54 0%, #197027 100%)'
+                _active={{ bg: '' }}
+                _hover={{ bg: '' }}
+              >
+                Install
+              </Button>
+              <Button
+                onClick={onClose}
+                mt={8}
+                color='black'
+                width='100px'
+                height='40px'
+                fontSize='20px'
+                lineHeight='20px'
+                borderRadius='25px'
+                boxShadow='0px 5px 6px rgba(0, 0, 0, 0.25)'
+                bg='linear-gradient(180deg, #E35B5B 0%, #7E1717 100%)'
+                _active={{ bg: '' }}
+                _hover={{ bg: '' }}
+              >
+                Cancel
+              </Button>
+            </Flex>
           </Box>
         </Flex>
       </ModalContent>
